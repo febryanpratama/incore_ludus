@@ -1,0 +1,364 @@
+
+body {
+    font-family: "CoolveticaRg-Regular V1";
+}
+.navbar .container-fluid .navbar-brand img {
+    width: 90%;
+}
+
+.navbar .container-fluid .btn-primary {
+    margin-left: 10px;
+}
+
+.navbar .container-fluid #navbarNavDropdown .navbar-nav li {
+    font-size: larger;
+}
+a {
+    text-decoration: none;
+}
+.pg1 {
+    background-image: url("/img/Component2.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+}
+
+.pg1 .row1 {
+    padding-top: 20px;
+}
+
+.pg1 .row1 .col-6 {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.2);
+    
+}
+
+.pg1 .row1 .col-6 .card {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+}
+
+.pg1 .row1 .col-6 .card .card-body .card-text {
+    margin-right: 10%;
+}
+
+.pg2 .row .col-4 {
+    background-image: url("/img/imagepg2.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 0px;
+    color: #fff;
+}
+
+.pg2 .row .col-4 .text1 {
+    height: 100%;
+    display: flex;
+}
+
+.pg2 .row .col-4 .text1 h1 {
+    align-self: flex-end;
+    margin-left: 25%;
+    color: rgb(52, 52, 241);
+}
+.pg-2 .row .col .card .card-body .card-title a{
+    color:black ;
+}
+.pg2 .row .col-4 .text1 h1 span {
+    color: #fff;
+}
+.pg2 .row .col-8 {
+    padding: 0px;
+}
+.pg2 .row .col-8 #carouselExampleCaptions .carousel-inner .carousel-caption .row img {
+    width: 80%;
+}
+.pg2 .row .col-8 #carouselExampleCaptions .carousel-inner .carousel-caption .row {
+    text-align: left;
+}
+.pg3 .row, .pg5 .row{
+    background-color: rgba(47, 47, 47, 1);
+}
+.pg3 .row .col-7, .pg4 .row .col-7, .pg5 .row .col-7,.pg6 .row .col-7 {
+    margin: auto 0px;
+}
+.pg3 .row .col-7 h5, .pg4 .row .col-7 h5, .pg5 .row .col-7 h5, .pg6 .row .col-7 h5 {
+    margin-top: -40px;
+    text-align: center;
+    color: #fff;
+}
+.pg3 .row .col-5, .pg4 .row .col-5, .pg5 .row .col-5, .pg6 .row .col-5 {
+    padding: 0px;
+}
+.pg3 .row .col-5 img, .pg4 .row .col-5 img, .pg5 .row .col-5 img, .pg6 .row .col-5 img {
+    width: 100%;
+}
+.pg3 .row .col-5 h1, .pg5 .row .col-5 h1 {
+    color: #fff;
+    margin-top: -60px;
+    font-weight: 900;
+    text-align: center;
+}
+.pg3 .row .col-5 h1 span, .pg5 .row .col-5 h1 span {
+    color:rgb(52, 52, 241);
+}
+.pg4 .row .col-5 h1 {
+    color:rgb(52, 52, 241);
+    margin-top: -60px;
+    font-weight: 900;
+    text-align: center;
+}
+.pg4 .row .col-5 h1 span, .pg6 .row .col-5 h1 span {
+    color: #fff;
+}
+.pg6 .row .col-5 h1 {
+    color:rgb(52, 52, 241);
+    margin-top: -110px;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 0px;
+}
+.pg6 .row .col-5 h1 p {
+    margin-bottom: 0px;
+}
+.footer {
+    background-color: rgba(0, 71, 171, 1);
+    position: relative;
+}
+.footer .row .ft {
+    text-align: right;
+    padding-right: 50px;
+    margin-top: 2%;
+}
+.footer .row .ft h4 a {
+    transform: translateY(50%);
+    text-decoration: none;
+    color: #fff;
+    margin-bottom: 0px;
+
+}
+.footer .row .ft h4 a img {
+    width: 30%;
+}
+.footer .row .col-6 p span {
+    width: 10px;
+    color: #fff;
+}
+.footer .row .col-6 .img1 {
+    width: 22%;
+    margin-top: -4%;
+}
+.footer .row .col-6 .img2 {
+    color: #fff;
+    margin-top: -6%;
+    margin-left: 5%;
+    margin-bottom: 3%;
+}
+.navbar {
+    padding: 0px;
+}
+.navbar .navbar-brand {
+    margin-bottom: -2%;
+    margin-top: -1%;
+    padding: 0px;
+}
+.pg-1 .container .row .col-12 .row .col-8 p {
+    text-transform: uppercase;
+    font-size: 6.5rem;
+    margin-bottom: 0px;
+}
+.pg-1 .container .row .col-12 .row .col-4 {
+    margin-top: auto;
+    margin-bottom: auto;
+    color: #727070;
+}
+.pg-1 .container .row .col-12 .row .col-4 p {
+    margin: 0px;
+    text-transform: uppercase;
+}
+.pg-1 .container .row .col-12 .row .col-12 p {
+    text-transform: uppercase;
+    font-size: 6.5rem;
+    margin-bottom: 0px;
+    text-align: center;
+}
+.pg-1 .container .row .col-12 .row .col-8 p {
+    text-transform: uppercase;
+    font-size: 6.5rem;
+    margin-bottom: 0px;
+}
+.navbar .container-fluid .bt1 {
+    margin-left: -65%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-radius: 24px;
+}
+.badge{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.pg-2 .row .col .card .card-body .card-text, .pg-3 .row .col-7 .caption p, .pg-3 .row .col-5 .card .list-group .list-group-item p, .pg-4 .row .col-4 .card .card-body .card-text, .pg-5 .row .col-4 .card .card-body .card-text, .d-pg2 .container .row .col-6 .header p span, .d-pg3 .row .col-3 .card .card-body .card-text {
+    display: inline-block;
+    text-transform: uppercase;
+    color: #dddada;
+}
+.pg-2 .row .col .card .card-body ul, .pg-3 .row .col-7 .caption ul, .pg-3 .row .col-5 .card .list-group .list-group-item ul, .pg-4 .row .col-4 .card .card-body ul, .pg-5 .row .col-4 .card .card-body ul, .d-pg3 .row .col-3 .card .card-body ul {
+    display: inline-block;
+}
+.pg-2 .row .col .card .card-body span {
+    margin-right: 10px;
+}
+.pg-2 .row .col .card .card-body .dropdown, .pg-3 .row .col-5 .card .list-group .list-group-item .dropdown, .pg-4 .row .col-4 .card .card-body .dropdown, .pg-5 .row .col-4 .card .card-body .dropdown, .pg-3 .row .col-7 .label .dropdown, .d-pg1 .row .col-4 .card1 .dropdown, .d-pg3 .row .col-3 .card .dropdown  {
+    display: inline-block;
+}
+.pg-2 .row .col .card .card-body .dropdown button, .pg-3 .row .col-5 .card .list-group .list-group-item .dropdown button, .pg-4 .row .col-4 .card .card-body .dropdown button, .pg-5 .row .col-4 .card .card-body .dropdown button, .pg-3 .row .col-7 .label .dropdown button, .d-pg1 .row .col-4 .card1 .dropdown button, .d-pg3 .row .col-3 .card .dropdown button {
+    padding: 0px 6px;
+    margin-left: 10%;
+}
+.pg-2 .row .col .card .card-body .title1 {
+    font-size: 3rem;
+}
+.pg-3 .row .col-7 img {
+    border-radius: 10px;
+}
+.pg-3 .row .col-7 .label {
+    padding: 20px;
+    position: absolute;
+}
+.pg-3 .row .col-7 .caption {
+    color: #fff;
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-top: -20%;
+}
+.pg-3 .row .col-7 {
+    padding-right: 0px;
+}
+.pg-3 .row .col-5 {
+    padding-left: 0px;
+    margin-left: -1%;
+}
+.pg-3 .row .col-5 .card {
+    margin-top: 11%;
+}
+.pg-3, .pg-4, .pg-5 {
+    margin-bottom: 2%;
+}
+.navbar .container-fluid .bt2 {
+    margin-right: 72%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-radius: 24px;
+}
+.pg-5 .row .col-4 .card1{
+    background-color: rgba(220, 53, 69, 1);
+    border-radius: 10px;
+    padding: 0px;
+    height: 100%;
+    font-size: 3rem;
+    color: #fff;
+}
+.pg-5 .row .col-4 .card1 p {
+    padding-top: 10px;
+    margin-left: 10%;
+}
+.pg-5 .row .col-4 .card1 .btn-n1 {
+    margin-left: 10%;
+}
+.pg-5 .row .col-4 .card1 .btn, .d-pg1 .row .col-4 .card1 .btn-outline-dark {
+    color: #fff;
+    border-color: #fff;
+    border-radius: 24px;
+}
+.pg-5 nav .pagination, .pg-2 nav .pagination {
+    margin-top: 2%;
+}
+.d-pg1 .row {
+    margin-left: 0.2%;
+}
+.d-pg1 .row .col-4 {
+    background-color: rgba(255, 193, 7, 1);
+    color: #fff;
+}
+.d-pg1 .row .col-4 .card1 {
+    margin-left: 10%;
+    margin-top: 5%;
+}
+.d-pg1 .row .col-4 .card1 h1 {
+    font-size: 3.5rem;
+    margin-bottom: 10%;
+}
+
+.d-pg1 .row .col-8 img {
+    width: 100%;
+}
+.d-pg2 .container .row {
+    margin-top: 5%;
+}
+.d-pg2 .container .row .col-6 {
+    font-family: "CoolveticaCondensedRg-Regular";
+    color: black;
+}
+.d-pg2 .container .row .col-6 .header img {
+    width: 50px;
+    border-radius: 50%;
+    margin-top: -30px;
+}
+.d-pg2 .container .row .col-6 .header p {
+    color: black;
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-left: 5px;
+}
+.d-pg2 .container .row .col-6 p {
+    color: #727070;
+    font-size: larger;
+}
+.d-pg2 .container .row .col-6 .row .col-6 img, .d-pg2 .container .row .col-6 .row .col img {
+    width: 100%;
+}
+.d-pg2 .container .row .col-6 .share {
+    display: inline-block;
+    margin-right: 60%;
+}
+.d-pg3 {
+    margin-top: 2%;
+    margin-bottom: 5%;
+}
+.d-pg3 h2 {
+    margin-bottom: 2%;
+}
+.signup, .signup .row .col-6{
+    margin: 0px;
+    padding: 0px;
+}
+.signup .row .col-6 img {
+    width: 100%;
+}
+.signup .row .col-6 .container {
+    width: 50%;
+    margin-top: 25%;
+}
+.signup .row .col-6 .container form .mb-3 .form-control {
+    border-radius: 20px;
+}
+.signup .row .col-6 .container form .mb-3 a {
+    text-decoration: none;
+    color: black;
+    margin-left: 10%;
+}
+.signup .row .col-6 .container form .btn {
+    border-radius: 45px;
+    width: 100%;
+}
+.modal-body .mb-3 .form-control {
+    border-radius: 35px;
+}
+.modal-body .modal-footer .btn {
+    border-radius: 25px;
+}
+.report {
+    padding: 0px 4px;
+}
