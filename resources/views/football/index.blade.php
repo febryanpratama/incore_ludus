@@ -35,7 +35,7 @@
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand"><h3>Lates News</h3></a>
-    <a href="" type="button" class="btn btn-outline-dark bt1">View All</a>
+    <a href="{{ route('football.viewall') }}" type="button" class="btn btn-outline-dark bt1">View All</a>
     <form class="d-flex" role="search">
       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">
@@ -106,7 +106,7 @@
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand"><h3>Highlights</h3></a>
-    <a href="" type="button" class="btn btn-outline-dark bt1">View All</a>
+    <a href="{{ route('football.viewall') }}" type="button" class="btn btn-outline-dark bt1">View All</a>
     <form class="d-flex" role="search">
       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">
@@ -192,7 +192,7 @@
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand"><h3>Recomendation For You</h3></a>
-    <a href="" type="button" class="btn btn-outline-dark bt2">View All</a>
+    <a href="{{ route('football.viewall') }}" type="button" class="btn btn-outline-dark bt2">View All</a>
   </div>
 </nav>
 <!-- artikel trending lainnya dan iklan -->

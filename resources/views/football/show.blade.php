@@ -50,14 +50,15 @@
                 </div>
                 <hr>
                 <h4>Related Tags</h4>
-                <span class="badge text-bg-secondary">Trending</span>
-                <span class="badge text-bg-secondary">New</span>
-                <span class="badge text-bg-secondary">Football</span>
-                <span class="badge text-bg-secondary">Volley</span>
-                <span class="badge text-bg-secondary">Badminton</span>
-                <span class="badge text-bg-secondary">Taekwondo</span>
-                <span class="badge text-bg-secondary">Karate</span>
-                <span class="badge text-bg-secondary">Pencak Silat</span>
+                <!-- mengarah ke link sesuai kategori -->
+                <a href=""><span class="badge text-bg-secondary">Trending</span></a>
+                <a href=""><span class="badge text-bg-secondary">New</span></a>
+                <a href=""><span class="badge text-bg-secondary">Football</span></a>
+                <a href=""><span class="badge text-bg-secondary">Volley</span></a>
+                <a href=""><span class="badge text-bg-secondary">Badminton</span></a>
+                <a href=""><span class="badge text-bg-secondary">Taekwondo</span></a>
+                <a href=""><span class="badge text-bg-secondary">Karate</span></a>
+                <a href=""><span class="badge text-bg-secondary">Pencak Silat</span></a>
                 <hr>
                 <h4 class="share">Share</h4>
                 <!-- fb -->
