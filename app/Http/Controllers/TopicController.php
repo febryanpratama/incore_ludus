@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Topic;
 use App\Models\Categories;
-use App\Models\Articles;
 use Illuminate\Http\Request;
 
-class FootballController extends Controller
+class TopicController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +15,10 @@ class FootballController extends Controller
      */
     public function index()
     {
-        $categories = Categories::where('name', 'football')->first();
-        $articles = Articles::where('category_id', $categories->id)->latest()->paginate(7);
+        $topics = Topic::all();
 
-        return view('football.index', [
-            'articles' => $articles
+        return view('topic.index', [
+            'topics' => $topics
         ]);
     }
 
@@ -30,7 +29,11 @@ class FootballController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Categories::all();
+
+        return view('topic.create', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -41,7 +44,12 @@ class FootballController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Topic::create([
+            'category_id' => $request->category_id,
+            'topic_name' => $request->topic_name,
+            'slug' => $request->slug
+        ]);
+        return redirect()->route('topic.index')->withSuccess('Berhasil menambahkan data.');
     }
 
     /**
@@ -52,10 +60,10 @@ class FootballController extends Controller
      */
     public function show($id)
     {
-        $article = Articles::find($id);
+        $topic = Topic::find($id);
 
-        return view('football.show', [
-            'article' => $article
+        return view('topic.show', [
+            'topic' => $topic
         ]);
     }
 
@@ -67,7 +75,13 @@ class FootballController extends Controller
      */
     public function edit($id)
     {
-        //
+        $topic = Topic::find($id);
+        $categories = Categories::all();
+
+        return view('topic.edit', [
+            'topic' => $topic,
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -79,7 +93,14 @@ class FootballController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $topic = Topic::find($id);
+
+        $topic->update([
+            'category_id' => $request->category_id,
+            'topic_name' => $request->topic_name,
+            'slug' => $request->slug
+        ]);
+        return redirect()->route('topic.index')->withSuccess('Berhasil mengubah data.');
     }
 
     /**
@@ -90,16 +111,10 @@ class FootballController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+        $topic = Topic::find($id);
 
-    public function viewAll(){
-        $categories = Categories::where('name', 'football')->first();
-        // Artikel baru dan yang sedang trending
-        $articles = Articles::where('category_id', $categories->id)->latest()->paginate(16);
-        
-        return view('football.viewall', [
-            'articles' => $articles
-        ]);
+        $topic->delete();
+
+        return redirect()->route('topic.index')->withSuccess('Berhasil menghapus data.');
     }
 }

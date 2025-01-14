@@ -11,4 +11,9 @@ class Topic extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
+
+    public function category()
+    {
+        return $this->hasOne('App\Models\categories', 'id', 'category_id');
+    }
 }
