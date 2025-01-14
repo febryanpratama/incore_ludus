@@ -94,4 +94,14 @@ class FootballController extends Controller
     {
         //
     }
+    
+    public function viewAll(){
+        $categories = Categories::where('name', 'football')->first();
+        // Artikel baru dan yang sedang trending
+        $articles = Articles::where('category_id', $categories->id)->latest()->paginate(16);
+        
+        return view('football.viewall', [
+            'articles' => $articles
+        ]);
+    }
 }

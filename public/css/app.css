@@ -199,12 +199,12 @@ a {
 .badge{
     font-family: Arial, Helvetica, sans-serif;
 }
-.pg-2 .row .col .card .card-body .card-text, .pg-3 .row .col-7 .caption p, .pg-3 .row .col-5 .card .list-group .list-group-item p, .pg-4 .row .col-4 .card .card-body .card-text, .pg-5 .row .col-4 .card .card-body .card-text, .d-pg2 .container .row .col-6 .header p span, .d-pg3 .row .col-3 .card .card-body .card-text {
+.pg-2 .row .col .card .card-body .card-text, .pg-3 .row .col-7 .caption p, .pg-3 .row .col-5 .card .list-group .list-group-item p, .pg-4 .row .col-4 .card .card-body .card-text, .pg-5 .row .col-4 .card .card-body .card-text, .d-pg2 .container .row .col-6 .header p span, .d-pg3 .row .col-3 .card .card-body .card-text, .viewall .row .col .card .card-body .card-text {
     display: inline-block;
     text-transform: uppercase;
     color: #dddada;
 }
-.pg-2 .row .col .card .card-body ul, .pg-3 .row .col-7 .caption ul, .pg-3 .row .col-5 .card .list-group .list-group-item ul, .pg-4 .row .col-4 .card .card-body ul, .pg-5 .row .col-4 .card .card-body ul, .d-pg3 .row .col-3 .card .card-body ul {
+.pg-2 .row .col .card .card-body ul, .pg-3 .row .col-7 .caption ul, .pg-3 .row .col-5 .card .list-group .list-group-item ul, .pg-4 .row .col-4 .card .card-body ul, .pg-5 .row .col-4 .card .card-body ul, .d-pg3 .row .col-3 .card .card-body ul, .viewall .row .col .card .card-body ul {
     display: inline-block;
 }
 .pg-2 .row .col .card .card-body span {
@@ -272,7 +272,7 @@ a {
     border-color: #fff;
     border-radius: 24px;
 }
-.pg-5 nav .pagination, .pg-2 nav .pagination {
+.pg-5 nav .pagination, .pg-2 nav .pagination, .viewall nav .pagination {
     margin-top: 2%;
 }
 .d-pg1 .row {
@@ -361,4 +361,7 @@ a {
 }
 .report {
     padding: 0px 4px;
+}
+.viewall .d-flex {
+    margin-top: 5%;
 }

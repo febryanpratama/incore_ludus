@@ -27,5 +27,6 @@ Route::get('/signin', function () {
 // Route::get('/Football', 'FootballController@index')->name('football');
 Route::prefix('contactball')->group(function(){
     Route::get('/football', [FootballController::class, 'index'])->name('football.index');
+    Route::get('/viewall/football', [FootballController::class, 'viewAll'])->name('football.viewall');
     Route::get('/{id}/football', [FootballController::class, 'show'])->name('football.show');
 });
