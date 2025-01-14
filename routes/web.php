@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FootballController;
+use App\Http\Controllers\GenerateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,10 @@ Route::get('/signin', function () {
 Route::prefix('contactball')->group(function(){
     Route::get('/football', [FootballController::class, 'index'])->name('football.index');
     Route::get('/{id}/football', [FootballController::class, 'show'])->name('football.show');
+});
+
+
+Route::prefix('generate')->group(function(){
+    Route::get('/artikel', [GenerateController::class, 'generateArtikel']);
+    Route::get('/image', [GenerateController::class, 'generateImage']);
 });
