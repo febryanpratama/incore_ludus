@@ -94,56 +94,75 @@ class GenerateServices
     private function fetchImage($data)
     {
 
-            dd($data);
+            // dd($data);
+            // $prompt = "buatkan gambar manusia nyata bangsa Asia atau lingkungan nyata di Asia tanpa ada huruf, angka, coretan apapun untuk sosial media marketing berdasarkan deskripsi: ".$data['headlineUtamaArtikel']."";
 
-        foreach ($getArtikel as $key) {
-            // Membuat prompt untuk API
-            // $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 500 kata, dibagi menjadi tiga paragraf, memiliki link http://www.cerita.ceritain.com/".$key->slug." serta sajikan dalam bentuk kode HTML yang optimal untuk tampil di halaman pertama mesin pencarian. Selain itu, formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"content\": \"\", \"meta_html\": \"\" } tanpa ada teks tambahan lain. Dalam pembuatan artikel itu wajib menggunakan deskripsi berikut ini sebagai referensi kamu: Meta Title: ".$key['title'].", Meta Description: ".$key->category->meta_category->meta_description.", Meta Keywords: ".$key->category->meta_category->meta_keywords.", Meta Hashtags: ".$key->category->meta_category->meta_hashtags.".";
+            // Find the position of the comma
+            $position = strpos($data['headlineUtamaArtikel'], ':');
 
-            $prompt = "buatkan gambar manusia nyata bangsa Asia atau lingkungan nyata di Asia tanpa ada huruf, angka, coretan apapun untuk sosial media marketing berdasarkan deskripsi: ".$key['title']."";
+            // Extract the part of the string before the comma
+            $result_string = substr($data['headlineUtamaArtikel'], 0, $position);
+            $prompt = $result_string;
 
-            // Kirim prompt ke API
-            // dd($prompt);
-            $api = new AiApi();
-            $response = $api->post('/api/generate/generate-images-deepai', $prompt);
-
-            // Respons dari API
-            $responseImagePath = $response['data']['share_url'];
-
-        
-
-            // save to public path
-
-            $imageContent = file_get_contents($responseImagePath);
-
-            if ($imageContent !== false) {
-                // Buat nama file unik
-                $filename = 'image_' . rand(111, 9999) . time() . '.jpg';
-            
-                // Tentukan folder penyimpanan gambar di public path
-                $savePath = public_path('artikel/images'); // Anda dapat mengganti 'images' dengan folder lain yang diinginkan
-            
-                // Pastikan folder tujuan ada
-                if (!is_dir($savePath)) {
-                    mkdir($savePath, 0755, true); // Membuat folder jika belum ada
+             // Kirim prompt ke API
+             $api = new AiApi();
+             // $response = $api->post('/api/generate/generate-images-deepai', $prompt);
+             $response = $api->post('/api/generate/generate-images-google', $prompt);
+            //  foreach($response['data'] as $image){
+            //     print_r($image[]);
+            //  }
+            if(count($response['data'])>=4){
+                $data->update([
+                    'image1' => $response['data'][0]['link'],
+                    'image2' => $response['data'][1]['link'],
+                    'image3' => $response['data'][2]['link'],
+                    'image4' => $response['data'][3]['link']
+                ]);
+            }else if(count($response['data'])!=0 && count($response['data'])<4){ 
+                for($i=0; $i<count($response['data']); $i++){
+                    $data->update([
+                        'image'.($i+1) => $response['data'][$i]['link']
+                    ]);
                 }
-            
-                // Simpan gambar ke folder public/images
-                file_put_contents($savePath . '/' . $filename, $imageContent);
-            
-                // URL untuk mengakses gambar
-                $imageUrl = asset('artikel/images/' . $filename);
-                // dd($prompt, $response,$responseImagePath);
-
-                $updateArtikel = Artikel::find($key->id);
-                
-                $updateArtikel->path_image = $imageUrl;
-                $updateArtikel->save();
-
-            } else {
-                continue;
             }
+            // dd($data);
 
-        }
+        // foreach ($getArtikel as $key) {
+        //     // Membuat prompt untuk API
+        //     // $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 500 kata, dibagi menjadi tiga paragraf, memiliki link http://www.cerita.ceritain.com/".$key->slug." serta sajikan dalam bentuk kode HTML yang optimal untuk tampil di halaman pertama mesin pencarian. Selain itu, formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"content\": \"\", \"meta_html\": \"\" } tanpa ada teks tambahan lain. Dalam pembuatan artikel itu wajib menggunakan deskripsi berikut ini sebagai referensi kamu: Meta Title: ".$key['title'].", Meta Description: ".$key->category->meta_category->meta_description.", Meta Keywords: ".$key->category->meta_category->meta_keywords.", Meta Hashtags: ".$key->category->meta_category->meta_hashtags.".";
+
+        //     // save to public path
+
+        //     $imageContent = file_get_contents($responseImagePath);
+
+        //     if ($imageContent !== false) {
+        //         // Buat nama file unik
+        //         $filename = 'image_' . rand(111, 9999) . time() . '.jpg';
+            
+        //         // Tentukan folder penyimpanan gambar di public path
+        //         $savePath = public_path('artikel/images'); // Anda dapat mengganti 'images' dengan folder lain yang diinginkan
+            
+        //         // Pastikan folder tujuan ada
+        //         if (!is_dir($savePath)) {
+        //             mkdir($savePath, 0755, true); // Membuat folder jika belum ada
+        //         }
+            
+        //         // Simpan gambar ke folder public/images
+        //         file_put_contents($savePath . '/' . $filename, $imageContent);
+            
+        //         // URL untuk mengakses gambar
+        //         $imageUrl = asset('artikel/images/' . $filename);
+        //         // dd($prompt, $response,$responseImagePath);
+
+        //         $updateArtikel = Artikel::find($key->id);
+                
+        //         $updateArtikel->path_image = $imageUrl;
+        //         $updateArtikel->save();
+
+        //     } else {
+        //         continue;
+        //     }
+
+        // }
     }
 }
