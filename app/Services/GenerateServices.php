@@ -99,10 +99,15 @@ class GenerateServices
 
             // Find the position of the comma
             $position = strpos($data['headlineUtamaArtikel'], ':');
+            if($position === true) {
+                
+                $result_string = substr($data['headlineUtamaArtikel'], 0, $position);
+                $prompt = $result_string;
+            } else {
+                $prompt = $data['headlineUtamaArtikel'];
+            }
 
             // Extract the part of the string before the comma
-            $result_string = substr($data['headlineUtamaArtikel'], 0, $position);
-            $prompt = $result_string;
 
              // Kirim prompt ke API
              $api = new AiApi();
@@ -111,6 +116,7 @@ class GenerateServices
             //  foreach($response['data'] as $image){
             //     print_r($image[]);
             //  }
+            // dd($prompt);
             if(count($response['data'])>=4){
                 $data->update([
                     'image1' => $response['data'][0]['link'],

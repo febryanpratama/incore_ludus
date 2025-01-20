@@ -59,6 +59,16 @@ class FootballController extends Controller
         ]);
     }
 
+    public function series($id)
+    {
+        $article = Articles::find($id);
+        // dd($article->image1);
+
+        return view('football.series', [
+            'article' => $article
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

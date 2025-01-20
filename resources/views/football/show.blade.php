@@ -8,14 +8,14 @@
             <div class="card1">
                 <span class="badge text-bg-danger">Tranding</span>
                 <span class="badge text-bg-secondary">Football</span>
-                <h1>{{ $article->title }}</h1>
+                <h1>{{ $article->headlineUtamaArtikel }}</h1>
                 <a href="" type="button" class="btn btn-outline-dark">Request Advertorial</a>
                 <a href="" type="button" class="btn btn-outline-dark"><svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.53033 10.4697C1.23744 10.1768 0.762563 10.1768 0.46967 10.4697C0.176777 10.7626 0.176777 11.2374 0.46967 11.5303L1.53033 10.4697ZM6.46967 17.5303C6.76256 17.8232 7.23744 17.8232 7.53033 17.5303C7.82322 17.2374 7.82322 16.7626 7.53033 16.4697L6.46967 17.5303ZM6.46962 16.4697C6.17672 16.7626 6.17672 17.2374 6.46961 17.5303C6.76251 17.8232 7.23738 17.8232 7.53028 17.5303L6.46962 16.4697ZM13.5303 11.5303C13.8232 11.2374 13.8232 10.7626 13.5303 10.4697C13.2374 10.1768 12.7625 10.1768 12.4696 10.4697L13.5303 11.5303ZM6.24996 17C6.24996 17.4142 6.58575 17.75 6.99996 17.75C7.41418 17.75 7.74996 17.4142 7.74996 17L6.24996 17ZM7.74996 1C7.74996 0.585785 7.41418 0.25 6.99996 0.25C6.58575 0.25 6.24996 0.585785 6.24996 1L7.74996 1ZM0.46967 11.5303L6.46967 17.5303L7.53033 16.4697L1.53033 10.4697L0.46967 11.5303ZM7.53028 17.5303L13.5303 11.5303L12.4696 10.4697L6.46962 16.4697L7.53028 17.5303ZM7.74996 17L7.74996 1L6.24996 1L6.24996 17L7.74996 17Z" fill="#F6F6F6"/></svg>
                 </a>
                 </div>
             </div>
-            <div class="col-8"><img src="{{asset('img/image-football-pg-2-1.png')}}" alt=""></div>
+            <div class="col-8"><img src="{{$article->image1}}" alt=""></div>
     </div>      
 </div>
 <!-- Detail Content (ada 3 bagian images. 1 image diheader, 2 images tengah halaman dan 1 akhir halaman. Terdapat headline kalimat dibagian atas dan tengah halaman. berisi kalimat yang menarik minat pembaca) -->
@@ -29,23 +29,24 @@
                     <p>By Ludus <br> <span>{{date_format($article->created_at,"d M Y")}}<span></p>
                     <hr>
                 </div>
-                <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores deleniti accusamus consequuntur et voluptatum illo perferendis, sed molestiae.</h1>
-                {!! html_entity_decode($article->content) !!}
+                <h2>{{$article->highlight1}}</h2>
+                <p>{{$article->paragraf1}}</p>
                 <div class="row">
                     <div class="col-6">
-                        <img src="{{asset('/img/image-detail-k2.png')}}" alt="">
+                        <img src="{{$article->image2}}" alt="">
                     </div>
                     <div class="col-6">
-                        <img src="{{asset('/img/image-detail-k2.png')}}" alt="">
+                        <img src="{{$article->image3}}" alt="">
                     </div>
                 </div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt suscipit voluptas recusandae velit molestias expedita magni nostrum, laboriosam voluptatibus eius illum odit voluptatum ad quisquam assumenda doloremque necessitatibus ipsam aspernatur ex eveniet. Enim aliquam doloribus inventore illo unde culpa magni, quasi, fuga sed nostrum sint. Doloremque impedit ipsam eveniet eaque atque, illo est eius illum ab mollitia iusto repellendus? Commodi, ratione id. Perferendis adipisci laboriosam sint eaque, delectus eveniet quos sequi ratione amet quae minus laborum earum aut obcaecati voluptatum corporis, assumenda ipsum doloremque deserunt animi dolorem ab numquam molestias? Illo provident in quos unde quaerat cum autem, fuga blanditiis ut velit.</p>
+                <p>{{$article->paragraf2}}</p>
                 <hr>
-                <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, ullam. Aliquid, aperiam error soluta suscipit iure omnis assumenda ut odit. Vel animi fugiat at quibusdam.</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt repudiandae provident adipisci cupiditate tempore, quia iusto itaque fugit repellat nostrum neque, veritatis sint reprehenderit nihil porro, qui assumenda sapiente voluptatum. Sapiente, ut dolorem recusandae corrupti id minus voluptate deleniti iure quas! Quibusdam libero minus in possimus sed esse cumque, quisquam similique quasi quidem rerum odit rem consequatur minima sunt, voluptatem enim perferendis fugit a corporis illo eveniet! Architecto delectus repellendus totam voluptate, necessitatibus recusandae harum voluptatum soluta quas numquam tenetur blanditiis provident eius molestiae distinctio magni maiores aspernatur maxime ratione assumenda nihil. Odio tempore officia voluptatibus non cumque inventore consequatur ducimus! Aperiam ad dolorem est, quidem optio perferendis quam magnam, corporis ducimus tempora reiciendis dolor dolores possimus quibusdam cumque ratione hic debitis alias doloribus sed dolorum cum eaque ea.</p>
+                <h2>{{$article->highlight2}}</h2>
+                <p>{{$article->paragraf3}}</p>
+                <p>{{$article->paragraf4}}</p>
                 <div class="row">
                     <div class="col">
-                        <img src="{{asset('/img/img-football-2.jpg')}}" alt="">
+                        <img src="{{$article->image4}}" alt="">
                     </div>
                 </div>
                 <hr>
