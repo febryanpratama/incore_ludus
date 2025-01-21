@@ -99,12 +99,12 @@ class GenerateServices
 
             // Find the position of the comma
             $position = strpos($data['headlineUtamaArtikel'], ':');
-            if($position === true) {
+            if($position == true) {
                 
                 $result_string = substr($data['headlineUtamaArtikel'], 0, $position);
-                $prompt = $result_string;
+                $prompt = preg_replace("/[^A-Za-z0-9\  ]/", "", $result_string);
             } else {
-                $prompt = $data['headlineUtamaArtikel'];
+                $prompt = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
             }
 
             // Extract the part of the string before the comma
@@ -113,24 +113,59 @@ class GenerateServices
              $api = new AiApi();
              // $response = $api->post('/api/generate/generate-images-deepai', $prompt);
              $response = $api->post('/api/generate/generate-images-google', $prompt);
-            //  foreach($response['data'] as $image){
-            //     print_r($image[]);
-            //  }
-            // dd($prompt);
-            if(count($response['data'])>=4){
-                $data->update([
-                    'image1' => $response['data'][0]['link'],
-                    'image2' => $response['data'][1]['link'],
-                    'image3' => $response['data'][2]['link'],
-                    'image4' => $response['data'][3]['link']
-                ]);
-            }else if(count($response['data'])!=0 && count($response['data'])<4){ 
-                for($i=0; $i<count($response['data']); $i++){
-                    $data->update([
-                        'image'.($i+1) => $response['data'][$i]['link']
-                    ]);
+            
+            //  print_r($prompt);
+            // dd($response);
+            foreach($response['data'] as $image){
+                if(strpos($image['link'], 'jpg')||strpos($image['link'], 'png')||strpos($image['link'], 'jpeg')||strpos($image['link'], 'JPG')||strpos($image['link'], 'PNG')||strpos($image['link'], 'JPEG') ){
+                    $string = strtolower($image['title']);
+                    $kataArray = explode(" ", $string);
+                    $katacari = explode(" ", strtolower($prompt));
+                    // var_dump($kataArray);
+                    // var_dump($katacari);
+                    // print_r(array_intersect($katacari, $kataArray));
+                    // print_r(count(array_intersect($katacari, $kataArray)));
+                    
+                    if (array_intersect($katacari, $kataArray)!=[]) {
+                        if(count(array_intersect($katacari, $kataArray))!=0 && count(array_intersect($katacari, $kataArray))<=4){
+                            if($data->image1==null){
+                                $data->update([
+                                    'image1' => $image['link']
+                                ]);
+                            } elseif($data->image2==null){
+                                $data->update([
+                                    'image2' => $image['link']
+                                ]);
+                            } elseif($data->image3==null){
+                                $data->update([
+                                    'image3' => $image['link']
+                                ]);
+                            } elseif($data->image4==null){
+                                $data->update([
+                                    'image4' => $image['link']
+                                ]);
+                            }
+                        }
+                    } else {
+                        // echo "Kata tidak ditemukan dalam string.";
+                    }
                 }
             }
+            // dd();
+            // if(count($response['data'])>=4){
+            //     $data->update([
+            //         'image1' => $response['data'][0]['link'],
+            //         'image2' => $response['data'][1]['link'],
+            //         'image3' => $response['data'][2]['link'],
+            //         'image4' => $response['data'][3]['link']
+            //     ]);
+            // }else if(count($response['data'])!=0 && count($response['data'])<4){ 
+            //     for($i=0; $i<count($response['data']); $i++){
+            //         $data->update([
+            //             'image'.($i+1) => $response['data'][$i]['link']
+            //         ]);
+            //     }
+            // }
             // dd($data);
 
         // foreach ($getArtikel as $key) {

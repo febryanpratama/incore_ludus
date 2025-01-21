@@ -7,6 +7,7 @@
         <div class="col-4">
             <div class="card1">
                 <span class="badge text-bg-danger">Tranding</span>
+                <span class="badge text-bg-success">{{$article->type}}</span>
                 <span class="badge text-bg-secondary">Football</span>
                 <h1>{{ $article->headlineUtamaArtikel }}</h1>
                 <a href="" type="button" class="btn btn-outline-dark">Request Advertorial</a>
@@ -36,7 +37,7 @@
                         <img src="{{$article->image2}}" alt="">
                     </div>
                     <div class="col-6">
-                        <img src="{{asset('/img/image-detail-k2.png')}}" alt="">
+                        <img src="{{$article->image3}}" alt="">
                     </div>
                 </div>
                 <p>{{$article->paragraf2}}</p>
@@ -46,7 +47,7 @@
                 <p>{{$article->paragraf4}}</p>
                 <div class="row">
                     <div class="col">
-                        <img src="{{asset('/img/img-football-2.jpg')}}" alt="">
+                        <img src="{{$article->image4}}" alt="">
                     </div>
                 </div>
                 <hr>

@@ -7,6 +7,7 @@
         <div class="col-4">
             <div class="card1">
                 <span class="badge text-bg-danger">Tranding</span>
+                <span class="badge text-bg-success">{{$article->type}}</span>
                 <span class="badge text-bg-secondary">Football</span>
                 <h1>{{ $article->headlineUtamaArtikel }}</h1>
                 <a href="" type="button" class="btn btn-outline-dark">Request Advertorial</a>
