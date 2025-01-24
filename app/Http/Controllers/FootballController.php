@@ -16,7 +16,11 @@ class FootballController extends Controller
     public function index()
     {
         $categories = Categories::where('name', 'football')->first();
-        $articles = Articles::where('category_id', $categories->id)->latest()->paginate(7);
+        if($categories==!null){
+            $articles = Articles::where('category_id', $categories->id)->latest()->paginate(7);
+        } else {
+            $articles = [];
+        }
 
         return view('football.index', [
             'articles' => $articles
@@ -106,7 +110,11 @@ class FootballController extends Controller
     public function viewAll(){
         $categories = Categories::where('name', 'football')->first();
         // Artikel baru dan yang sedang trending
-        $articles = Articles::where('category_id', $categories->id)->latest()->paginate(16);
+        if($categories==!null){
+            $articles = Articles::where('category_id', $categories->id)->latest()->paginate(16);
+        } else {
+            $articles = [];
+        }
         
         return view('football.viewall', [
             'articles' => $articles
