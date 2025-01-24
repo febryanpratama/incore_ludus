@@ -30,22 +30,22 @@
                     <a class="nav-link" href="{{ route('football.index') }}">Football</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="#">Badminton</a>
+                    <a class="nav-link" href="{{ route('badminton.index') }}">Badminton</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="#">Basketball</a>
+                    <a class="nav-link" href="{{ route('basket.index') }}">Basketball</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="#">Volley</a>
+                    <a class="nav-link" href="{{ route('volley.index') }}">Volley</a>
                     </li>
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="navbarDropdownMenuLink">
                     Martial Arts and Others
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Taekwondo</a></li>
-                        <li><a class="dropdown-item" href="#">Pencak Silat</a></li>
-                        <li><a class="dropdown-item" href="#">Karate</a></li>
+                        <li><a class="dropdown-item" href="{{ route('taekwondo.index') }}">Taekwondo</a></li>
+                        <li><a class="dropdown-item" href="{{ route('silat.index') }}">Pencak Silat</a></li>
+                        <li><a class="dropdown-item" href="{{ route('karate.index') }}">Karate</a></li>
                     </ul>
                     </li>
                 </ul>

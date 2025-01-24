@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FootballController;
+use App\Http\Controllers\BadmintonController;
+use App\Http\Controllers\BasketController;
+use App\Http\Controllers\VolleyController;
+use App\Http\Controllers\MartialArtsController;
+use App\Http\Controllers\SilatController;
+use App\Http\Controllers\KarateController;
+use App\Http\Controllers\TaekwondoController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\GenerateController;
 
@@ -26,11 +33,54 @@ Route::get('/signin', function () {
     return view('signin');
 })->name('signin');
 
-Route::prefix('contactball')->group(function(){
-    Route::get('/football', [FootballController::class, 'index'])->name('football.index');
+Route::prefix('football')->group(function(){
+    Route::get('/', [FootballController::class, 'index'])->name('football.index');
     Route::get('/viewall/football', [FootballController::class, 'viewAll'])->name('football.viewall');
     Route::get('/{id}/football', [FootballController::class, 'show'])->name('football.show');
     Route::get('/{id}/football/series', [FootballController::class, 'series'])->name('football.series');
+});
+
+Route::prefix('basket')->group(function(){
+    Route::get('/', [BasketController::class, 'index'])->name('basket.index');
+    Route::get('/viewall/basket', [BasketController::class, 'viewAll'])->name('basket.viewall');
+    Route::get('/{id}/basket', [BasketController::class, 'show'])->name('basket.show');
+    Route::get('/{id}/basket/series', [BasketController::class, 'series'])->name('basket.series');
+});
+Route::prefix('badminton')->group(function(){
+    Route::get('/', [BadmintonController::class, 'index'])->name('badminton.index');
+    Route::get('/viewall/badminton', [BadmintonController::class, 'viewAll'])->name('badminton.viewall');
+    Route::get('/{id}/badminton', [BadmintonController::class, 'show'])->name('badminton.show');
+    Route::get('/{id}/badminton/series', [BadmintonController::class, 'series'])->name('badminton.series');
+});
+Route::prefix('volley')->group(function(){
+    Route::get('/', [VolleyController::class, 'index'])->name('volley.index');
+    Route::get('/viewall/volley', [VolleyController::class, 'viewAll'])->name('volley.viewall');
+    Route::get('/{id}/volley', [VolleyController::class, 'show'])->name('volley.show');
+    Route::get('/{id}/volley/series', [VolleyController::class, 'series'])->name('volley.series');
+});
+Route::prefix('materialarts')->group(function(){
+    Route::get('/', [MaterialArtsController::class, 'index'])->name('materialarts.index');
+    Route::get('/viewall/materialarts', [MaterialArtsController::class, 'viewAll'])->name('materialarts.viewall');
+    Route::get('/{id}/materialarts', [MaterialArtsController::class, 'show'])->name('materialarts.show');
+    Route::get('/{id}/materialarts/series', [MaterialArtsController::class, 'series'])->name('materialarts.series');
+});
+Route::prefix('pencaksilat')->group(function(){
+    Route::get('/', [SilatController::class, 'index'])->name('silat.index');
+    Route::get('/viewall/silat', [SilatController::class, 'viewAll'])->name('silat.viewall');
+    Route::get('/{id}/silat', [SilatController::class, 'show'])->name('silat.show');
+    Route::get('/{id}/silat/series', [SilatController::class, 'series'])->name('silat.series');
+});
+Route::prefix('karate')->group(function(){
+    Route::get('/', [KarateController::class, 'index'])->name('karate.index');
+    Route::get('/viewall/karate', [KarateController::class, 'viewAll'])->name('karate.viewall');
+    Route::get('/{id}/karate', [KarateController::class, 'show'])->name('karate.show');
+    Route::get('/{id}/karate/series', [KarateController::class, 'series'])->name('karate.series');
+});
+Route::prefix('taekwondo')->group(function(){
+    Route::get('/', [TaekwondoController::class, 'index'])->name('taekwondo.index');
+    Route::get('/viewall/taekwondo', [TaekwondoController::class, 'viewAll'])->name('taekwondo.viewall');
+    Route::get('/{id}/taekwondo', [TaekwondoController::class, 'show'])->name('taekwondo.show');
+    Route::get('/{id}/taekwondo/series', [TaekwondoController::class, 'series'])->name('taekwondo.series');
 });
 
 // Topic

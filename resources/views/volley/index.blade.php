@@ -11,12 +11,12 @@
                         <p>hot articles</p>
                     </div>
                     <div class="col-4">
-                        <p>EXPLORE NEWS ABOUT football ON LUDUS. YOU'LL GET THE LATEST INFORMATION HERE.</p>
+                        <p>EXPLORE NEWS ABOUT volley ON LUDUS. YOU'LL GET THE LATEST INFORMATION HERE.</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <p>About Football News</p>
+                        <p>About Volley News</p>
                     </div>
                 </div>
                 <div class="row">
@@ -35,7 +35,7 @@
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand"><h3>Lates News</h3></a>
-    <a href="{{ route('football.viewall') }}" type="button" class="btn btn-outline-dark bt1">View All</a>
+    <a href="{{ route('volley.viewall') }}" type="button" class="btn btn-outline-dark bt1">View All</a>
     <form class="d-flex" role="search">
       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">
@@ -52,9 +52,9 @@
         <div class="col mt-3">
             <div class="card">
                     @if($article->type=='series')
-                    <a href="{{route('football.series', $article->id)}}">
+                    <a href="{{route('volley.series', $article->id)}}">
                     @else
-                    <a href="{{route('football.show', $article->id)}}">
+                    <a href="{{route('volley.show', $article->id)}}">
                     @endif
                     <img src="{{$article->image1}}" class="card-img-top" alt="{{$article->headlineUtamaArtikel}}">
                     </a>
@@ -62,11 +62,11 @@
                         @if($article->created_at->diff(now())->days <= 1)
                         <span class="badge text-bg-primary">New</span>
                         @endif
-                        <span class="badge text-bg-secondary">Football</span>
+                        <span class="badge text-bg-secondary">Volley</span>
                         @if($article->type=='series')
-                        <a href="{{route('football.series', $article->id)}}" class="badge text-bg-success">{{$article->type}}</a>
+                        <a href="{{route('volley.series', $article->id)}}" class="badge text-bg-success">{{$article->type}}</a>
                         @else
-                        <a href="{{route('football.show', $article->id)}}" class="badge text-bg-success">{{$article->type}}</a>
+                        <a href="{{route('volley.show', $article->id)}}" class="badge text-bg-success">{{$article->type}}</a>
                         @endif
 
                         <!-- Button trigger modal -->
@@ -75,9 +75,9 @@
                             <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
                         </a>
                         @if($article->type=='series')
-                        <h5 class="card-title"><a href="{{route('football.series', $article->id)}}">{{$article->headlineUtamaArtikel}}</a></h5>
+                        <h5 class="card-title"><a href="{{route('volley.series', $article->id)}}">{{$article->headlineUtamaArtikel}}</a></h5>
                         @else
-                        <h5 class="card-title"><a href="{{route('football.show', $article->id)}}">{{$article->headlineUtamaArtikel}}</a></h5>
+                        <h5 class="card-title"><a href="{{route('volley.show', $article->id)}}">{{$article->headlineUtamaArtikel}}</a></h5>
                         @endif
                         <p class="card-text">{{date_format($article->created_at,"d M Y")}} 
                         </p>
@@ -120,7 +120,7 @@
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand"><h3>Highlights</h3></a>
-    <a href="{{ route('football.viewall') }}" type="button" class="btn btn-outline-dark bt1">View All</a>
+    <a href="{{ route('volley.viewall') }}" type="button" class="btn btn-outline-dark bt1">View All</a>
     <form class="d-flex" role="search">
       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">
@@ -136,7 +136,7 @@
         <div class="col-7">
             <div class="label">
                 <span class="badge text-bg-danger">Trending</span>
-                <span class="badge text-bg-secondary">Football</span>
+                <span class="badge text-bg-secondary">Volley</span>
                 <!-- Button trigger modal -->
                 <a href="#" type="button" class="btn btn-danger report" data-bs-toggle="modal" data-bs-target="#reportModal">
                     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -158,7 +158,7 @@
                     @for($i=0; $i < 3; $i++)
                     <li class="list-group-item">
                         <span class="badge text-bg-danger">Trending</span>
-                        <span class="badge text-bg-secondary">Football</span>
+                        <span class="badge text-bg-secondary">Volley</span>
                         <!-- Button trigger modal -->
                         <a href="#" type="button" class="btn btn-danger report" data-bs-toggle="modal" data-bs-target="#reportModal">
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -185,7 +185,7 @@
                 <img src="{{asset('img/image-football-pg-2-'.$i.'.png')}}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <span class="badge text-bg-danger">Tranding</span>
-                    <span class="badge text-bg-secondary">Football</span>
+                    <span class="badge text-bg-secondary">Volley</span>
                     <!-- Button trigger modal -->
                     <a href="#" type="button" class="btn btn-danger report" data-bs-toggle="modal" data-bs-target="#reportModal">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -206,7 +206,7 @@
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand"><h3>Recomendation For You</h3></a>
-    <a href="{{ route('football.viewall') }}" type="button" class="btn btn-outline-dark bt2">View All</a>
+    <a href="{{ route('volley.viewall') }}" type="button" class="btn btn-outline-dark bt2">View All</a>
   </div>
 </nav>
 <!-- artikel trending lainnya dan iklan -->
@@ -232,7 +232,7 @@
                 <img src="{{asset('img/image-football-pg-2-'.$i.'.png')}}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <span class="badge text-bg-danger">Tranding</span>
-                    <span class="badge text-bg-secondary">Football</span>
+                    <span class="badge text-bg-secondary">Volley</span>
                     <!-- Button trigger modal -->
                     <a href="#" type="button" class="btn btn-danger report" data-bs-toggle="modal" data-bs-target="#reportModal">
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
