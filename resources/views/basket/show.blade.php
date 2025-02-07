@@ -16,7 +16,7 @@
                 </a>
                 </div>
             </div>
-            <div class="col-8"><img src="{{$article->image1}}" alt=""></div>
+            <div class="col-8"><img src="{{ asset('storage/images_download/'.$article->image1) }}" alt="{{$article->headlineUtamaArtikel}}"></div>
     </div>      
 </div>
 <!-- Detail Content (ada 3 bagian images. 1 image diheader, 2 images tengah halaman dan 1 akhir halaman. Terdapat headline kalimat dibagian atas dan tengah halaman. berisi kalimat yang menarik minat pembaca) -->
@@ -34,10 +34,10 @@
                 <p>{{$article->paragraf1}}</p>
                 <div class="row">
                     <div class="col-6">
-                        <img src="{{$article->image2}}" alt="">
+                        <img src="{{ asset('storage/images_download/'.$article->image2) }}" alt="{{$article->highlight1}}">
                     </div>
                     <div class="col-6">
-                        <img src="{{$article->image3}}" alt="">
+                        <img src="{{ asset('storage/images_download/'.$article->image3) }}" alt="{{$article->highlight1}}">
                     </div>
                 </div>
                 <p>{{$article->paragraf2}}</p>
@@ -47,7 +47,7 @@
                 <p>{{$article->paragraf4}}</p>
                 <div class="row">
                     <div class="col">
-                        <img src="{{$article->image4}}" alt="">
+                        <img src="{{ asset('storage/images_download/'.$article->image4) }}" alt="{{$article->highlight2}}">
                     </div>
                 </div>
                 <hr>

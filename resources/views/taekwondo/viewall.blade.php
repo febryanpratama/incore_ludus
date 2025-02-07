@@ -32,7 +32,7 @@
         <div class="col mt-3">
             <div class="card">
                     <a href="{{route('taekwondo.show', $article->id)}}">
-                    <img src="{{asset('img/image-football-pg-2-1.png')}}" class="card-img-top" alt="...">
+                    <img src="{{ asset('storage/images_download/'.$article->image1) }}" class="card-img-top" alt="{{$article->headlineUtamaArtikel}}">
                     </a>
                     <div class="card-body">
                         @if($article->created_at->diff(now())->days <= 1)

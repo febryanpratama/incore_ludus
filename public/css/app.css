@@ -222,6 +222,9 @@ a {
 }
 .pg-3 .row .col-7 img {
     border-radius: 10px;
+    width: 95%;
+    max-width: 737px;
+    max-height: 595px;
 }
 .pg-3 .row .col-7 .label {
     padding: 20px;

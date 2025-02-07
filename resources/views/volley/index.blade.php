@@ -56,7 +56,7 @@
                     @else
                     <a href="{{route('volley.show', $article->id)}}">
                     @endif
-                    <img src="{{$article->image1}}" class="card-img-top" alt="{{$article->headlineUtamaArtikel}}">
+                    <img src="{{ asset('storage/images_download/'.$article->image1) }}" class="card-img-top" alt="{{$article->headlineUtamaArtikel}}">
                     </a>
                     <div class="card-body">
                         @if($article->created_at->diff(now())->days <= 1)
@@ -135,6 +135,9 @@
     <div class="row">
         <div class="col-7">
             <div class="label">
+                @if(\Carbon\Carbon::parse($highlightPost->created_at)->diff(now())->days <= 1)
+                    <span class="badge text-bg-primary">New</span>
+                @endif
                 <span class="badge text-bg-danger">Trending</span>
                 <span class="badge text-bg-secondary">Volley</span>
                 <!-- Button trigger modal -->
@@ -143,10 +146,14 @@
                     <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
                 </a>
             </div>
-            <img src="{{asset('img/img-football-2.jpg')}}" alt="">
+            <img src="{{ asset('storage/images_download/'.$highlightPost->image1) }}" alt="{{$highlightPost->headlineUtamaArtikel}}">
             <div class="caption">
-                <h1>You Can Still Get Tickets to Billie Eilish’s Sold-Out Hit Me Hard and Soft Tour</h1>
-                <p>26 Juni 2024</p>
+            @if($highlightPost->type=='series')
+                <h1 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.series', $highlightPost->artikel_id)}}">{{$highlightPost->headlineUtamaArtikel}}</a></h1>
+                @else
+                <h1 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.show', $highlightPost->artikel_id)}}">{{$highlightPost->headlineUtamaArtikel}}</a></h1>
+                @endif
+                <p>{{ \Carbon\Carbon::parse($highlightPost->created_at)->format('d M Y') }}</p>
                 <ul>
                     <li>By Admin</li>
                 </ul>
@@ -155,8 +162,11 @@
         <div class="col-5">
             <div class="card">
                 <ul class="list-group list-group-flush">
-                    @for($i=0; $i < 3; $i++)
+                    @foreach($sideHighlight as $sh)
                     <li class="list-group-item">
+                        @if(\Carbon\Carbon::parse($sh->created_at)->diff(now())->days <= 1)
+                        <span class="badge text-bg-primary">New</span>
+                        @endif
                         <span class="badge text-bg-danger">Trending</span>
                         <span class="badge text-bg-secondary">Volley</span>
                         <!-- Button trigger modal -->
@@ -164,13 +174,17 @@
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
                         </a>
-                        <h5>Supreme and Nike Have an Air Max TL 99 Collaboration on the Way</h5>
-                        <p>26 Juni 2024</p>
+                        @if($sh->type=='series')
+                        <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('volley.series', $sh->artikel_id)}}">{{$sh->headlineUtamaArtikel}}</a></h5>
+                        @else
+                        <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('volley.show', $sh->artikel_id)}}">{{$sh->headlineUtamaArtikel}}</a></h5>
+                        @endif
+                        <p>{{ \Carbon\Carbon::parse($sh->created_at)->format('d M Y') }}</p>
                         <ul>
                             <li>By Admin</li>
                         </ul>
                     </li>
-                    @endfor
+                    @endforeach
                 </ul>
             </div>
         </div>
@@ -179,11 +193,14 @@
 <!-- Data artikel yang sedang tranding lainnya -->
 <div class="container-fluid pg-4">
     <div class="row">
-        @for($i=1;$i<=3;$i++)
+        @foreach($trendingPosts as $trending)
         <div class="col-4">
             <div class="card">
-                <img src="{{asset('img/image-football-pg-2-'.$i.'.png')}}" class="card-img-top" alt="...">
+                <img src="{{asset('img/image-football-pg-2-'.$trending->id.'.png')}}" class="card-img-top" alt="{{$trending->headlineUtamaArtikel}}">
                 <div class="card-body">
+                    @if(\Carbon\Carbon::parse($trending->created_at)->diff(now())->days <= 1)
+                        <span class="badge text-bg-primary">New</span>
+                    @endif
                     <span class="badge text-bg-danger">Tranding</span>
                     <span class="badge text-bg-secondary">Volley</span>
                     <!-- Button trigger modal -->
@@ -191,15 +208,19 @@
                         <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
                     </a>
-                    <h5 class="card-title">The Big Australian Music Festival Is Dead. What Next?</h5>
-                    <p class="card-text">12 Feb 2024</p>
+                    @if($trending->type=='series')
+                    <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('volley.series', $trending->artikel_id)}}">{{$trending->headlineUtamaArtikel}}</a></h5>
+                    @else
+                    <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('volley.show', $trending->artikel_id)}}">{{$trending->headlineUtamaArtikel}}</a></h5>
+                    @endif
+                    <p class="card-text">{{ \Carbon\Carbon::parse($trending->created_at)->format('d M Y') }}</p>
                     <ul>
                         <li>By Admin</li>
                     </ul>
                 </div>
             </div>
         </div>
-        @endfor
+        @endforeach
     </div>
 </div>
 <!-- Recommendation -->

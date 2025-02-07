@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use App\Services\GenerateServices;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class GenerateController extends Controller

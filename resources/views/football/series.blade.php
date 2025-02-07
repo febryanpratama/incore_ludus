@@ -16,7 +16,7 @@
                 </a>
                 </div>
             </div>
-            <div class="col-8"><img src="{{$article->image1}}" alt=""></div>
+            <div class="col-8"><img src="{{ asset('storage/images_download/'.$article->image1) }}" alt="{{$article->headlineUtamaArtikel}}"></div>
     </div>      
 </div>
 <!-- Detail Content (ada 3 bagian images. 1 image diheader, 2 images tengah halaman dan 1 akhir halaman. Terdapat headline kalimat dibagian atas dan tengah halaman. berisi kalimat yang menarik minat pembaca) -->
@@ -33,23 +33,29 @@
                 <h2>{{$article->highlight1}}</h2>
                 <p>{{$article->paragraf1}}</p>
                 <div class="row">
+                    @if($article->imag2 != null)
                     <div class="col-6">
-                        <img src="{{$article->image2}}" alt="">
+                        <img src="{{ asset('storage/images_download/'.$article->image2) }}" alt="{{$article->highlight1}}">
                     </div>
+                    @endif
+                    @if($article->image3 != null)
                     <div class="col-6">
-                        <img src="{{$article->image3}}" alt="">
+                        <img src="{{ asset('storage/images_download/'.$article->image3) }}" alt="{{$article->highlight1}}">
                     </div>
+                    @endif
                 </div>
                 <p>{{$article->paragraf2}}</p>
                 <hr>
                 <h2>{{$article->highlight2}}</h2>
                 <p>{{$article->paragraf3}}</p>
                 <p>{{$article->paragraf4}}</p>
+                @if($article->image4 != null)
                 <div class="row">
                     <div class="col">
-                        <img src="{{$article->image4}}" alt="">
+                        <img src="{{ asset('storage/images_download/'.$article->image4) }}" alt="{{$article->highlight2}}">
                     </div>
                 </div>
+                @endif
                 <hr>
                 <h4>Related Tags</h4>
                 <!-- mengarah ke link sesuai kategori -->

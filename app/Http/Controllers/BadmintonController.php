@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories;
 use App\Models\Articles;
+use App\Models\Engaging;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class BadmintonController extends Controller
 {
@@ -16,14 +19,46 @@ class BadmintonController extends Controller
     public function index()
     {
         $categories = Categories::where('name', 'badminton')->first();
+
         if($categories==!null){
             $articles = Articles::where('category_id', $categories->id)->latest()->paginate(7);
+            $highlightPost = DB::table('artikels')
+                    ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                    ->where('artikels.category_id', $categories->id)
+                    ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+                    ->orderBy('engagings.count', 'desc')
+                    ->first();
+            $trendingPosts = DB::table('artikels')
+                    ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                    ->where('artikels.category_id', $categories->id)
+                    ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+                    ->orderBy('engagings.count', 'desc')
+                    // ->limit(3)
+                    // ->get();
+                    ->skip(4)                   // Skip the first post (index starts at 0)
+                    ->take(3)                   // Take the next 3 posts (2nd, 3rd, and 4th)
+                    ->get();
+            $sideHighlight = DB::table('artikels')
+                    ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                    ->where('artikels.category_id', $categories->id)
+                    ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+                    ->orderBy('engagings.count', 'desc')
+                    ->skip(1)                   // Skip the first post (index starts at 0)
+                    ->take(3)                   // Take the next 3 posts (2nd, 3rd, and 4th)
+                    ->get();
         } else {
             $articles = [];
+            $highlightPost = [];
+            $trendingPosts = [];
+            $sideHighlight = [];
         }
+        // dd($sideHighlight);
 
         return view('badminton.index', [
-            'articles' => $articles
+            'articles' => $articles,
+            'highlightPost' => $highlightPost,
+            'sideHighlight' => $sideHighlight,
+            'trendingPosts' => $trendingPosts
         ]);
     }
 
@@ -57,6 +92,17 @@ class BadmintonController extends Controller
     public function show($id)
     {
         $article = Articles::find($id);
+        $eng = Engaging::where('artikel_id', $article->id)->first();
+        if($eng==!null){
+            $eng->update([
+                'count' => $eng->count + 1
+            ]);
+        } else {
+            $eng = Engaging::create([
+                'artikel_id' => $article->id,
+                'count' => 1
+            ]);
+        }
 
         return view('badminton.show', [
             'article' => $article
@@ -66,7 +112,17 @@ class BadmintonController extends Controller
     public function series($id)
     {
         $article = Articles::find($id);
-        // dd($article->image1);
+        $eng = Engaging::where('artikel_id', $article->id)->first();
+        if($eng==!null){
+            $eng->update([
+                'count' => $eng->count + 1
+            ]);
+        } else {
+            $eng = Engaging::create([
+                'artikel_id' => $article->id,
+                'count' => 1
+            ]);
+        }
 
         return view('badminton.series', [
             'article' => $article
@@ -109,7 +165,7 @@ class BadmintonController extends Controller
 
     public function viewAll(){
         $categories = Categories::where('name', 'badminton')->first();
-        // Artikel baru dan yang sedang trending
+        // Data Artikel
         if($categories==!null){
             $articles = Articles::where('category_id', $categories->id)->latest()->paginate(16);
         } else {
@@ -117,6 +173,25 @@ class BadmintonController extends Controller
         }
         
         return view('badminton.viewall', [
+            'articles' => $articles
+        ]);
+    }
+
+    public function viewHighlight(){
+        $categories = Categories::where('name', 'badminton')->first();
+        if($categories==!null){
+            $articles = DB::table('artikels')
+            ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+            ->where('artikels.category_id', $categories->id)
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
+            ->orderBy('engagings.count', 'desc')
+            ->limit(40)
+            ->get();
+        } else {
+            $articles = [];
+        }
+        // dd($articles);
+        return view('badminton.viewhighlight', [
             'articles' => $articles
         ]);
     }

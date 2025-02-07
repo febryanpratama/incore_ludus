@@ -8,4 +8,5 @@ class Articles extends Model
 {
     protected $table    = 'artikels';
     protected $guarded  = [];
+
 }

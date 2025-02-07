@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use App\Core\AiApi;
 use App\Models\Artikel;
 
@@ -10,7 +13,9 @@ class GenerateServices
     public function generateArtikel()
     {
         // 
-        $topic = "masa remaja Cristiano Ronaldo";
+        // $topic = "masa remaja Cristiano Ronaldo";
+        // $topic = "Pemain voli megawati";
+        $topic = "Badminton Jonatan Cristie";
 
         // dd($topic);
 
@@ -93,34 +98,32 @@ class GenerateServices
     
     private function fetchImage($data)
     {
-
-            // dd($data);
             // $prompt = "buatkan gambar manusia nyata bangsa Asia atau lingkungan nyata di Asia tanpa ada huruf, angka, coretan apapun untuk sosial media marketing berdasarkan deskripsi: ".$data['headlineUtamaArtikel']."";
 
-            // Find the position of the comma
-            $position = strpos($data['headlineUtamaArtikel'], ':');
-            if($position == true) {
-                
-                $result_string = substr($data['headlineUtamaArtikel'], 0, $position);
-                $prompt = preg_replace("/[^A-Za-z0-9\  ]/", "", $result_string);
+            $replace_characters = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
+            $prompt = $this->limit_words("foto atau gambar ".$replace_characters, 6);
+
+            // Match name at the beginning or end
+            if (preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $data['headlineUtamaArtikel'], $matches)) {
+                $name = $matches[1] ?? $matches[2]; 
+            } else if (preg_match('/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)\b/', $data['headlineUtamaArtikel'], $matches)) {
+                $name = $matches[0]; 
             } else {
-                $prompt = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
+                $name = null; // If no name is found
             }
-
-            // Extract the part of the string before the comma
-
+            // print_r($prompt);
+            // dd($name);
              // Kirim prompt ke API
              $api = new AiApi();
              // $response = $api->post('/api/generate/generate-images-deepai', $prompt);
              $response = $api->post('/api/generate/generate-images-google', $prompt);
+            //  dd($response);
             
-            //  print_r($prompt);
-            // dd($response);
             foreach($response['data'] as $image){
                 if(strpos($image['link'], 'jpg')||strpos($image['link'], 'png')||strpos($image['link'], 'jpeg')||strpos($image['link'], 'JPG')||strpos($image['link'], 'PNG')||strpos($image['link'], 'JPEG') ){
                     $string = strtolower($image['title']);
                     $kataArray = explode(" ", $string);
-                    $katacari = explode(" ", strtolower($prompt));
+                    $katacari = explode(" ", strtolower($name));
                     // var_dump($kataArray);
                     // var_dump($katacari);
                     // print_r(array_intersect($katacari, $kataArray));
@@ -128,21 +131,27 @@ class GenerateServices
                     
                     if (array_intersect($katacari, $kataArray)!=[]) {
                         if(count(array_intersect($katacari, $kataArray))!=0 && count(array_intersect($katacari, $kataArray))<=4){
+                            // print_r($image);
                             if($data->image1==null){
-                                $data->update([
-                                    'image1' => $image['link']
-                                ]);
+                                $save = $this->saveImage($image['link']);
+                                    $data->update([
+                                        'image1' => $save
+                                    ]);
+
                             } elseif($data->image2==null){
+                                $save = $this->saveImage($image['link']);
                                 $data->update([
-                                    'image2' => $image['link']
+                                    'image2' => $save
                                 ]);
                             } elseif($data->image3==null){
+                                $save = $this->saveImage($image['link']);
                                 $data->update([
-                                    'image3' => $image['link']
+                                    'image3' => $save
                                 ]);
                             } elseif($data->image4==null){
+                                $save = $this->saveImage($image['link']);
                                 $data->update([
-                                    'image4' => $image['link']
+                                    'image4' => $save
                                 ]);
                             }
                         }
@@ -166,7 +175,7 @@ class GenerateServices
             //         ]);
             //     }
             // }
-            // dd($data);
+            dd($data);
 
         // foreach ($getArtikel as $key) {
         //     // Membuat prompt untuk API
@@ -205,5 +214,35 @@ class GenerateServices
         //     }
 
         // }
+    }
+    private function saveImage($url){
+        $response = Http::get($url);
+            if($response->successful()){
+                $dateTime = now();
+                $randomString = Str::random(5);
+                // Mengambil ekstensi file
+                $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+                $filename = $dateTime->format('YmdHis').$randomString.".".$extension;
+                
+                $filePath = 'images_download/' . $filename;
+                // dd($filePath);
+
+                // Validasi path folder
+                if (!Storage::disk('public')->exists('images_download')) {
+                    // Membuat folder jika belum ada
+                    Storage::disk('public')->makeDirectory('images_download'); 
+                }
+
+                    // Simpan file ke folder 'public/images_download'
+                Storage::disk('public')->put($filePath, $response->body());
+                return $filename;
+            } else {
+                return null;
+            }
+    }
+    private function limit_words($string, $word_limit)
+    {
+        $words = explode(" ",$string);
+        return implode(" ",array_splice($words,0,$word_limit));
     }
 }
