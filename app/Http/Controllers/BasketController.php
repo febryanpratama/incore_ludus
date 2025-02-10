@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use App\Models\Articles;
 use App\Models\Engaging;
+use App\Models\ArticleClick;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,11 @@ class BasketController extends Controller
      */
     public function index()
     {
-        $categories = Categories::where('name', 'basket')->first();
+        $categories = Categories::where('name', 'basket')
+            ->orWhere('name', 'Football')
+            ->first();
+        $user = auth()->user(); // Get the authenticated user
+
         if($categories==!null){
             $articles = Articles::where('category_id', $categories->id)->latest()->paginate(7);
             $highlightPost = DB::table('artikels')
@@ -42,10 +47,31 @@ class BasketController extends Controller
                     ->skip(1)                   // Skip the first post (index starts at 0)
                     ->take(3)                   // Take the next 3 posts (2nd, 3rd, and 4th)
                     ->get();
+                    if($user!=null) {
+                        $articleClick = ArticleClick::where('category_id', $categories->id)->where('user_id', $user->id)->first();
+                        if($articleClick!=null){
+                            $recommendations = Articles::where('category_id', $categories->id)->latest()->paginate(2);
+                        } else {
+                            $recommendations = DB::table('artikels')
+                                ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                                ->where('artikels.category_id', $categories->id)
+                                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                                ->orderBy('engagings.count', 'desc')
+                                ->paginate(2);
+                        }
+                    } else {
+                        $recommendations = DB::table('artikels')
+                            ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                            ->where('artikels.category_id', $categories->id)
+                            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                            ->orderBy('engagings.count', 'desc')
+                            ->paginate(2);
+                    }
         } else {
             $articles = [];
             $highlightPost = [];
             $trendingPosts = [];
+            $recommendations = [];
             $sideHighlight = [];
         }
 
@@ -53,6 +79,7 @@ class BasketController extends Controller
             'articles' => $articles,
             'highlightPost' => $highlightPost,
             'sideHighlight' => $sideHighlight,
+            'recommendations' => $recommendations,
             'trendingPosts' => $trendingPosts
         ]);
     }
@@ -88,6 +115,17 @@ class BasketController extends Controller
     {
         $article = Articles::find($id);
         $eng = Engaging::where('artikel_id', $article->id)->first();
+        $user = auth()->user(); // Get the authenticated user
+        if($user!=null) {
+            $articleClick = ArticleClick::where('category_id', $article->category_id)->where('user_id', $user->id)->first();
+            if($articleClick==null){
+                $articleClick = ArticleClick::create([
+                    'user_id' => $user->id,
+                    'category_id' => $article->category_id,
+                    'clicked_at' => now()
+                ]);
+            }  
+        }
         if($eng==!null){
             $eng->update([
                 'count' => $eng->count + 1
@@ -108,6 +146,17 @@ class BasketController extends Controller
     {
         $article = Articles::find($id);
         $eng = Engaging::where('artikel_id', $article->id)->first();
+        $user = auth()->user(); // Get the authenticated user
+        if($user!=null) {
+            $articleClick = ArticleClick::where('category_id', $article->category_id)->where('user_id', $user->id)->first();
+            if($articleClick==null){
+                $articleClick = ArticleClick::create([
+                    'user_id' => $user->id,
+                    'category_id' => $article->category_id,
+                    'clicked_at' => now()
+                ]);
+            }  
+        }
         if($eng==!null){
             $eng->update([
                 'count' => $eng->count + 1
@@ -162,7 +211,7 @@ class BasketController extends Controller
         $categories = Categories::where('name', 'basket')->first();
         // Artikel baru dan yang sedang trending
         if($categories==!null){
-            $articles = Articles::where('category_id', $categories->id)->latest()->paginate(16);
+            $articles = Articles::where('category_id', $categories->id)->latest()->paginate(20);
         } else {
             $articles = [];
         }
@@ -180,13 +229,48 @@ class BasketController extends Controller
             ->where('artikels.category_id', $categories->id)
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
             ->orderBy('engagings.count', 'desc')
-            ->limit(40)
-            ->get();
+            ->paginate(20);;
         } else {
             $articles = [];
         }
         return view('basket.viewhighlight', [
             'articles' => $articles
+        ]);
+    }
+
+    public function viewRecommendation() {
+        $categories = Categories::where('name', 'basket')
+            ->orWhere('name', 'Basket')
+            ->first();
+        $user = auth()->user(); // Get the authenticated user
+
+        if($categories==!null){
+            if($user!=null){
+                $articleClick = ArticleClick::where('category_id', $categories->id)->where('user_id', $user->id)->first();
+                if($articleClick!=null){
+                    $recommendations = Articles::where('category_id', $categories->id)->latest()->paginate(2);
+                } else {
+                    $recommendations = DB::table('artikels')
+                        ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                        ->where('artikels.category_id', $categories->id)
+                        ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                        ->orderBy('engagings.count', 'desc')
+                        ->paginate(20);
+                }
+            } else {
+                $recommendations = DB::table('artikels')
+                    ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                    ->where('artikels.category_id', $categories->id)
+                    ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                    ->orderBy('engagings.count', 'desc')
+                    ->paginate(20);
+            }
+        } else {
+            $recommendations = [];
+        }
+
+        return view('basket.viewrecommendation', [
+            'recommendations' => $recommendations
         ]);
     }
 }
