@@ -66,13 +66,13 @@ Route::prefix('volley')->group(function(){
     Route::get('/{id}/volley', [VolleyController::class, 'show'])->name('volley.show');
     Route::get('/{id}/volley/series', [VolleyController::class, 'series'])->name('volley.series');
 });
-Route::prefix('materialarts')->group(function(){
-    Route::get('/', [MaterialArtsController::class, 'index'])->name('materialarts.index');
-    Route::get('/viewall/materialarts', [MaterialArtsController::class, 'viewAll'])->name('materialarts.viewall');
-    Route::get('/viewhighlight/materialarts', [MaterialArtsController::class, 'viewHighlight'])->name('materialarts.viewhighlight');
-    Route::get('/viewrecommendation/materialarts', [MaterialArtsController::class, 'viewRecommendation'])->name('materialarts.viewrecommendation');
-    Route::get('/{id}/materialarts', [MaterialArtsController::class, 'show'])->name('materialarts.show');
-    Route::get('/{id}/materialarts/series', [MaterialArtsController::class, 'series'])->name('materialarts.series');
+Route::prefix('martialarts')->group(function(){
+    Route::get('/', [MartialArtsController::class, 'index'])->name('martialarts.index');
+    Route::get('/viewall/martialarts', [MartialArtsController::class, 'viewAll'])->name('martialarts.viewall');
+    Route::get('/viewhighlight/martialarts', [MartialArtsController::class, 'viewHighlight'])->name('martialarts.viewhighlight');
+    Route::get('/viewrecommendation/martialarts', [MartialArtsController::class, 'viewRecommendation'])->name('martialarts.viewrecommendation');
+    Route::get('/{id}/martialarts', [MartialArtsController::class, 'show'])->name('martialarts.show');
+    Route::get('/{id}/martialarts/series', [MartialArtsController::class, 'series'])->name('martialarts.series');
 });
 Route::prefix('pencaksilat')->group(function(){
     Route::get('/', [SilatController::class, 'index'])->name('silat.index');

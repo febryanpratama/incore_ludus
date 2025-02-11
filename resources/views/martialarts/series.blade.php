@@ -59,14 +59,15 @@
                 <hr>
                 <h4>Related Tags</h4>
                 <!-- mengarah ke link sesuai kategori -->
-                <a href=""><span class="badge text-bg-secondary">Trending</span></a>
-                <a href=""><span class="badge text-bg-secondary">New</span></a>
-                <a href=""><span class="badge text-bg-secondary">Football</span></a>
-                <a href=""><span class="badge text-bg-secondary">Volley</span></a>
-                <a href=""><span class="badge text-bg-secondary">Badminton</span></a>
-                <a href=""><span class="badge text-bg-secondary">Taekwondo</span></a>
-                <a href=""><span class="badge text-bg-secondary">Karate</span></a>
-                <a href=""><span class="badge text-bg-secondary">Pencak Silat</span></a>
+                <a href="{{ route('welcome') }}"><span class="badge text-bg-secondary">Sports</span></a>
+                <a href="{{ route('football.index') }}"><span class="badge text-bg-secondary">Football</span></a>
+                <a href="{{ route('badminton.index') }}"><span class="badge text-bg-secondary">Badminton</span></a>
+                <a href="{{ route('basket.index') }}"><span class="badge text-bg-secondary">Basketball</span></a>
+                <a href="{{ route('volley.index') }}"><span class="badge text-bg-secondary">Volley</span></a>
+                <a href="{{ route('martialarts.index') }}"><span class="badge text-bg-secondary">Martial Arts and Others</span></a>
+                <a href="{{ route('taekwondo.index') }}"><span class="badge text-bg-secondary">Taekwondo</span></a>
+                <a href="{{ route('silat.index') }}"><span class="badge text-bg-secondary">Pencak Silat</span></a>
+                <a href="{{ route('karate.index') }}"><span class="badge text-bg-secondary">Karate</span></a>
             </div>
             <div class="col-3"></div>
         </div>

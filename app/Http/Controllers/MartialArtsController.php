@@ -23,6 +23,14 @@ class MartialArtsController extends Controller
             ->orWhere('name', 'martial arts')
             ->orWhere('name', 'Martial Arts')
             ->orWhere('name', 'Martial arts')
+            ->orWhere('name', 'taekwondo')
+            ->orWhere('name', 'Taekwondo')
+            ->orWhere('name', 'pencaksilat')
+            ->orWhere('name', 'pencak silat')
+            ->orWhere('name', 'Pencak Silat')
+            ->orWhere('name', 'Pencak silat')
+            ->orWhere('name', 'karate')
+            ->orWhere('name', 'Karate')
             ->first();
         $user = auth()->user();
         if($categories==!null){
@@ -206,13 +214,36 @@ class MartialArtsController extends Controller
         //
     }
 
-    public function viewAll(){
-        $categories = Categories::where('name', 'martialarts')->first();
-        // Artikel baru dan yang sedang trending
-        if($categories==!null){
-            $articles = Articles::where('category_id', $categories->id)->latest()->paginate(20);
+    public function viewAll(Request $request){
+        $categories = Categories::where('name', 'martialarts')
+            ->orWhere('name', 'martial arts')
+            ->orWhere('name', 'Martial Arts')
+            ->orWhere('name', 'Martial arts')
+            ->orWhere('name', 'taekwondo')
+            ->orWhere('name', 'Taekwondo')
+            ->orWhere('name', 'pencaksilat')
+            ->orWhere('name', 'pencak silat')
+            ->orWhere('name', 'Pencak Silat')
+            ->orWhere('name', 'Pencak silat')
+            ->orWhere('name', 'karate')
+            ->orWhere('name', 'Karate')
+            ->first();
+        if($request->search!=null){
+            if($categories==!null){
+                $articles = Articles::where('category_id', $categories->id)
+                    ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('highlight1', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('highlight2', 'LIKE', '%' . $request->search . '%')
+                    ->latest()->paginate(20);
+            } else {
+                $articles = [];
+            }
         } else {
-            $articles = [];
+            if($categories==!null){
+                $articles = Articles::where('category_id', $categories->id)->latest()->paginate(20);
+            } else {
+                $articles = [];
+            }
         }
         
         return view('martialarts.viewall', [
@@ -220,36 +251,119 @@ class MartialArtsController extends Controller
         ]);
     }
 
-    public function viewHighlight(){
-        $categories = Categories::where('name', 'martialarts')->first();
-        if($categories==!null){
-            $articles = DB::table('artikels')
-            ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
-            ->where('artikels.category_id', $categories->id)
-            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
-            ->orderBy('engagings.count', 'desc')
-            ->paginate(20);;
+    public function viewHighlight(Request $request){
+        $categories = Categories::where('name', 'martialarts')
+            ->orWhere('name', 'martial arts')
+            ->orWhere('name', 'Martial Arts')
+            ->orWhere('name', 'Martial arts')
+            ->orWhere('name', 'taekwondo')
+            ->orWhere('name', 'Taekwondo')
+            ->orWhere('name', 'pencaksilat')
+            ->orWhere('name', 'pencak silat')
+            ->orWhere('name', 'Pencak Silat')
+            ->orWhere('name', 'Pencak silat')
+            ->orWhere('name', 'karate')
+            ->orWhere('name', 'Karate')
+            ->first();
+        if($request->search!=null){
+            if($categories==!null){
+                $articles = DB::table('artikels')
+                ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                ->where('artikels.category_id', $categories->id)
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
+                ->where('artikels.headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('artikels.highlight1', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('artikels.highlight2', 'LIKE', '%' . $request->search . '%')
+                ->orderBy('engagings.count', 'desc')
+                ->paginate(20);
+            } else {
+                $articles = [];
+            }
         } else {
-            $articles = [];
+            if($categories==!null){
+                $articles = DB::table('artikels')
+                ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                ->where('artikels.category_id', $categories->id)
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
+                ->orderBy('engagings.count', 'desc')
+                ->paginate(20);
+            } else {
+                $articles = [];
+            }
         }
+
         return view('martialarts.viewhighlight', [
             'articles' => $articles
         ]);
     }
 
-    public function viewRecommendation() {
+    public function viewRecommendation(Request $request) {
         $categories = Categories::where('name', 'martialarts')
             ->orWhere('name', 'martial arts')
             ->orWhere('name', 'Martial Arts')
             ->orWhere('name', 'Martial arts')
+            ->orWhere('name', 'taekwondo')
+            ->orWhere('name', 'Taekwondo')
+            ->orWhere('name', 'pencaksilat')
+            ->orWhere('name', 'pencak silat')
+            ->orWhere('name', 'Pencak Silat')
+            ->orWhere('name', 'Pencak silat')
+            ->orWhere('name', 'karate')
+            ->orWhere('name', 'Karate')
             ->first();
         $user = auth()->user(); // Get the authenticated user
 
-        if($categories==!null){
-            if($user!=null){
-                $articleClick = ArticleClick::where('category_id', $categories->id)->where('user_id', $user->id)->first();
-                if($articleClick!=null){
-                    $recommendations = Articles::where('category_id', $categories->id)->latest()->paginate(2);
+        if($request->search!=null) {
+            if($categories==!null){
+                if($user!=null){
+                    $articleClick = ArticleClick::where('category_id', $categories->id)
+                        ->where('user_id', $user->id)
+                        ->first();
+                    if($articleClick!=null){
+                        $recommendations = Articles::where('category_id', $categories->id)
+                        ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('highlight1', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('highlight2', 'LIKE', '%' . $request->search . '%')
+                        ->latest()->paginate(2);
+                    } else {
+                        $recommendations = DB::table('artikels')
+                            ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                            ->where('artikels.category_id', $categories->id)
+                            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                            ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
+                            ->orWhere('highlight1', 'LIKE', '%' . $request->search . '%')
+                            ->orWhere('highlight2', 'LIKE', '%' . $request->search . '%')
+                            ->orderBy('engagings.count', 'desc')
+                            ->paginate(20);
+                    }
+                } else {
+                    $recommendations = DB::table('artikels')
+                        ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                        ->where('artikels.category_id', $categories->id)
+                        ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                        ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('highlight1', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('highlight2', 'LIKE', '%' . $request->search . '%')
+                        ->orderBy('engagings.count', 'desc')
+                        ->paginate(20);
+                }
+            } else {
+                $recommendations = [];
+            }
+        } else {
+            if($categories==!null){
+                if($user!=null){
+                    $articleClick = ArticleClick::where('category_id', $categories->id)->where('user_id', $user->id)->first();
+                    if($articleClick!=null){
+                        $recommendations = Articles::where('category_id', $categories->id)->latest()->paginate(2);
+                    } else {
+                        $recommendations = DB::table('artikels')
+                            ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                            ->where('artikels.category_id', $categories->id)
+                            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                            ->orderBy('engagings.count', 'desc')
+                            ->paginate(20);
+                    }
                 } else {
                     $recommendations = DB::table('artikels')
                         ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
@@ -259,15 +373,8 @@ class MartialArtsController extends Controller
                         ->paginate(20);
                 }
             } else {
-                $recommendations = DB::table('artikels')
-                    ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
-                    ->where('artikels.category_id', $categories->id)
-                    ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-                    ->orderBy('engagings.count', 'desc')
-                    ->paginate(20);
+                $recommendations = [];
             }
-        } else {
-            $recommendations = [];
         }
 
         return view('martialarts.viewrecommendation', [
