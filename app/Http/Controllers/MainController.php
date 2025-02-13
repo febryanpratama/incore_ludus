@@ -119,7 +119,7 @@ class MainController extends Controller
             ->orderBy('engagings.count', 'desc')
             ->limit(3)
             ->get();
-        if(count($baskets)==0){
+        if(count($baskets)<30){
             $baskets = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
@@ -143,7 +143,7 @@ class MainController extends Controller
             ->orderBy('engagings.count', 'desc')
             ->limit(3)
             ->get();
-        if(count($volleys)==0){
+        if(count($volleys)<3){
             $volleys = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
@@ -177,7 +177,7 @@ class MainController extends Controller
             ->orderBy('engagings.count', 'desc')
             ->limit(3)
             ->get();
-        if(count($martialarts)==0){
+        if(count($martialarts)<3){
             $martialarts = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
