@@ -29,6 +29,7 @@ class GenerateServices
         $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 300 kata mengenai ".$topic.", dibagi menjadi dua paragraf, dengan ketentuan yaitu ada headline utama artikel, highlight 1 maksimal 300 huruf, paragraf 1 maksimal 370 huruf, paragraf 2 maksimal 290 huruf, highlight 2 maksimal 150 huruf, paragraf 3 maksimal 320 huruf, dan paragraf 4 maksimal 500 huruf. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"headlineUtamaArtikel\": \"\",\"highlight1\": \"\", \"paragraf1\": \"\",\"paragraf2\": \"\", \"highlight2\": \"\", \"paragraf3\": \"\", \"paragraf4\":} tanpa ada tag html";
         $response = $api->post('/api/generate/text', $prompt);
 
+        // dd($response);
         // Respons mentah dari API
         $rawResponse = $response['data']['response'];
 
@@ -52,12 +53,12 @@ class GenerateServices
             $artikel->save();
 
             // Debugging (opsional)
-            dd($artikel);
+            // dd($artikel);
             // dd($jsonObject);
         } catch (\Exception $e) {
             // Tangani error
             // continue;
-            dd($e->getMessage());
+            // dd($e->getMessage());
         }
     }
 
