@@ -32,6 +32,7 @@ a {
 .pg1 .row1 .col-6 {
     color: #fff;
     background-color: rgba(255, 255, 255, 0.2);
+    max-height: 90vh;
     
 }
 
@@ -43,6 +44,12 @@ a {
 
 .pg1 .row1 .col-6 .card .card-body .card-text {
     margin-right: 10%;
+}
+
+.pg1 .row1 .col-6 .card .row .col-4 img {
+    max-width: 166px;
+    width: 100%;
+    max-height: 145px;
 }
 
 .pg2 .row .col-4 {
@@ -84,6 +91,11 @@ a {
 }
 .pg3 .row .col-7, .pg4 .row .col-7, .pg5 .row .col-7,.pg6 .row .col-7 {
     margin: auto 0px;
+}
+.pg3 .row .col-7 .row .col-4 img, .pg4 .row .col-7 .row .col-4 img, .pg5 .row .col-7 .row .col-4 img  {
+    max-width: 250px;
+    width: 100%;
+    max-height: 357px;
 }
 .pg3 .row .col-7 h5, .pg4 .row .col-7 h5, .pg5 .row .col-7 h5, .pg6 .row .col-7 h5 {
     margin-top: -40px;
@@ -192,6 +204,12 @@ a {
 }
 .navbar .container-fluid .bt1 {
     margin-left: -65%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-radius: 24px;
+}
+.navbar .container-fluid .bt3 {
+    margin-right: 84%;
     margin-top: 2%;
     margin-bottom: 2%;
     border-radius: 24px;

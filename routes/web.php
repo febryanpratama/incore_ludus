@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FootballController;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\BadmintonController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\VolleyController;
@@ -23,9 +24,10 @@ use App\Http\Controllers\GenerateController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
+Route::get('/', [MainController::class, 'index'])->name('welcome');
 Route::get('/signup', function () {
     return view('signup');
 })->name('signup');

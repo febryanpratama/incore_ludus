@@ -17,7 +17,7 @@ class SilatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $categories = Categories::where('name', 'pencaksilat')
             ->orWhere('name', 'pencak silat')
@@ -26,7 +26,13 @@ class SilatController extends Controller
             ->first();
         $user = auth()->user();
         if($categories==!null){
-            $articles = Articles::where('category_id', $categories->id)->latest()->paginate(7);
+            if($request->search!=null){
+                $articles = Articles::where('category_id', $categories->id)
+                    ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
+                    ->latest()->paginate(7);
+            } else {
+                $articles = Articles::where('category_id', $categories->id)->latest()->paginate(7);
+            }
             $highlightPost = DB::table('artikels')
                     ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
                     ->where('artikels.category_id', $categories->id)
@@ -41,33 +47,33 @@ class SilatController extends Controller
                     ->limit(7)
                     ->get();
             $sideHighlight = DB::table('artikels')
+                ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                ->where('artikels.category_id', $categories->id)
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+                ->orderBy('engagings.count', 'desc')
+                ->skip(1)                   // Skip the first post (index starts at 0)
+                ->take(3)                   // Take the next 3 posts (2nd, 3rd, and 4th)
+                ->get();
+            if($user!=null) {
+                $articleClick = ArticleClick::where('category_id', $categories->id)->where('user_id', $user->id)->first();
+                if($articleClick!=null){
+                    $recommendations = Articles::where('category_id', $categories->id)->latest()->paginate(2);
+                } else {
+                    $recommendations = DB::table('artikels')
+                        ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                        ->where('artikels.category_id', $categories->id)
+                        ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                        ->orderBy('engagings.count', 'desc')
+                        ->paginate(2);
+                }
+            } else {
+                $recommendations = DB::table('artikels')
                     ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
                     ->where('artikels.category_id', $categories->id)
-                    ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+                    ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                     ->orderBy('engagings.count', 'desc')
-                    ->skip(1)                   // Skip the first post (index starts at 0)
-                    ->take(3)                   // Take the next 3 posts (2nd, 3rd, and 4th)
-                    ->get();
-                    if($user!=null) {
-                        $articleClick = ArticleClick::where('category_id', $categories->id)->where('user_id', $user->id)->first();
-                        if($articleClick!=null){
-                            $recommendations = Articles::where('category_id', $categories->id)->latest()->paginate(2);
-                        } else {
-                            $recommendations = DB::table('artikels')
-                                ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
-                                ->where('artikels.category_id', $categories->id)
-                                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-                                ->orderBy('engagings.count', 'desc')
-                                ->paginate(2);
-                        }
-                    } else {
-                        $recommendations = DB::table('artikels')
-                            ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
-                            ->where('artikels.category_id', $categories->id)
-                            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-                            ->orderBy('engagings.count', 'desc')
-                            ->paginate(2);
-                    }
+                    ->paginate(2);
+            }
         } else {
             $articles = [];
             $highlightPost = [];
@@ -218,8 +224,6 @@ class SilatController extends Controller
             if($categories==!null){
                 $articles = Articles::where('category_id', $categories->id)
                     ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
-                    ->orWhere('highlight1', 'LIKE', '%' . $request->search . '%')
-                    ->orWhere('highlight2', 'LIKE', '%' . $request->search . '%')
                     ->latest()->paginate(20);
             } else {
                 $articles = [];
@@ -248,10 +252,8 @@ class SilatController extends Controller
                 $articles = DB::table('artikels')
                 ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
                 ->where('artikels.category_id', $categories->id)
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                 ->where('artikels.headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('artikels.highlight1', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('artikels.highlight2', 'LIKE', '%' . $request->search . '%')
                 ->orderBy('engagings.count', 'desc')
                 ->paginate(20);
             } else {
@@ -262,7 +264,7 @@ class SilatController extends Controller
                 $articles = DB::table('artikels')
                 ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
                 ->where('artikels.category_id', $categories->id)
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                 ->orderBy('engagings.count', 'desc')
                 ->paginate(20);
             } else {
@@ -292,8 +294,6 @@ class SilatController extends Controller
                     if($articleClick!=null){
                         $recommendations = Articles::where('category_id', $categories->id)
                         ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('highlight1', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('highlight2', 'LIKE', '%' . $request->search . '%')
                         ->latest()->paginate(2);
                     } else {
                         $recommendations = DB::table('artikels')
@@ -301,8 +301,6 @@ class SilatController extends Controller
                             ->where('artikels.category_id', $categories->id)
                             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                             ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
-                            ->orWhere('highlight1', 'LIKE', '%' . $request->search . '%')
-                            ->orWhere('highlight2', 'LIKE', '%' . $request->search . '%')
                             ->orderBy('engagings.count', 'desc')
                             ->paginate(20);
                     }
@@ -312,8 +310,6 @@ class SilatController extends Controller
                         ->where('artikels.category_id', $categories->id)
                         ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                         ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('highlight1', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('highlight2', 'LIKE', '%' . $request->search . '%')
                         ->orderBy('engagings.count', 'desc')
                         ->paginate(20);
                 }

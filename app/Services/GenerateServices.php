@@ -13,9 +13,9 @@ class GenerateServices
     public function generateArtikel()
     {
         // 
-        // $topic = "masa remaja Cristiano Ronaldo";
+        $topic = "Tangerang Hawks Basketball Club";
         // $topic = "Pemain voli megawati";
-        $topic = "Badminton Jonatan Cristie";
+        // $topic = "Badminton Jonatan Cristie";
 
         // dd($topic);
 

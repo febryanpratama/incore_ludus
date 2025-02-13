@@ -15,7 +15,7 @@
             <h5>Suggestions</h5>
         </div>
         <div class="col-8">
-            <a href="{{ route('welcome.index') }}"><span class="badge text-bg-secondary">Sports</span></a>
+            <a href="{{ route('welcome') }}"><span class="badge text-bg-secondary">Sports</span></a>
             <a href="{{ route('football.index') }}"><span class="badge text-bg-secondary">Football</span></a>
             <a href="{{ route('badminton.index') }}"><span class="badge text-bg-secondary">Badminton</span></a>
             <a href="{{ route('basket.index') }}"><span class="badge text-bg-secondary">Basketball</span></a>
