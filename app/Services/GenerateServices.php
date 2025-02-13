@@ -176,7 +176,7 @@ class GenerateServices
             //         ]);
             //     }
             // }
-            dd($data);
+            // dd($data);
 
         // foreach ($getArtikel as $key) {
         //     // Membuat prompt untuk API
