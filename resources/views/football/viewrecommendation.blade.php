@@ -28,7 +28,7 @@
     </div>
     <!-- Data artikel terbaru dan yang sedang trending -->
     <div class="row row-cols-lg-4">
-        @if($recommendations->isEmpty())
+        @if($recommendations==null)
             <p>Data Kosong</p>
         @else 
             @foreach ($recommendations as $article)

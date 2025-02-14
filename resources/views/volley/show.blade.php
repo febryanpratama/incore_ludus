@@ -1,4 +1,4 @@
-div@extends('layout.app')
+@extends('layout.app')
 
 @section('content')
 <!-- Title and Image Content -->
@@ -27,7 +27,7 @@ div@extends('layout.app')
             <div class="col-6">
                 <div class="header">
                     <img src="{{asset('/img/Profile.png')}}" alt="">
-                    <p>By Ludus <br> <span>{{date_format($article->created_at,"d M Y")}}<span></p>
+                    <p>By Admin <br> <span>{{date_format($article->created_at,"d M Y")}}<span></p>
                     <hr>
                 </div>
                 <h2>{{$article->highlight1}}</h2>
@@ -86,7 +86,6 @@ div@extends('layout.app')
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd" clip-rule="evenodd" d="M27.2259 10.3505C27.2357 10.6031 27.239 10.8556 27.239 11.1083C27.239 18.767 21.8515 27.6085 11.9995 27.6085C8.97315 27.6085 6.15909 26.644 3.78809 25.002C4.2072 25.048 4.63286 25.0825 5.06503 25.0825C7.57429 25.0825 9.88542 24.1522 11.7186 22.5906C9.37486 22.5562 7.39577 20.8683 6.71321 18.5718C7.04088 18.6407 7.37832 18.6752 7.72342 18.6752C8.21003 18.6752 8.68248 18.6064 9.13535 18.4686C6.6827 17.9404 4.83534 15.5981 4.83534 12.7849C4.83534 12.7505 4.83534 12.7389 4.83534 12.716C5.55818 13.1408 6.38551 13.4048 7.26402 13.4392C5.82488 12.3943 4.87886 10.6146 4.87886 8.60518C4.87886 7.5488 5.1423 6.54979 5.60605 5.68861C8.24703 9.20221 12.1955 11.5102 16.6468 11.7513C16.5554 11.3265 16.5085 10.8788 16.5085 10.431C16.5085 7.22739 18.9067 4.63232 21.8656 4.63232C23.406 4.63232 24.7972 5.33285 25.7737 6.45812C26.9962 6.20551 28.1415 5.72328 29.1778 5.05731C28.7761 6.41222 27.9281 7.54874 26.8199 8.26065C27.9041 8.12286 28.9383 7.81307 29.8974 7.35378C29.1778 8.5135 28.2721 9.53527 27.2259 10.3505Z" fill="#060606"/></svg>
 
-                
 
             </div>
             <div class="col-3"></div>
@@ -97,40 +96,38 @@ div@extends('layout.app')
 <div class="container-fluid d-pg3">
     <h2>You May Also Interested</h2>
     <div class="row">
-        @for($i=1;$i<=4;$i++)
-        <div class="col-3">
-            <div class="card">
-                <img src="{{asset('img/image-football-pg-2-'.$i.'.png')}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <span class="badge text-bg-danger">Tranding</span>
-                    <span class="badge text-bg-secondary">Volley</span>
-                    <!-- Button trigger modal -->
-                    <a href="#" type="button" class="btn btn-danger report" data-bs-toggle="modal" data-bs-target="#reportModal">
-                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
-                    </a>
-                    <h5 class="card-title">The Big Australian Music Festival Is Dead. What Next?</h5>
-                    <p class="card-text">12 Feb 2024</p>
-                    <ul>
-                        <li>By Admin</li>
-                    </ul>
+        @if($recommendations==null)
+            <p>Data Kosong</p>
+        @else
+            @foreach($recommendations as $i => $rec)
+            <div class="col-3">
+                <div class="card">
+                    <img src="{{ asset('storage/images_download/'.$rec->image1) }}" class="card-img-top" alt="{{$rec->headlineUtamaArtikel}}">
+                    <div class="card-body">
+                        <span class="badge text-bg-secondary">Volley</span>
+                        <!-- Button trigger modal -->
+                        <a href="#" type="button" class="btn btn-danger report" data-bs-toggle="modal" data-bs-target="#reportModal">
+                            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
+                        </a>
+                        @if($article->type=='series')
+                        <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('volley.series', $article->id)}}">{{$article->headlineUtamaArtikel}}</a></h5>
+                        @else
+                        <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('volley.show', $article->id)}}">{{$article->headlineUtamaArtikel}}</a></h5>
+                        @endif
+                        <p class="card-text">{{date_format($article->created_at,"d M Y")}}</p>
+                        <ul>
+                            <li>By Admin</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        @endfor
+            @endforeach
+        @endif
     </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-            <a class="page-link">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
+    <div class="mt-4">
+
+        {{$recommendations->links()}}
+    </div>
 </div>
 @endsection

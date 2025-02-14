@@ -27,7 +27,7 @@
             <div class="col-6">
                 <div class="header">
                     <img src="{{asset('/img/Profile.png')}}" alt="">
-                    <p>By Ludus <br> <span>{{date_format($article->created_at,"d M Y")}}<span></p>
+                    <p>By Admin <br> <span>{{date_format($article->created_at,"d M Y")}}<span></p>
                     <hr>
                 </div>
                 <h2>{{$article->highlight1}}</h2>
@@ -97,40 +97,38 @@
 <div class="container-fluid d-pg3">
     <h2>You May Also Interested</h2>
     <div class="row">
-        @for($i=1;$i<=4;$i++)
-        <div class="col-3">
-            <div class="card">
-                <img src="{{asset('img/image-football-pg-2-'.$i.'.png')}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <span class="badge text-bg-danger">Tranding</span>
-                    <span class="badge text-bg-secondary">Pencak Silat</span>
-                    <!-- Button trigger modal -->
-                    <a href="#" type="button" class="btn btn-danger report" data-bs-toggle="modal" data-bs-target="#reportModal">
-                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
-                    </a>
-                    <h5 class="card-title">The Big Australian Music Festival Is Dead. What Next?</h5>
-                    <p class="card-text">12 Feb 2024</p>
-                    <ul>
-                        <li>By Admin</li>
-                    </ul>
+        @if($recommendations==null)
+            <p>Data Kosong</p>
+        @else
+            @foreach($recommendations as $i => $rec)
+            <div class="col-3">
+                <div class="card">
+                    <img src="{{ asset('storage/images_download/'.$rec->image1) }}" class="card-img-top" alt="{{$rec->headlineUtamaArtikel}}">
+                    <div class="card-body">
+                        <span class="badge text-bg-secondary">Pencak Silat</span>
+                        <!-- Button trigger modal -->
+                        <a href="#" type="button" class="btn btn-danger report" data-bs-toggle="modal" data-bs-target="#reportModal">
+                            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
+                        </a>
+                        @if($article->type=='series')
+                        <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('silat.series', $article->id)}}">{{$article->headlineUtamaArtikel}}</a></h5>
+                        @else
+                        <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('silat.show', $article->id)}}">{{$article->headlineUtamaArtikel}}</a></h5>
+                        @endif
+                        <p class="card-text">{{date_format($article->created_at,"d M Y")}}</p>
+                        <ul>
+                            <li>By Admin</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        @endfor
+            @endforeach
+        @endif
     </div>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-            <a class="page-link">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
+    <div class="mt-4">
+
+        {{$recommendations->links()}}
+    </div>
 </div>
 @endsection

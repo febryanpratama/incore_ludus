@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-6 overflow-y-auto">
                     <h3>Popular this week</h3>
-                    @if($trendingPosts->isEmpty())
+                    @if($trendingPosts==null)
                         <p>Data Kosong</p>
                     @else 
                         @foreach($trendingPosts as $trending)
@@ -101,7 +101,7 @@
                             </div>
                         </div>
                         @endif
-                        @if($footballs->isEmpty())
+                        @if($footballs==null)
                         <p>Data Kosong</p>
                         @else 
                             @foreach($footballs as $fb)
@@ -145,7 +145,7 @@
         <div class="row">
             <div class="col-7">
                 <div class="row">
-                    @if($badmintons->isEmpty())
+                    @if($badmintons==null)
                         <p>Data Kosong</p>
                     @else 
                         @foreach($badmintons as $bm)

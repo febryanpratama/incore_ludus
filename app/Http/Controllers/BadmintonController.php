@@ -34,29 +34,47 @@ class BadmintonController extends Controller
             }
 
             $highlightPost = DB::table('artikels')
-                    ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
-                    ->where('artikels.category_id', $categories->id)
-                    ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
-                    ->orderBy('engagings.count', 'desc')
-                    ->first();
+                ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
+                ->where('artikels.category_id', $categories->id) // Filter by specific category
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(14)) // Filter articles from last 14 days
+                ->select(
+                    'artikels.*', 
+                    'categories.name as category_name', // Example of selecting category name
+                    'engagings.count as engagements_count' // Selecting the actual engagements count column
+                )
+                ->orderByDesc('engagings.count') // Correctly order by engagements count
+                ->first(); // Get the most engaged article
+            
             $trendingPosts = DB::table('artikels')
-                    ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
-                    ->where('artikels.category_id', $categories->id)
-                    ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
-                    ->orderBy('engagings.count', 'desc')
-                    // ->limit(3)
-                    // ->get();
-                    ->skip(4)                   // Skip the first post (index starts at 0)
-                    ->take(3)                   // Take the next 3 posts (2nd, 3rd, and 4th)
-                    ->get();
+                ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+                ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
+                ->where('artikels.category_id', $categories->id) // Filter by specific category
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(14)) // Filter articles from last 14 days
+                ->select(
+                    'artikels.*', 
+                    'categories.name as category_name', // Example of selecting category name
+                    'engagings.count as engagements_count' // Selecting the actual engagements count column
+                )
+                ->orderByDesc('engagings.count') // Correctly order by engagements count
+                ->skip(4)                   // Skip the first post (index starts at 0)
+                ->take(3)                   // Take the next 3 posts (2nd, 3rd, and 4th)
+                ->get();
             $sideHighlight = DB::table('artikels')
                 ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
-                ->where('artikels.category_id', $categories->id)
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
-                ->orderBy('engagings.count', 'desc')
+                ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
+                ->where('artikels.category_id', $categories->id) // Filter by specific category
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(14)) // Filter articles from last 14 days
+                ->select(
+                    'artikels.*', 
+                    'categories.name as category_name', // Example of selecting category name
+                    'engagings.count as engagements_count' // Selecting the actual engagements count column
+                )
+                ->orderByDesc('engagings.count') // Correctly order by engagements count
                 ->skip(1)                   // Skip the first post (index starts at 0)
                 ->take(3)                   // Take the next 3 posts (2nd, 3rd, and 4th)
                 ->get();
+                
             if($user!=null) {
                 $articleClick = ArticleClick::where('category_id', $categories->id)->where('user_id', $user->id)->first();
                 if($articleClick!=null){
@@ -147,12 +165,19 @@ class BadmintonController extends Controller
             ]);
         }
 
+        $recommendations = DB::table('artikels')
+            ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+            ->orderBy('artikels.created_at', 'desc')
+            ->paginate(4);
+
         return view('badminton.show', [
-            'article' => $article
+            'article' => $article,
+            'recommendations' => $recommendations
         ]);
     }
 
-    public function series($id)
+    public function series($id, Request $request)
     {
         $article = Articles::find($id);
         $eng = Engaging::where('artikel_id', $article->id)->first();
@@ -165,8 +190,14 @@ class BadmintonController extends Controller
                     'category_id' => $article->category_id,
                     'clicked_at' => now()
                 ]);
-            }  
+            } 
         }
+        $recommendations = DB::table('artikels')
+            ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+            ->orderBy('artikels.created_at', 'desc')
+            ->paginate(4);
+            // dd($recommendations);
         if($eng==!null){
             $eng->update([
                 'count' => $eng->count + 1
@@ -178,9 +209,47 @@ class BadmintonController extends Controller
             ]);
         }
 
+        // Get the current page from the query parameter (default to 1 if not provided)
+        $currentPage = $request->input('number', 1);
+
+        // Get the previous and next articles based on the categories
+        $previousArticle = Articles::where('category_id', $article->category_id)
+            ->where('type', 'series')
+            ->where('id', '<', $article->id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $nextArticle = Articles::where('category_id', $article->category_id)
+            ->where('type', 'series')
+            ->where('id', '>', $article->id)
+            ->orderBy('id', 'asc')
+            ->first();
+        
+        // Get the page numbers for previous and next
+        $previousPage = $previousArticle ? $this->getPageForArticle($previousArticle->id, $currentPage) : null;
+        $nextPage = $nextArticle ? $this->getPageForArticle($nextArticle->id, $currentPage) : null;
+
+
         return view('badminton.series', [
-            'article' => $article
+            'article' => $article,
+            'recommendations' => $recommendations,
+            'previousArticle' => $previousArticle,
+            'nextArticle' => $nextArticle,
+            'previousPage' => $previousPage,
+            'nextPage' => $nextPage
         ]);
+    }
+
+    // Helper function to calculate the page number of an article based on its ID
+    protected function getPageForArticle($articleId, $currentPage)
+    {
+        $perPage = 1; // Number of articles per page
+
+        // Count how many articles are before the current article (with ID less than $articleId)
+        $articleIndex = Articles::where('id', '<', $articleId)->count();
+
+        // Calculate the page number based on the article index
+        return (int) floor($articleIndex / $perPage) + 1;
     }
 
     /**

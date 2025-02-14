@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Articles extends Model
 {
     protected $table    = 'artikels';
-    protected $guarded  = [];
+    protected $guarded  = ['id'];
 
     public function category()
     {
