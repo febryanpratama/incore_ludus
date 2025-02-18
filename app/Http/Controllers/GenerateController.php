@@ -18,6 +18,13 @@ class GenerateController extends Controller
         $this->generateServices = $generateServices;
     }
 
+    public function generateTitle()
+    {
+        $resp = $this->generateServices->generateTitle();
+
+        return response()->json($resp);
+    }
+
     public function generateArtikel()
     {
 

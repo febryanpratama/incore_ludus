@@ -18,6 +18,7 @@ class CreateTopicsTable extends Migration
             $table->integer('category_id');
             $table->text('topic_name');
             $table->text('slug');
+            $table->enum('is_generated', ['Y', 'N'])->default('N');
             $table->softDeletes();
             $table->timestamps();
         });

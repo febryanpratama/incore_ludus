@@ -7,23 +7,98 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Core\AiApi;
 use App\Models\Artikel;
+use App\Models\Categories;
+use App\Models\Topic;
 
 class GenerateServices
 {
+    public function generateTitle()
+    {
+        $cat = $this->_getRandomCategory();
+
+        // dd($cat->name);
+        $this->fetchTitle($cat->name, $cat->id);
+
+        return true;
+    }
+
+    private function _getRandomCategory()
+    {
+        $data = Categories::all();
+
+        $randomCategory = $data->random();
+
+        return $randomCategory;
+    }
+
+    public function fetchTitle($cat, $cat_id)
+    {
+        $api = new AiApi();
+        $prompt = "buatkan 5 title artikel web yang sedang populer saat ini dengan deskripsi website terkait informasi seputar olahraga / sport terkini baik itu selebgram, artis sport maupun lain sebagainya berdasarkan kategori ".$cat.". dan tolong sajikan dalam bentuk json seperti ini{ \"title1\": \"\",\"title2\": \"\", \"title3\": \"\",\"title4\": \"\", \"title5\": \"\":}";
+    
+        $response = $api->post('/api/generate/text', $prompt);
+
+        $rawResponse = $response['data']['response'];
+
+        try {
+            $jsonObject = $this->extractJsonObject($rawResponse);
+
+            // dd($jsonObject);
+            foreach ($jsonObject as $key => $value) {
+                // $artikel = new Artikel();
+                // $artikel->title = $value;
+                // $artikel->save();
+                $topic = new Topic();
+
+                $topic->category_id = $cat_id;
+                $topic->topic_name = $value;
+                $topic->slug = Str::slug($value);
+
+                $topic->save();
+            }
+
+
+        } catch (\Exception $e) {
+            // Tangani error
+            // continue;
+            // dd($e->getMessage());
+        }
+    }
+
+
     public function generateArtikel()
     {
         // 
-        $topic = "Tangerang Hawks Basketball Club";
+        // $topic = "Tangerang Hawks Basketball Club";
         // $topic = "Pemain voli megawati";
         // $topic = "Badminton Jonatan Cristie";
 
         // dd($topic);
 
-        $resp = $this->fetchArtikel($topic);
+        $topic = $this->_fetchTopicRandom();
+        // dd($topic);
+
+        $resp = $this->fetchArtikel($topic->topic_name, $topic->category_id);
+
+        $topic->update([
+            'is_generated' => 'Y'
+        ]);
+
+
+    }
+
+    private function _fetchTopicRandom()
+    {
+        $data = Topic::all();
+
+        $randomTopic = $data->random();
+
+        return $randomTopic;
     }
 
 
-    private function fetchArtikel($topic)
+
+    private function fetchArtikel($topic, $category_id)
     {
         $api = new AiApi();
         $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 300 kata mengenai ".$topic.", dibagi menjadi dua paragraf, dengan ketentuan yaitu ada headline utama artikel, highlight 1 maksimal 300 huruf, paragraf 1 maksimal 370 huruf, paragraf 2 maksimal 290 huruf, highlight 2 maksimal 150 huruf, paragraf 3 maksimal 320 huruf, dan paragraf 4 maksimal 500 huruf. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"headlineUtamaArtikel\": \"\",\"highlight1\": \"\", \"paragraf1\": \"\",\"paragraf2\": \"\", \"highlight2\": \"\", \"paragraf3\": \"\", \"paragraf4\":} tanpa ada tag html";
@@ -36,13 +111,10 @@ class GenerateServices
         try {
             $jsonObject = $this->extractJsonObject($rawResponse);
 
-            // dd($jsonObject);
-
-
-            // Simpan artikel ke database
 
             $artikel = new Artikel();
 
+            $artikel->category_id = $category_id;
             $artikel->headlineUtamaArtikel = $jsonObject['headlineUtamaArtikel'];
             $artikel->highlight1 = $jsonObject['highlight1'];
             $artikel->paragraf1 = $jsonObject['paragraf1'];
@@ -52,9 +124,6 @@ class GenerateServices
             $artikel->paragraf4 = $jsonObject['paragraf4'];
             $artikel->save();
 
-            // Debugging (opsional)
-            // dd($artikel);
-            // dd($jsonObject);
         } catch (\Exception $e) {
             // Tangani error
             // continue;
