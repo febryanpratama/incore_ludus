@@ -79,7 +79,7 @@ class AiApi
             // dd($data);
             $result =  Http::withOptions(
                 [
-                    'verify' => false,
+                    'verify' => storage_path('cacert.pem'),
                 ]
             )->withHeaders(
                 [
@@ -90,7 +90,7 @@ class AiApi
             )->post($url, $listdata);
 
             $resData = json_decode($result, true);
-
+            // dd($result);
             // dd($resData['result']['response']);
 
             if ($resData['status'] == true) {

@@ -160,11 +160,14 @@ class GenerateServices
 
     public function generateImage()
     {
-        $getArtikel = Artikel::whereNull('image1')
+        $getArtikel = Artikel::where('id', 65)
+            ->whereNull('image1')
             ->whereNull('image2')
             ->whereNull('image3')
             ->whereNull('image4')
             ->first();
+
+        // dd($getArtikel);
 
         $respImage = $this->fetchImage($getArtikel);
 
@@ -195,45 +198,52 @@ class GenerateServices
             //  dd($response);
             
             foreach($response['data'] as $image){
-                if(strpos($image['link'], 'jpg')||strpos($image['link'], 'png')||strpos($image['link'], 'jpeg')||strpos($image['link'], 'JPG')||strpos($image['link'], 'PNG')||strpos($image['link'], 'JPEG') ){
-                    $string = strtolower($image['title']);
-                    $kataArray = explode(" ", $string);
-                    $katacari = explode(" ", strtolower($name));
-                    // var_dump($kataArray);
-                    // var_dump($katacari);
-                    // print_r(array_intersect($katacari, $kataArray));
-                    // print_r(count(array_intersect($katacari, $kataArray)));
-                    
-                    if (array_intersect($katacari, $kataArray)!=[]) {
-                        if(count(array_intersect($katacari, $kataArray))!=0 && count(array_intersect($katacari, $kataArray))<=4){
-                            // print_r($image);
-                            if($data->image1==null){
-                                $save = $this->saveImage($image['link']);
-                                    $data->update([
-                                        'image1' => $save
-                                    ]);
+                // try {
+                    //code...
+                    if(strpos($image['link'], 'jpg')||strpos($image['link'], 'png')||strpos($image['link'], 'jpeg')||strpos($image['link'], 'JPG')||strpos($image['link'], 'PNG')||strpos($image['link'], 'JPEG') ){
+                        $string = strtolower($image['title']);
+                        $kataArray = explode(" ", $string);
+                        $katacari = explode(" ", strtolower($name));
+                        // var_dump($kataArray);
+                        // var_dump($katacari);
+                        // print_r(array_intersect($katacari, $kataArray));
+                        // print_r(count(array_intersect($katacari, $kataArray)));
+                        
+                        if (array_intersect($katacari, $kataArray)!=[]) {
+                            if(count(array_intersect($katacari, $kataArray))!=0 && count(array_intersect($katacari, $kataArray))<=4){
 
-                            } elseif($data->image2==null){
-                                $save = $this->saveImage($image['link']);
-                                $data->update([
-                                    'image2' => $save
-                                ]);
-                            } elseif($data->image3==null){
-                                $save = $this->saveImage($image['link']);
-                                $data->update([
-                                    'image3' => $save
-                                ]);
-                            } elseif($data->image4==null){
-                                $save = $this->saveImage($image['link']);
-                                $data->update([
-                                    'image4' => $save
-                                ]);
+                                // print_r($image);
+                                if($data->image1==null){
+                                    $save = $this->saveImage($image['link']);
+                                        $data->update([
+                                            'image1' => $save
+                                        ]);
+    
+                                } elseif($data->image2==null){
+                                    $save = $this->saveImage($image['link']);
+                                    $data->update([
+                                        'image2' => $save
+                                    ]);
+                                } elseif($data->image3==null){
+                                    $save = $this->saveImage($image['link']);
+                                    $data->update([
+                                        'image3' => $save
+                                    ]);
+                                } elseif($data->image4==null){
+                                    $save = $this->saveImage($image['link']);
+                                    $data->update([
+                                        'image4' => $save
+                                    ]);
+                                }
                             }
+                        } else {
+                            // echo "Kata tidak ditemukan dalam string.";
                         }
-                    } else {
-                        // echo "Kata tidak ditemukan dalam string.";
                     }
-                }
+                // } catch (\Throwable $th) {
+                //     //throw $th;
+                //     continue;
+                // }
             }
             // dd();
             // if(count($response['data'])>=4){
