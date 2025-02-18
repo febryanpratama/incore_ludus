@@ -9,6 +9,7 @@ use App\Core\AiApi;
 use App\Models\Artikel;
 use App\Models\Categories;
 use App\Models\Topic;
+use Illuminate\Support\Facades\File;
 
 class GenerateServices
 {
@@ -300,31 +301,59 @@ class GenerateServices
 
         // }
     }
-    private function saveImage($url){
-        $response = Http::get($url);
-            if($response->successful()){
-                $dateTime = now();
-                $randomString = Str::random(5);
-                // Mengambil ekstensi file
-                $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
-                $filename = $dateTime->format('YmdHis').$randomString.".".$extension;
+    // private function saveImage($url){
+    //     $response = Http::get($url);
+    //         if($response->successful()){
+    //             $dateTime = now();
+    //             $randomString = Str::random(5);
+    //             // Mengambil ekstensi file
+    //             $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+    //             $filename = $dateTime->format('YmdHis').$randomString.".".$extension;
                 
-                $filePath = 'images_download/' . $filename;
-                // dd($filePath);
+    //             $filePath = 'images_download/' . $filename;
+    //             // dd($filePath);
 
-                // Validasi path folder
-                if (!Storage::disk('public')->exists('images_download')) {
-                    // Membuat folder jika belum ada
-                    Storage::disk('public')->makeDirectory('images_download'); 
-                }
+    //             // Validasi path folder
+    //             if (!Storage::disk('public')->exists('images_download')) {
+    //                 // Membuat folder jika belum ada
+    //                 Storage::disk('public')->makeDirectory('images_download'); 
+    //             }
 
-                    // Simpan file ke folder 'public/images_download'
-                Storage::disk('public')->put($filePath, $response->body());
-                return $filename;
-            } else {
-                return null;
+    //                 // Simpan file ke folder 'public/images_download'
+    //             Storage::disk('public')->put($filePath, $response->body());
+    //             return $filename;
+    //         } else {
+    //             return null;
+    //         }
+    // }
+
+    private function saveImage($url)
+    {
+        $response = Http::get($url);
+        if ($response->successful()) {
+            $dateTime = now();
+            $randomString = Str::random(5);
+            
+            // Mengambil ekstensi file
+            $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+            $filename = $dateTime->format('YmdHis') . $randomString . "." . $extension;
+            
+            $filePath = public_path('images_download/' . $filename);
+
+            // Pastikan folder 'public/images_download' ada
+            if (!File::exists(public_path('images_download'))) {
+                File::makeDirectory(public_path('images_download'), 0755, true);
             }
+
+            // Simpan file ke folder 'public/images_download'
+            file_put_contents($filePath, $response->body());
+
+            return $filename;
+        } else {
+            return null;
+        }
     }
+
     private function limit_words($string, $word_limit)
     {
         $words = explode(" ",$string);
