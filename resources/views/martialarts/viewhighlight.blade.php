@@ -59,9 +59,6 @@
                             @endif
                             <p class="card-text">{{ \Carbon\Carbon::parse($article->created_at)->format('d M Y') }} 
                             </p>
-                            <ul>
-                                <li>By Admin</li>
-                            </ul>
                         </div>
                     </div>
             </div>

@@ -26,8 +26,7 @@
             <div class="col-3"></div>
             <div class="col-6">
                 <div class="header">
-                    <img src="{{asset('/img/Profile.png')}}" alt="">
-                    <p>By Ludus <br> <span>{{date_format($article->created_at,"d M Y")}}<span></p>
+                    <p><span>{{date_format($article->created_at,"d M Y")}}<span></p>
                     <hr>
                 </div>
                 <h2>{{$article->highlight1}}</h2>
@@ -118,9 +117,6 @@
                         <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('silat.show', $article->id)}}">{{$article->headlineUtamaArtikel}}</a></h5>
                         @endif
                         <p class="card-text">{{date_format($article->created_at,"d M Y")}}</p>
-                        <ul>
-                            <li>By Admin</li>
-                        </ul>
                     </div>
                 </div>
             </div>

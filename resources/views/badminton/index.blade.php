@@ -84,9 +84,6 @@
                             @endif
                             <p class="card-text">{{date_format($article->created_at,"d M Y")}} 
                             </p>
-                            <ul>
-                                <li>By Admin</li>
-                            </ul>
                         </div>
                     </div>
             </div>
@@ -142,9 +139,6 @@
                 <h1 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.show', $highlightPost->id)}}">{{$highlightPost->headlineUtamaArtikel}}</a></h1>
                 @endif
                 <p>{{ \Carbon\Carbon::parse($highlightPost->created_at)->format('d M Y') }}</p>
-                <ul>
-                    <li>By Admin</li>
-                </ul>
             </div>
             @endif
         </div>
@@ -172,9 +166,6 @@
                             <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('badminton.show', $sh->id)}}">{{$sh->headlineUtamaArtikel}}</a></h5>
                             @endif
                             <p>{{ \Carbon\Carbon::parse($sh->created_at)->format('d M Y') }}</p>
-                            <ul>
-                                <li>By Admin</li>
-                            </ul>
                         </li>
                         @endforeach
                     </ul>
@@ -210,9 +201,6 @@
                         <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('badminton.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h5>
                         @endif
                         <p class="card-text">{{ \Carbon\Carbon::parse($trending->created_at)->format('d M Y') }}</p>
-                        <ul>
-                            <li>By Admin</li>
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -265,9 +253,6 @@
                         <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('badminton.show', $rec->artikel_id)}}">{{$rec->headlineUtamaArtikel}}</a></h5>
                         @endif
                         <p class="card-text">{{ \Carbon\Carbon::parse($rec->created_at)->format('d M Y') }}</p>
-                        <ul>
-                            <li>By Admin</li>
-                        </ul>
                     </div>
                 </div>
             </div>

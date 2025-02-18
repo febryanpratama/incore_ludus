@@ -55,9 +55,6 @@
                             @endif
                             <p class="card-text">{{date_format($article->created_at,"d M Y")}} 
                             </p>
-                            <ul>
-                                <li>By Admin</li>
-                            </ul>
                         </div>
                     </div>
             </div>

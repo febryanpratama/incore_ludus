@@ -3,8 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Umum (Berita & Informasi Olahraga) : Tentang berita terbaru, hasil pertandingan, statistik, dan informasi seputar olahraga favorit Anda dalam satu aplikasi! Ikuti perkembangan dunia olahraga, mulai dari sepak bola, basket, hingga olahraga ekstrem, bisa dilihat kapan saja dan di mana saja. Untuk Komunitas & Sosial : Bisa temukan teman, diskusikan pertandingan, dan bagikan pengalaman olahraga Anda. Dari penggemar hingga atlet, semua bisa terhubung di sini.Pelatihan & Kesehatan : akan tampil performa olahraga Anda dengan panduan latihan, program kebugaran, dan tips kesehatan dari para ahli. Mulai perjalanan olahraga Anda dengan rencana yang sesuai dengan kebutuhan Anda!">
+        <meta name="keywords" content="berita olahraga, update skor, hasil pertandingan, statistik olahraga, jadwal pertandingan, skor bola, jadwal liga, live score, NBA updates, transfer pemain, komunitas olahraga, forum olahraga, diskusi pertandingan, penggemar olahraga, live chat bola">
 
-        <title>Laravel</title>
+        <title>Ludic.id</title>
 
         <title>Berita & Informasi Olahraga Terbaru | Skor, Jadwal, dan Statistik</title>
         <meta name="description" content="Tentang berita terbaru, hasil pertandingan, statistik, dan informasi seputar olahraga favorit Anda dalam satu aplikasi! Ikuti perkembangan dunia olahraga, mulai dari sepak bola, basket, hingga olahraga ekstrem, bisa dilihat kapan saja dan di mana saja.">
@@ -33,7 +35,7 @@
     <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="{{ asset('img/ludus.png') }}" alt=""></a>
+            <a class="navbar-brand" href="#"><img src="{{ asset('img/ludic.png') }}" alt=""></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -105,9 +107,14 @@
     <div class="container-fluid footer">
         <div class="row">
             <div class="col-6">
-                <img class="img1" src="{{ asset('img/ludus1.png') }}" alt=""><br>
-                <div class="img2">
-                    <img src="{{ asset('img/mdi_instagram.png') }}" alt=""><span>@logo</span>
+                <div class="row">
+                    <div class="col-3">
+                        <img class="img1" src="{{ asset('img/ludic.png') }}" alt=""><br>
+                    </div>
+                    <div class="col-3 img2 mt-4">
+                        <img src="{{ asset('img/mdi_instagram.png') }}" alt=""><a href="https://www.instagram.com/incoresystemssolutions/" target="_blank">Ludic.id</a>
+                    </div>
+                    <div class="col-6"></div>
                 </div>
             </div>
             <div class="col-6 ft">

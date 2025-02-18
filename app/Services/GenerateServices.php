@@ -179,8 +179,9 @@ class GenerateServices
     {
             // $prompt = "buatkan gambar manusia nyata bangsa Asia atau lingkungan nyata di Asia tanpa ada huruf, angka, coretan apapun untuk sosial media marketing berdasarkan deskripsi: ".$data['headlineUtamaArtikel']."";
 
-            $replace_characters = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
-            $prompt = $this->limit_words("foto atau gambar ".$replace_characters, 6);
+            $prompt = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
+            // $replace_characters = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
+            // $prompt = $this->limit_words("foto atau gambar ".$replace_characters, 6);
 
             // Match name at the beginning or end
             if (preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $data['headlineUtamaArtikel'], $matches)) {
@@ -188,7 +189,7 @@ class GenerateServices
             } else if (preg_match('/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)\b/', $data['headlineUtamaArtikel'], $matches)) {
                 $name = $matches[0]; 
             } else {
-                $name = null; // If no name is found
+                $name = $data['headlineUtamaArtikel']; // If no name is found
             }
             // print_r($prompt);
             // dd($name);

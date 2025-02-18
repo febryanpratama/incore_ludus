@@ -3,7 +3,7 @@ body {
     font-family: "CoolveticaRg-Regular V1";
 }
 .navbar .container-fluid .navbar-brand img {
-    width: 90%;
+    max-width: 200px;
 }
 
 .navbar .container-fluid .btn-primary {
@@ -159,15 +159,14 @@ a {
     width: 10px;
     color: #fff;
 }
-.footer .row .col-6 .img1 {
-    width: 22%;
-    margin-top: -4%;
+.footer .row .col-6 .row .col-3 .img1 {
+    width: 100%;
 }
-.footer .row .col-6 .img2 {
+.footer .row .col-6 .row .col-3 .img2 {
     color: #fff;
-    margin-top: -6%;
-    margin-left: 5%;
-    margin-bottom: 3%;
+}
+.footer .row .col-6 .row .col-3 a {
+    color: #fff;
 }
 .navbar {
     padding: 0px;

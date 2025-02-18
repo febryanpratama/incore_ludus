@@ -22,7 +22,6 @@
                                 </div>
                                 <div class="col-8">
                                     <div class="card-body">
-                                        <span class="card-text"><small>By Ludus Team</small></span>
                                         <span class="card-text"><small>{{ \Carbon\Carbon::parse($trending->created_at)->diffForHumans()}}</small></span>
                                         @if($trending->type=='series')
                                             @if($trending->category_name == "Badminton" || $trending->category_name == "badminton")
@@ -90,12 +89,11 @@
                                 <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $footballTranding->id)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
                                 @endif
                                 <div class="row">
-                                    <div class="col-2">
-                                        <img src="{{ asset('img/Group451.png') }}" alt="">
-                                    </div>
-                                    <div class="col-10">
-                                        <b>Admin</b>
+                                    <div class="col-5"></div>
+                                    <div class="col-5">
                                         <p><small>{{ \Carbon\Carbon::parse($footballTranding->created_at)->diffForHumans()}}</small></p>
+                                    </div>
+                                    <div class="col-5">
                                     </div>
                                 </div>
                             </div>
@@ -116,11 +114,9 @@
                                     @endif
                                     <div class="row">
                                         <div class="col-2">
-                                            <img src="{{ asset('img/Group451.png') }}" alt="">
+                                            <p><small>{{ \Carbon\Carbon::parse($fb->created_at)->diffForHumans()}}</small></p>
                                         </div>
                                         <div class="col-10">
-                                            <b>Admin</b>
-                                            <p><small>{{ \Carbon\Carbon::parse($fb->created_at)->diffForHumans()}}</small></p>
                                         </div>
                                     </div>
                                 </div>
