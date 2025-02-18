@@ -16,7 +16,7 @@
                 </a>
                 </div>
             </div>
-            <div class="col-8"><img src="{{ asset('storage/images_download/'.$article->image1) }}" alt="{{$article->headlineUtamaArtikel}}"></div>
+            <div class="col-8"><img src="{{ asset('images_download/'.$article->image1) }}" alt="{{$article->headlineUtamaArtikel}}"></div>
     </div>      
 </div>
 <!-- Detail Content (ada 3 bagian images. 1 image diheader, 2 images tengah halaman dan 1 akhir halaman. Terdapat headline kalimat dibagian atas dan tengah halaman. berisi kalimat yang menarik minat pembaca) -->
@@ -34,12 +34,12 @@
                 <div class="row">
                     @if($article->image2 != null)
                     <div class="col-6">
-                        <img src="{{ asset('storage/images_download/'.$article->image2) }}" alt="{{$article->highlight1}}">
+                        <img src="{{ asset('images_download/'.$article->image2) }}" alt="{{$article->highlight1}}">
                     </div>
                     @endif
                     @if($article->image3 != null)
                     <div class="col-6">
-                        <img src="{{ asset('storage/images_download/'.$article->image3) }}" alt="{{$article->highlight1}}">
+                        <img src="{{ asset('images_download/'.$article->image3) }}" alt="{{$article->highlight1}}">
                     </div>
                     @endif
                 </div>
@@ -51,7 +51,7 @@
                 @if($article->image4 != null)
                 <div class="row">
                     <div class="col">
-                        <img src="{{ asset('storage/images_download/'.$article->image4) }}" alt="{{$article->highlight2}}">
+                        <img src="{{ asset('images_download/'.$article->image4) }}" alt="{{$article->highlight2}}">
                     </div>
                 </div>
                 @endif
@@ -103,7 +103,7 @@
             @foreach($recommendations as $i => $rec)
             <div class="col-3">
                 <div class="card">
-                    <img src="{{ asset('storage/images_download/'.$rec->image1) }}" class="card-img-top" alt="{{$rec->headlineUtamaArtikel}}">
+                    <img src="{{ asset('images_download/'.$rec->image1) }}" class="card-img-top" alt="{{$rec->headlineUtamaArtikel}}">
                     <div class="card-body">
                         <span class="badge text-bg-secondary">Karate</span>
                         <!-- Button trigger modal -->

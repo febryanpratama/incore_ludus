@@ -39,7 +39,7 @@
                             @else
                             <a href="{{route('football.show', $article->artikel_id)}}">
                             @endif
-                        <img src="{{ asset('storage/images_download/'.$article->image1) }}" class="card-img-top" alt="{{$article->headlineUtamaArtikel}}">
+                        <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top" alt="{{$article->headlineUtamaArtikel}}">
                         </a>
                         <div class="card-body">
                             @if(\Carbon\Carbon::parse($article->created_at)->diff(now())->days <= 1)

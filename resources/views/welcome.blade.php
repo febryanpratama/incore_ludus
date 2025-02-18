@@ -18,7 +18,7 @@
                         <div class="card mb-1">
                             <div class="row">
                                 <div class="col-4">
-                                <img src="{{asset('storage/images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}">
+                                <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}">
                                 </div>
                                 <div class="col-8">
                                     <div class="card-body">
@@ -81,7 +81,7 @@
                         <p>Data Kosong</p>
                         @else 
                         <div class="carousel-item active">
-                            <img src="{{ asset('storage/images_download/'.$footballTranding->image1) }}" class="d-block w-100" alt="{{$footballTranding->headlineUtamaArtikel}}">
+                            <img src="{{ asset('images_download/'.$footballTranding->image1) }}" class="d-block w-100" alt="{{$footballTranding->headlineUtamaArtikel}}">
                             <div class="carousel-caption d-none d-md-block">
                                 @if($footballTranding->type=='series')
                                 <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $footballTranding->id)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
@@ -104,7 +104,7 @@
                         @else 
                             @foreach($footballs as $fb)
                             <div class="carousel-item">
-                                <img src="{{ asset('storage/images_download/'.$fb->image1) }}" class="d-block w-100" alt="{{$fb->headlineUtamaArtikel}}">
+                                <img src="{{ asset('images_download/'.$fb->image1) }}" class="d-block w-100" alt="{{$fb->headlineUtamaArtikel}}">
                                 <div class="carousel-caption d-none d-md-block">
                                     <!-- <h1>FTimnas U-23 Indonesia VS Timnas U-23 Argentina</h1> -->
                                     @if($fb->type=='series')
@@ -146,7 +146,7 @@
                     @else 
                         @foreach($badmintons as $bm)
                             <div class="col-4">
-                                <img src="{{ asset('storage/images_download/'.$bm->image1) }}" alt="{{$bm->headlineUtamaArtikel}}">
+                                <img src="{{ asset('images_download/'.$bm->image1) }}" alt="{{$bm->headlineUtamaArtikel}}">
                                 @if(preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $bm->headlineUtamaArtikel, $matches))
                                     @if($bm->type=='series')
                                     <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.series', $bm->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
@@ -191,7 +191,7 @@
                     @else 
                         @foreach($baskets as $bas)
                             <div class="col-4">
-                                <img src="{{ asset('storage/images_download/'.$bas->image1) }}" alt="{{$bas->headlineUtamaArtikel}}">
+                                <img src="{{ asset('images_download/'.$bas->image1) }}" alt="{{$bas->headlineUtamaArtikel}}">
                                 @if(preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $bas->headlineUtamaArtikel, $matches))
                                     @if($bas->type=='series')
                                     <h5><a class="text-text-decoration-none text-white" href="{{route('basket.series', $bas->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
@@ -228,7 +228,7 @@
                     @else 
                         @foreach($volleys as $vol)
                             <div class="col-4">
-                                <img src="{{ asset('storage/images_download/'.$vol->image1) }}" alt="{{$vol->headlineUtamaArtikel}}">
+                                <img src="{{ asset('images_download/'.$vol->image1) }}" alt="{{$vol->headlineUtamaArtikel}}">
                                 @if(preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $vol->headlineUtamaArtikel, $matches))
                                     @if($vol->type=='series')
                                     <h5><a class="text-text-decoration-none text-white" href="{{route('volley.series', $vol->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
@@ -273,7 +273,7 @@
                     @else 
                         @foreach($martialarts as $mar)
                             <div class="col-4">
-                                <img src="{{ asset('storage/images_download/'.$mar->image1) }}" alt="{{$mar->headlineUtamaArtikel}}">
+                                <img src="{{ asset('images_download/'.$mar->image1) }}" alt="{{$mar->headlineUtamaArtikel}}">
                                 @if(preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $mar->headlineUtamaArtikel, $matches))
                                     @if($mar->type=='series')
                                         @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
