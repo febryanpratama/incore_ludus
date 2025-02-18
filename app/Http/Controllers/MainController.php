@@ -204,7 +204,7 @@ class MainController extends Controller
         }
         
             // dd($badmintons);
-        return view('welcome', [
+        return view('test', [
             'trendingPosts' => $trendingPosts,
             'footballs' => $footballs,
             'footballTranding' => $footballTranding,
