@@ -40,7 +40,7 @@ class GenerateServices
     public function fetchTitle($cat, $cat_id)
     {
         $api = new AiApi();
-        $prompt = "buatkan 5 title artikel web yang sedang populer saat ini dengan deskripsi website terkait informasi seputar olahraga / sport terkini baik itu selebgram, artis sport maupun lain sebagainya berdasarkan kategori ".$cat.". dan tolong sajikan dalam bentuk json seperti ini{ \"title1\": \"\",\"title2\": \"\", \"title3\": \"\",\"title4\": \"\", \"title5\": \"\":}";
+        $prompt = "berikan 5 topic artikel web yang sedang populer saat ini dengan deskripsi website terkait informasi seputar olahraga / sport terkini baik itu selebgram, artis sport maupun lain sebagainya berdasarkan kategori ".$cat.".  dan tolong sajikan dalam bentuk json seperti ini{ \"title1\": \"\",\"title2\": \"\", \"title3\": \"\",\"title4\": \"\", \"title5\": \"\":}";
     
         $response = $api->post('/api/generate/text', $prompt);
 

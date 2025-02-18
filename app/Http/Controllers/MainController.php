@@ -69,6 +69,7 @@ class MainController extends Controller
             ->skip(1)                   // Skip the first post (index starts at 0)
             ->take(2)                   // Take the next 2 posts (2nd, 3rd)
             ->get();
+            
         if(count($footballs)==0) {
             $footballs = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
