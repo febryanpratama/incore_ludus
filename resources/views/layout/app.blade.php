@@ -6,6 +6,22 @@
 
         <title>Laravel</title>
 
+        <title>Berita & Informasi Olahraga Terbaru | Skor, Jadwal, dan Statistik</title>
+        <meta name="description" content="Tentang berita terbaru, hasil pertandingan, statistik, dan informasi seputar olahraga favorit Anda dalam satu aplikasi! Ikuti perkembangan dunia olahraga, mulai dari sepak bola, basket, hingga olahraga ekstrem, bisa dilihat kapan saja dan di mana saja.">
+        <meta name="keywords" content="berita olahraga, update skor, hasil pertandingan, statistik olahraga, jadwal pertandingan, skor bola, jadwal liga, live score, NBA updates, transfer pemain, komunitas olahraga, forum olahraga, diskusi pertandingan, penggemar olahraga, live chat bola">
+        <meta name="author" content="Nama Anda atau Nama Website">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="index, follow">
+        <meta property="og:title" content="Berita & Informasi Olahraga Terbaru | Skor, Jadwal, dan Statistik">
+        <meta property="og:description" content="Ikuti perkembangan dunia olahraga, dari sepak bola hingga olahraga ekstrem. Update skor, hasil pertandingan, dan statistik terkini dalam satu aplikasi!">
+        <meta property="og:image" content="URL_GAMBAR_PREVIEW">
+        <meta property="og:url" content="URL_WEBSITE">
+        <meta property="og:type" content="website">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Berita & Informasi Olahraga Terbaru | Skor, Jadwal, dan Statistik">
+        <meta name="twitter:description" content="Dapatkan berita terbaru, hasil pertandingan, dan statistik olahraga favorit Anda dalam satu aplikasi!">
+        <meta name="twitter:image" content="URL_GAMBAR_PREVIEW">
+
         <!-- Styles -->
         <link href="https://db.onlinewebfonts.com/c/44620fe64734f268ad07740e6ec5127d?family=CoolveticaRg-Regular+V1" rel="stylesheet" type="text/css"/>
         <link href="https://db.onlinewebfonts.com/c/0754a87a6aa14ab86abe03e805d71adf?family=CoolveticaCondensedRg-Regular" rel="stylesheet" type="text/css"/>
