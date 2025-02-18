@@ -2,25 +2,25 @@
 
 @section('content')
     <!-- data artikel populer this week -->
-    <div class="container-fluid pg1">
-        <div class="container">
-            <div class="row row1">
-                <div class="col">
-                </div>
-                <div class="col">
-                </div>
-                <div class="col-6 overflow-y-auto">
-                    <h3>Popular this week</h3>
+    <div class="container-fluid pg1 overflow-hidden">
+        <div class="row row1">
+            <div class="col-6" style="background-color: rgba(229, 183, 43, 1);">
+                <h1>Explore <span>Latest <br>Sport</span>
+                 for you</h1>
+            </div>
+            <div class="col-6 col6">
+                <div class="popular overflow-hidden">
+                    <h3 class="text-center">Popular this week</h3>
                     @if($trendingPosts==null)
                         <p>Data Kosong</p>
                     @else 
                         @foreach($trendingPosts as $trending)
                         <div class="card mb-1">
                             <div class="row">
-                                <div class="col-4">
-                                <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}">
+                                <div class="col-sm-1 col-md-2 col-lg-4 colo4">
+                                <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid" alt="{{$trending->headlineUtamaArtikel}}">
                                 </div>
-                                <div class="col-8">
+                                <div class="col-sm-2 col-md-4 col-lg-8">
                                     <div class="card-body">
                                         <span class="card-text"><small>{{ \Carbon\Carbon::parse($trending->created_at)->diffForHumans()}}</small></span>
                                         @if($trending->type=='series')

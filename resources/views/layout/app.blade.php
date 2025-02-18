@@ -68,8 +68,8 @@
                     </li>
                 </ul>
             </div>
-            <a href="{{route('signup')}}" class="btn btn-outline-primary">Sign In</a>
-            <a href="#" class="btn btn-primary">Sign Up</a>
+            <!-- <a href="{{route('signup')}}" class="btn btn-outline-primary">Sign In</a>
+            <a href="#" class="btn btn-primary">Sign Up</a> -->
         </div>
     </nav>
     @yield('content')
