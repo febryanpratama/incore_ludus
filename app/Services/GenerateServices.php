@@ -158,9 +158,9 @@ class GenerateServices
         }
     }
 
-    public function generateImage()
+    public function generateImage($id)
     {
-        $getArtikel = Artikel::where('id', 65)
+        $getArtikel = Artikel::where('id', $id)
             ->whereNull('image1')
             ->whereNull('image2')
             ->whereNull('image3')
