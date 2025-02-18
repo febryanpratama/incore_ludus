@@ -113,7 +113,7 @@ Route::prefix('topic')->group(function(){
 });
 
 Route::prefix('generate')->group(function(){
-    Route::get('/title', [GenerateController::class, 'generateTitle']);
+    Route::get('/title/{cat_id}', [GenerateController::class, 'generateTitle']);
     Route::get('/artikel', [GenerateController::class, 'generateArtikel']);
     Route::get('/image', [GenerateController::class, 'generateImage']);
 });

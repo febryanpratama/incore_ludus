@@ -12,9 +12,9 @@ use App\Models\Topic;
 
 class GenerateServices
 {
-    public function generateTitle()
+    public function generateTitle($cat_id)
     {
-        $cat = $this->_getRandomCategory();
+        $cat = $this->_getRandomCategory($cat_id);
 
         // dd($cat->name);
         $this->fetchTitle($cat->name, $cat->id);
@@ -22,13 +22,18 @@ class GenerateServices
         return true;
     }
 
-    private function _getRandomCategory()
+    private function _getRandomCategory($cat_id)
     {
-        $data = Categories::all();
+        $data = Categories::where('id', $cat_id)->first();
 
-        $randomCategory = $data->random();
+        if(!$data){
+            return [
+                'status' => false,
+                'message' => 'Data not found'
+            ];
+        }
 
-        return $randomCategory;
+        return $data;
     }
 
     public function fetchTitle($cat, $cat_id)

@@ -18,9 +18,9 @@ class GenerateController extends Controller
         $this->generateServices = $generateServices;
     }
 
-    public function generateTitle()
+    public function generateTitle($cat_id)
     {
-        $resp = $this->generateServices->generateTitle();
+        $resp = $this->generateServices->generateTitle($cat_id);
 
         return response()->json($resp);
     }
