@@ -110,6 +110,7 @@ class MainController extends Controller
                 $badmintons = [];
             }
         }
+
         $baskets = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table

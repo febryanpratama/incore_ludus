@@ -147,24 +147,10 @@
                         @foreach($badmintons as $bm)
                             <div class="col-4">
                                 <img src="{{ asset('images_download/'.$bm->image1) }}" alt="{{$bm->headlineUtamaArtikel}}">
-                                @if(preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $bm->headlineUtamaArtikel, $matches))
-                                    @if($bm->type=='series')
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.series', $bm->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
-                                    @else
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.show', $bm->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
-                                    @endif
-                                @elseif(preg_match('/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)\b/', $bm->headlineUtamaArtikel, $matches))
-                                    @if($bm->type=='series')
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.series', $bm->id)}}">{{ $matches[0]}}</a></h5>
-                                    @else
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.show', $bm->id)}}">{{ $matches[0]}}</a></h5>
-                                    @endif
+                                @if($bm->type=='series')
+                                <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.series', $bm->id)}}">{{$bm->headlineUtamaArtikel}}</a></h5>
                                 @else
-                                    @if($bm->type=='series')
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.series', $bm->id)}}">{{ Str::words($string, 2)}}</a></h5>
-                                    @else
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.show', $bm->id)}}">{{ Str::words($string, 2)}}</a></h5>
-                                    @endif
+                                <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.show', $bm->id)}}">{{$bm->headlineUtamaArtikel}}</a></h5>
                                 @endif
                             </div>
                         @endforeach

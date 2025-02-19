@@ -7,23 +7,23 @@
         <div class="row">
             <div class="col-12">
                 <div class="row">
-                    <div class="col-8">
-                        <p>hot articles</p>
+                    <div class="col-lg-8 col-md-8 col-sm-6">
+                        <p>HOT ARTICLES</p>
                     </div>
-                    <div class="col-4">
+                    <div class="col-lg-4 col-md-4 col-sm-6">
                         <p>EXPLORE NEWS ABOUT badminton ON LUDUS. YOU'LL GET THE LATEST INFORMATION HERE.</p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
                         <p>About Badminton News</p>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-lg-4 col-md-4 col-sm-6">
                         <p>From the latest match highlights to immersive stadium experiences and fan events.</p>
                     </div>
-                    <div class="col-8">
+                    <div class="col-lg-8 col-md-8 col-sm-6">
                         <p>might you like</p>
                     </div>
                 </div>
@@ -34,8 +34,14 @@
 <!-- Lates News -->
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand"><h3>Lates News</h3></a>
-    <a href="{{ route('badminton.viewall') }}" type="button" class="btn btn-outline-dark bt1">View All</a>
+    <div class="row">
+        <div class="col-lg-7 col-md-9 col-sm-7">
+            <a class="navbar-brand"><h3>Lates News</h3></a>
+        </div>
+        <div class="col-lg-5 col-md-3 col-sm-5">
+            <a href="{{ route('badminton.viewall') }}" type="button" class="btn btn-outline-dark">View All</a>
+        </div>
+    </div>
     <form class="d-flex" role="search" method="GET" action="{{ route('badminton.index') }}">
       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ request()->input('search') }}">
       <button class="btn btn-outline-success" type="submit">
@@ -108,8 +114,14 @@
 <!-- Hightlight -->
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand"><h3>Highlights</h3></a>
-    <a href="{{ route('badminton.viewhighlight') }}" type="button" class="btn btn-outline-dark bt3">View All</a>
+    <div class="row mt-4">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <a class="navbar-brand"><h3>Highlights</h3></a>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <a href="{{ route('badminton.viewhighlight') }}" type="button" class="btn btn-outline-dark">View All</a>
+        </div>
+    </div>
   </div>
 </nav>
 <!-- Data hightlight artikel yang sedang tranding -->
@@ -211,8 +223,16 @@
 <!-- Recommendation -->
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand"><h3>Recomendation For You</h3></a>
-    <a href="{{ route('badminton.viewrecommendation') }}" type="button" class="btn btn-outline-dark bt2">View All</a>
+    <div class="row">
+        <div class="col-8 col-md-9 col-sm-6">
+
+            <a class="navbar-brand"><h3>Recomendation For You</h3></a>
+        </div>
+        <div class="col-4 col-md-3 col-sm-6">
+
+            <a href="{{ route('badminton.viewrecommendation') }}" type="button" class="btn btn-outline-dark">View All</a>
+        </div>
+    </div>
   </div>
 </nav>
 <!-- artikel trending lainnya dan iklan -->

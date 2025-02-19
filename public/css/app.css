@@ -52,14 +52,14 @@ a {
     max-height: 145px;
 }
 
-.pg2 .row .col-md-4 {
+/* .pg2 .row .col-md-4 {
     background-image: url("/img/imagepg2.png");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
     padding: 0px;
     color: #fff;
-}
+} */
 
 .pg2 .row .col-4 .text1 {
     height: 100%;
@@ -176,27 +176,32 @@ a {
     margin-top: -1%;
     padding: 0px;
 }
-.pg-1 .container .row .col-12 .row .col-8 p {
+.pg-1 .container .row .col-12 .row .col-lg-8 p {
     text-transform: uppercase;
     font-size: 6.5rem;
     margin-bottom: 0px;
 }
-.pg-1 .container .row .col-12 .row .col-4 {
+.pg-1 .container .row .col-12 .row .col-md-8 p {
+    text-transform: uppercase;
+    font-size: 4.5rem;
+    margin-bottom: 0px;
+}
+.pg-1 .container .row .col-12 .row .col-lg-4 {
     margin-top: auto;
     margin-bottom: auto;
     color: #727070;
 }
-.pg-1 .container .row .col-12 .row .col-4 p {
+.pg-1 .container .row .col-12 .row .col-lg-4 p {
     margin: 0px;
     text-transform: uppercase;
 }
-.pg-1 .container .row .col-12 .row .col-12 p {
+.pg-1 .container .row .col-12 .row .col-lg-12 p {
     text-transform: uppercase;
     font-size: 6.5rem;
     margin-bottom: 0px;
     text-align: center;
 }
-.pg-1 .container .row .col-12 .row .col-8 p {
+.pg-1 .container .row .col-12 .row .col-lg-8 p {
     text-transform: uppercase;
     font-size: 6.5rem;
     margin-bottom: 0px;
