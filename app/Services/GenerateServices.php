@@ -9,6 +9,7 @@ use App\Core\AiApi;
 use App\Models\Artikel;
 use App\Models\Categories;
 use App\Models\Topic;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 
 class GenerateServices
@@ -124,6 +125,7 @@ class GenerateServices
             $artikel = new Artikel();
 
             $artikel->category_id = $category_id;
+            $artikel->slug = Str::slug($jsonObject['headlineUtamaArtikel'].'-'.Carbon::now()->format('Ymd'));
             $artikel->headlineUtamaArtikel = $jsonObject['headlineUtamaArtikel'];
             $artikel->highlight1 = $jsonObject['highlight1'];
             $artikel->paragraf1 = $jsonObject['paragraf1'];
