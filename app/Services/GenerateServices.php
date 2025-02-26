@@ -456,7 +456,7 @@ class GenerateServices
             $api = new AiApi();
             // $response = $api->post('/api/generate/generate-images-deepai', $prompt);
             $response = $api->post('/api/generate/generate-images-google', $prompt);
-            dd($response);
+            // dd($response);
         
         foreach($response['data'] as $image){
             // try {
