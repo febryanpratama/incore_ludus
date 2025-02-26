@@ -140,7 +140,11 @@ class VolleyController extends Controller
      */
     public function show($id)
     {
-        $article = Articles::find($id);
+        $article = Articles::where('slug', $id)->first();
+
+        if(!$article) {
+            return redirect()->route('football.index');
+        }
         $eng = Engaging::where('artikel_id', $article->id)->first();
         $user = auth()->user(); // Get the authenticated user
         if($user!=null) {
@@ -197,7 +201,11 @@ class VolleyController extends Controller
 /******  c8998d56-d5a9-475d-9239-f9d93454b973  *******/
     public function series($id, Request $request)
     {
-        $article = Articles::find($id);
+        $article = Articles::where('slug', $id)->first();
+
+        if(!$article) {
+            return redirect()->route('football.index');
+        }
         $eng = Engaging::where('artikel_id', $article->id)->first();
         $user = auth()->user(); // Get the authenticated user
         if($user!=null) {

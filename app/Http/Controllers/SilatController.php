@@ -141,7 +141,11 @@ class SilatController extends Controller
      */
     public function show($id)
     {
-        $article = Articles::find($id);
+        $article = Articles::where('slug', $id)->first();
+
+        if(!$article) {
+            return redirect()->route('football.index');
+        }
         $eng = Engaging::where('artikel_id', $article->id)->first();
         $user = auth()->user(); // Get the authenticated user
         if($user!=null) {
@@ -179,7 +183,11 @@ class SilatController extends Controller
 
     public function series($id, Request $request)
     {
-        $article = Articles::find($id);
+        $article = Articles::where('slug', $id)->first();
+
+        if(!$article) {
+            return redirect()->route('football.index');
+        }
         $eng = Engaging::where('artikel_id', $article->id)->first();
         $user = auth()->user(); // Get the authenticated user
         if($user!=null) {

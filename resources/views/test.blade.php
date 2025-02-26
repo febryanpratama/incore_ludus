@@ -121,18 +121,18 @@
                             @foreach($footballs as $fb)
                             <div class="carousel-item">
                                 @if($fb->type=='series')
-                                <a href="{{route('football.series', $fb->id)}}">
+                                <a href="{{route('football.series', $fb->slug)}}">
                                 @else
-                                <a href="{{route('football.show', $fb->id)}}">
+                                <a href="{{route('football.show', $fb->slug)}}">
                                 @endif
                                     <img src="{{ asset('images_download/'.$fb->image1) }}" class="d-block w-100" alt="{{$fb->headlineUtamaArtikel}}">
                                 </a>
                                 <div class="carousel-caption d-none d-md-block">
                                     <!-- <h1>FTimnas U-23 Indonesia VS Timnas U-23 Argentina</h1> -->
                                     @if($fb->type=='series')
-                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $fb->id)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
+                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $fb->slug)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
                                     @else
-                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $fb->id)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
+                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $fb->slug)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
                                     @endif
                                     <div class="row">
                                         <div class="col-2">
@@ -185,17 +185,17 @@
                             <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
                                 <div class="card h-100">
                                 @if($bm->type=='series')
-                                <a href="{{route('badminton.series', $bm->id)}}">
+                                <a href="{{route('badminton.series', $bm->slug)}}">
                                 @else
-                                <a href="{{route('badminton.show', $bm->id)}}">
+                                <a href="{{route('badminton.show', $bm->slug)}}">
                                 @endif
                                     <img src="{{ asset('images_download/'.$bm->image1) }}" class="card-img-top" alt="{{$bm->headlineUtamaArtikel}}">
                                 </a>
                                     <div class="card-body">
                                         @if($bm->type=='series')
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('badminton.series', $bm->id)}}">{{ $bm->headlineUtamaArtikel}}</a></h5>
+                                        <h5><a class="text-decoration-none text-dark" href="{{route('badminton.series', $bm->slug)}}">{{ $bm->headlineUtamaArtikel}}</a></h5>
                                         @else
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('badminton.show', $bm->id)}}">{{ $bm->headlineUtamaArtikel}}</a></h5>
+                                        <h5><a class="text-decoration-none text-dark" href="{{route('badminton.show', $bm->slug)}}">{{ $bm->headlineUtamaArtikel}}</a></h5>
                                         @endif
                                     </div>
                                 </div>
@@ -231,17 +231,17 @@
                             <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
                                 <div class="card h-100">
                                 @if($bas->type=='series')
-                                <a href="{{route('basket.series', $bas->id)}}">
+                                <a href="{{route('basket.series', $bas->slug)}}">
                                 @else
-                                <a href="{{route('basket.show', $bas->id)}}">
+                                <a href="{{route('basket.show', $bas->slug)}}">
                                 @endif
                                     <img src="{{ asset('images_download/'.$bas->image1) }}" class="card-img-top" alt="{{$bas->headlineUtamaArtikel}}">
                                 </a>
                                     <div class="card-body">
                                         @if($bas->type=='series')
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('basket.series', $bas->id)}}">{{ $bas->headlineUtamaArtikel}}</a></h5>
+                                        <h5><a class="text-decoration-none text-dark" href="{{route('basket.series', $bas->slug)}}">{{ $bas->headlineUtamaArtikel}}</a></h5>
                                         @else
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('basket.show', $bas->id)}}">{{ $bas->headlineUtamaArtikel}}</a></h5>
+                                        <h5><a class="text-decoration-none text-dark" href="{{route('basket.show', $bas->slug)}}">{{ $bas->headlineUtamaArtikel}}</a></h5>
                                         @endif
                                     </div>
                                 </div>
@@ -265,17 +265,17 @@
                             <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
                                 <div class="card h-100">
                                 @if($vol->type=='series')
-                                <a href="{{route('volley.series', $vol->id)}}">
+                                <a href="{{route('volley.series', $slug)}}">
                                 @else
-                                <a href="{{route('volley.show', $vol->id)}}">
+                                <a href="{{route('volley.show', $slug)}}">
                                 @endif
                                     <img src="{{ asset('images_download/'.$vol->image1) }}" class="card-img-top" alt="{{$vol->headlineUtamaArtikel}}">
                                 </a>
                                     <div class="card-body">
                                         @if($vol->type=='series')
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('volley.series', $vol->id)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
+                                        <h5><a class="text-decoration-none text-dark" href="{{route('volley.series', $slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
                                         @else
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('volley.show', $vol->id)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
+                                        <h5><a class="text-decoration-none text-dark" href="{{route('volley.show', $slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
                                         @endif
                                     </div>
                                 </div>
