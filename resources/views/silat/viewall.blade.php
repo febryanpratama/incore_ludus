@@ -27,12 +27,12 @@
         </div>
     </div>
     <!-- Data artikel terbaru dan yang sedang trending -->
-    <div class="row row-cols-lg-4">
+    <div class="row row-cols-lg-4 mb-5 mt-4">
         @if($articles==null)
             <p>Data Kosong</p>
         @else
             @foreach ($articles as $article)
-            <div class="col mt-3">
+            <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
                 <div class="card">
                         <a href="{{route('silat.show', $article->id)}}">
                         <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top" alt="{{$article->headlineUtamaArtikel}}">
