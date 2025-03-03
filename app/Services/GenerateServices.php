@@ -164,6 +164,37 @@ class GenerateServices
         }
     }
 
+    public function generateRandomImage(){
+        $getArtikel = Artikel::whereNull('image1')
+            ->whereNull('image2')
+            ->whereNull('image3')
+            ->whereNull('image4')
+            ->get();
+
+        $getRandomArtikel = $getArtikel->random();
+
+        $respTextImage = $this->fetchPromptImage($getRandomArtikel);
+        // dd($respTextImage);
+
+        // $resp = [
+        //     "serat karbon",
+        //     "grafit",
+        //     "pegangan ergonomis",
+        //     "bantalan ekstra",
+        //     "teknologi ventilasi",
+        // ];
+
+        // get rand array
+
+        $rand = array_rand($respTextImage, 1);
+        // dd($rand);
+        // dd($resp[$rand]);
+
+        $respImage = $this->fetchImage($respTextImage[$rand], $getRandomArtikel);
+
+
+    }
+
     public function generateImage($id)
     {
         $getArtikel = Artikel::with('category')
