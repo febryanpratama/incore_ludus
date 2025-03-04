@@ -28,11 +28,11 @@
     </div>
     <!-- Data artikel terbaru dan yang sedang trending -->
     <div class="row row-cols-lg-4 mb-5 mt-4">
-        @if($recommendations==null)
-            <p>Data Kosong</p>
+        @if($articles==null || $articles=="")
+            <p style="margin-bottom : 15%;">Data Kosong</p>
         @else 
             @foreach ($recommendations as $article)
-            <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
+            <div class="col-lg-4 col-md-4 col-sm-12 mt-3 mb-4">
                 <div class="card">
                             @if($article->type=='series')
                             <a href="{{route('football.series', $article->artikel_id)}}">
@@ -68,4 +68,5 @@
     </div>
     {{ $recommendations->links() }}
 </div>
+<div class="mb-5"></div>
 @endsection

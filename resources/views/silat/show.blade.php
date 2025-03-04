@@ -4,27 +4,31 @@
 <!-- Title and Image Content -->
 <div class="container-fluid d-pg1">
     <div class="row">
-        <div class="col-4">
-            <div class="card1">
+        <div class="col-lg-4 col-md-4 col-sm-12 p-4 bg-warning mar-10">
+            <div class="d-inline-block w-100 m-3">
                 <span class="badge text-bg-danger">Tranding</span>
                 <span class="badge text-bg-success">{{$article->type}}</span>
                 <span class="badge text-bg-secondary">Pencak Silat</span>
-                <h1>{{ $article->headlineUtamaArtikel }}</h1>
+                <h1 class="fs-1 text-white mb-3 mt-2">{{ $article->headlineUtamaArtikel }}</h1>
                 <a href="" type="button" class="btn btn-outline-dark">Request Advertorial</a>
                 <a href="" type="button" class="btn btn-outline-dark"><svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.53033 10.4697C1.23744 10.1768 0.762563 10.1768 0.46967 10.4697C0.176777 10.7626 0.176777 11.2374 0.46967 11.5303L1.53033 10.4697ZM6.46967 17.5303C6.76256 17.8232 7.23744 17.8232 7.53033 17.5303C7.82322 17.2374 7.82322 16.7626 7.53033 16.4697L6.46967 17.5303ZM6.46962 16.4697C6.17672 16.7626 6.17672 17.2374 6.46961 17.5303C6.76251 17.8232 7.23738 17.8232 7.53028 17.5303L6.46962 16.4697ZM13.5303 11.5303C13.8232 11.2374 13.8232 10.7626 13.5303 10.4697C13.2374 10.1768 12.7625 10.1768 12.4696 10.4697L13.5303 11.5303ZM6.24996 17C6.24996 17.4142 6.58575 17.75 6.99996 17.75C7.41418 17.75 7.74996 17.4142 7.74996 17L6.24996 17ZM7.74996 1C7.74996 0.585785 7.41418 0.25 6.99996 0.25C6.58575 0.25 6.24996 0.585785 6.24996 1L7.74996 1ZM0.46967 11.5303L6.46967 17.5303L7.53033 16.4697L1.53033 10.4697L0.46967 11.5303ZM7.53028 17.5303L13.5303 11.5303L12.4696 10.4697L6.46962 16.4697L7.53028 17.5303ZM7.74996 17L7.74996 1L6.24996 1L6.24996 17L7.74996 17Z" fill="#F6F6F6"/></svg>
                 </a>
                 </div>
             </div>
-            <div class="col-8"><img src="{{ asset('images_download/'.$article->image1) }}" alt="{{$article->headlineUtamaArtikel}}"></div>
+            <div class="col-lg-7 col-md-7 col-sm-12 p-0">
+                <div class="card">
+                    <img src="{{ asset('images_download/'.$article->image1) }}" alt="{{$article->headlineUtamaArtikel}}">
+                </div>
+            </div>
     </div>      
 </div>
 <!-- Detail Content (ada 3 bagian images. 1 image diheader, 2 images tengah halaman dan 1 akhir halaman. Terdapat headline kalimat dibagian atas dan tengah halaman. berisi kalimat yang menarik minat pembaca) -->
 <div class="container-fluid d-pg2">
     <div class="container">
         <div class="row">
-            <div class="col-3"></div>
-            <div class="col-6">
+            <div class="col-lg-3 col-md-3 col-sm-12"></div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
                 <div class="header">
                     <p><span>{{date_format($article->created_at,"d M Y")}}<span></p>
                     <hr>
@@ -33,13 +37,17 @@
                 <p>{{$article->paragraf1}}</p>
                 <div class="row">
                     @if($article->image2 != null)
-                    <div class="col-6">
-                        <img src="{{ asset('images_download/'.$article->image2) }}" alt="{{$article->highlight1}}">
+                    <div class="col-lg-6 col-md-6 col-sm-12 p-0">
+                        <div class="card">
+                            <img src="{{ asset('images_download/'.$article->image2) }}" alt="{{$article->highlight1}}">
+                        </div>                            
                     </div>
                     @endif
                     @if($article->image3 != null)
-                    <div class="col-6">
-                        <img src="{{ asset('images_download/'.$article->image3) }}" alt="{{$article->highlight1}}">
+                    <div class="col-lg-6 col-md-6 col-sm-12 p-0">
+                        <div class="card">
+                            <img src="{{ asset('images_download/'.$article->image3) }}" alt="{{$article->highlight1}}">
+                        </div>
                     </div>
                     @endif
                 </div>
@@ -51,7 +59,9 @@
                 @if($article->image4 != null)
                 <div class="row">
                     <div class="col">
-                        <img src="{{ asset('images_download/'.$article->image4) }}" alt="{{$article->highlight2}}">
+                        <div class="card">
+                            <img src="{{ asset('images_download/'.$article->image4) }}" alt="{{$article->highlight2}}">
+                        </div>
                     </div>
                 </div>
                 @endif
@@ -88,7 +98,7 @@
                 
 
             </div>
-            <div class="col-3"></div>
+            <div class="col-lg-3 col-md-3 col-sm-12"></div>
         </div>
     </div>
 </div>
@@ -100,7 +110,7 @@
             <p>Data Kosong</p>
         @else
             @foreach($recommendations as $i => $rec)
-            <div class="col-3">
+            <div class="col-lg-3 col-md-3 col-sm-12">
                 <div class="card">
                     <img src="{{ asset('images_download/'.$rec->image1) }}" class="card-img-top" alt="{{$rec->headlineUtamaArtikel}}">
                     <div class="card-body">
