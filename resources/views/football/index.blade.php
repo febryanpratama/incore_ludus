@@ -11,7 +11,7 @@
                         <p class="responsive-text">HOT ARTICLES</p>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                        <p class="fs-5 text-muted mt-3">EXPLORE NEWS ABOUT football ON LUDUS. YOU'LL GET THE LATEST INFORMATION HERE.</p>
+                        <p class="fs-5 text-muted mt-3">EXPLORE NEWS ABOUT FOOTBALL ON LUDUS. YOU'LL GET THE LATEST INFORMATION HERE.</p>
                     </div>
                 </div>
                 <div class="row">
@@ -53,9 +53,9 @@
             <div class="col-lg-3 col-md-3 col-sm-6 mt-3">
                 <div class="card">
                         @if($article->type=='series')
-                        <a href="{{route('football.series', $article->id)}}">
+                        <a href="{{route('football.series', $article->slug)}}">
                         @else
-                        <a href="{{route('football.show', $article->id)}}">
+                        <a href="{{route('football.show', $article->slug)}}">
                         @endif
                         <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top" alt="{{$article->headlineUtamaArtikel}}">
                         </a>
@@ -65,9 +65,9 @@
                             @endif
                             <span class="badge text-bg-secondary">Football</span>
                             @if($article->type=='series')
-                            <a href="{{route('football.series', $article->id)}}" class="badge text-bg-success">{{$article->type}}</a>
+                            <a href="{{route('football.series', $article->slug)}}" class="badge text-bg-success">{{$article->type}}</a>
                             @else
-                            <a href="{{route('football.show', $article->id)}}" class="badge text-bg-success">{{$article->type}}</a>
+                            <a href="{{route('football.show', $article->slug)}}" class="badge text-bg-success">{{$article->type}}</a>
                             @endif
 
                             <!-- Button trigger modal -->
@@ -76,9 +76,9 @@
                                 <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
                             </a>
                             @if($article->type=='series')
-                            <h5 class="card-title"><a href="{{route('football.series', $article->id)}}">{{$article->headlineUtamaArtikel}}</a></h5>
+                            <h5 class="card-title"><a href="{{route('football.series', $article->slug)}}">{{$article->headlineUtamaArtikel}}</a></h5>
                             @else
-                            <h5 class="card-title"><a href="{{route('football.show', $article->id)}}">{{$article->headlineUtamaArtikel}}</a></h5>
+                            <h5 class="card-title"><a href="{{route('football.show', $article->slug)}}">{{$article->headlineUtamaArtikel}}</a></h5>
                             @endif
                             <p class="card-text">{{date_format($article->created_at,"d M Y")}} 
                             </p>
@@ -138,9 +138,9 @@
             <img class="w-100" src="{{ asset('images_download/'.$highlightPost->image1) }}" alt="{{$highlightPost->headlineUtamaArtikel}}">
             <div class="caption" style="margin-top: -25%; margin-left: 5%;">
                 @if($highlightPost->type=='series')
-                <h1 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.series', $highlightPost->id)}}">{{$highlightPost->headlineUtamaArtikel}}</a></h1>
+                <h1 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.series', $highlightPost->slug)}}">{{$highlightPost->headlineUtamaArtikel}}</a></h1>
                 @else
-                <h1 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.show', $highlightPost->id)}}">{{$highlightPost->headlineUtamaArtikel}}</a></h1>
+                <h1 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.show', $highlightPost->slug)}}">{{$highlightPost->headlineUtamaArtikel}}</a></h1>
                 @endif
                 <p>{{ \Carbon\Carbon::parse($highlightPost->created_at)->format('d M Y') }}</p>
             </div>
@@ -165,9 +165,9 @@
                                 <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
                             </a>
                             @if($sh->type=='series')
-                            <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.series', $sh->id)}}">{{$sh->headlineUtamaArtikel}}</a></h5>
+                            <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.series', $sh->slug)}}">{{$sh->headlineUtamaArtikel}}</a></h5>
                             @else
-                            <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.show', $sh->id)}}">{{$sh->headlineUtamaArtikel}}</a></h5>
+                            <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.show', $sh->slug)}}">{{$sh->headlineUtamaArtikel}}</a></h5>
                             @endif
                             <p>{{ \Carbon\Carbon::parse($sh->created_at)->format('d M Y') }}</p>
                         </li>
@@ -200,9 +200,9 @@
                             <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
                         </a>
                         @if($trending->type=='series')
-                        <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h5>
+                        <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h5>
                         @else
-                        <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h5>
+                        <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h5>
                         @endif
                         <p class="card-text">{{ \Carbon\Carbon::parse($trending->created_at)->format('d M Y') }}</p>
                     </div>
@@ -258,9 +258,9 @@
                                 <path d="M7.5 11.6667C7.73611 11.6667 7.93417 11.5867 8.09417 11.4267C8.25417 11.2667 8.33389 11.0689 8.33333 10.8333C8.33278 10.5978 8.25278 10.4 8.09333 10.24C7.93389 10.08 7.73611 10 7.5 10C7.26389 10 7.06611 10.08 6.90667 10.24C6.74722 10.4 6.66722 10.5978 6.66667 10.8333C6.66611 11.0689 6.74611 11.2669 6.90667 11.4275C7.06722 11.5881 7.265 11.6678 7.5 11.6667ZM6.66667 8.33333H8.33333V3.33333H6.66667V8.33333ZM4.375 15L0 10.625V4.375L4.375 0H10.625L15 4.375V10.625L10.625 15H4.375ZM5.08333 13.3333H9.91667L13.3333 9.91667V5.08333L9.91667 1.66667H5.08333L1.66667 5.08333V9.91667L5.08333 13.3333Z" fill="#060606"/></svg>
                             </a>
                             @if($rec->type=='series')
-                            <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.series', $rec->artikel_id)}}">{{$rec->headlineUtamaArtikel}}</a></h5>
+                            <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.series', $rec->slug)}}">{{$rec->headlineUtamaArtikel}}</a></h5>
                             @else
-                            <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.show', $rec->artikel_id)}}">{{$rec->headlineUtamaArtikel}}</a></h5>
+                            <h5 class="card-title"><a class="text-decoration-none text-black" href="{{route('football.show', $rec->slug)}}">{{$rec->headlineUtamaArtikel}}</a></h5>
                             @endif
                             <p class="card-text">{{ \Carbon\Carbon::parse($rec->created_at)->format('d M Y') }}</p>
                         </div>

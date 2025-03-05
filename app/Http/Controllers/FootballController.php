@@ -316,7 +316,6 @@ class FootballController extends Controller
                 $articles = [];
             }
         }
-        
         return view('football.viewall', [
             'articles' => $articles
         ]);

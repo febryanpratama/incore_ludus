@@ -25,35 +25,35 @@
                                         <span class="card-text"><small>{{ \Carbon\Carbon::parse($trending->created_at)->diffForHumans()}}</small></span>
                                         @if($trending->type=='series')
                                             @if($trending->category_name == "Badminton" || $trending->category_name == "badminton")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "Basket" || $trending->category_name == "basket")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "volley" || $trending->category_name == "Volley")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "taekwondo" || $trending->category_name == "Taekwondo")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "Karate" || $trending->category_name == "karate")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "football" || $trending->category_name == "Football")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @endif
                                         @else
                                             @if($trending->category_name == "Badminton" || $trending->category_name == "badminton")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "Basket" || $trending->category_name == "basket")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "volley" || $trending->category_name == "Volley")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "taekwondo" || $trending->category_name == "Taekwondo")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "Karate" || $trending->category_name == "karate")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "football" || $trending->category_name == "Football")
-                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @endif
                                         @endif
                                     </div>
@@ -84,9 +84,9 @@
                             <img src="{{ asset('images_download/'.$footballTranding->image1) }}" class="d-block w-100" alt="{{$footballTranding->headlineUtamaArtikel}}">
                             <div class="carousel-caption d-none d-md-block">
                                 @if($footballTranding->type=='series')
-                                <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $footballTranding->id)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
+                                <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $footballTranding->slug)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
                                 @else
-                                <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $footballTranding->id)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
+                                <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $footballTranding->slug)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
                                 @endif
                                 <div class="row">
                                     <div class="col-5"></div>
@@ -108,9 +108,9 @@
                                 <div class="carousel-caption d-none d-md-block">
                                     <!-- <h1>FTimnas U-23 Indonesia VS Timnas U-23 Argentina</h1> -->
                                     @if($fb->type=='series')
-                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $fb->id)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
+                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $fb->slug)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
                                     @else
-                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $fb->id)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
+                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $fb->slug)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
                                     @endif
                                     <div class="row">
                                         <div class="col-2">
@@ -148,9 +148,9 @@
                             <div class="col-4">
                                 <img src="{{ asset('images_download/'.$bm->image1) }}" alt="{{$bm->headlineUtamaArtikel}}">
                                 @if($bm->type=='series')
-                                <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.series', $bm->id)}}">{{$bm->headlineUtamaArtikel}}</a></h5>
+                                <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.series', $bm->slug)}}">{{$bm->headlineUtamaArtikel}}</a></h5>
                                 @else
-                                <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.show', $bm->id)}}">{{$bm->headlineUtamaArtikel}}</a></h5>
+                                <h5><a class="text-text-decoration-none text-white" href="{{route('badminton.show', $bm->slug)}}">{{$bm->headlineUtamaArtikel}}</a></h5>
                                 @endif
                             </div>
                         @endforeach
@@ -180,21 +180,21 @@
                                 <img src="{{ asset('images_download/'.$bas->image1) }}" alt="{{$bas->headlineUtamaArtikel}}">
                                 @if(preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $bas->headlineUtamaArtikel, $matches))
                                     @if($bas->type=='series')
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.series', $bas->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.series', $bas->slug)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
                                     @else
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.show', $bas->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.show', $bas->slug)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
                                     @endif
                                 @elseif(preg_match('/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)\b/', $bas->headlineUtamaArtikel, $matches))
                                     @if($bas->type=='series')
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.series', $bas->id)}}">{{ $matches[0]}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.series', $bas->slug)}}">{{ $matches[0]}}</a></h5>
                                     @else
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.show', $bas->id)}}">{{ $matches[0]}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.show', $bas->slug)}}">{{ $matches[0]}}</a></h5>
                                     @endif
                                 @else
                                     @if($bas->type=='series')
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.series', $bas->id)}}">{{ Str::words($string, 2)}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.series', $bas->slug)}}">{{ Str::words($string, 2)}}</a></h5>
                                     @else
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.show', $bas->id)}}">{{ Str::words($string, 2)}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('basket.show', $bas->slug)}}">{{ Str::words($string, 2)}}</a></h5>
                                     @endif
                                 @endif
                             </div>
@@ -217,21 +217,21 @@
                                 <img src="{{ asset('images_download/'.$vol->image1) }}" alt="{{$vol->headlineUtamaArtikel}}">
                                 @if(preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $vol->headlineUtamaArtikel, $matches))
                                     @if($vol->type=='series')
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.series', $vol->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.series', $vol->slug)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
                                     @else
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.show', $vol->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.show', $vol->slug)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
                                     @endif
                                 @elseif(preg_match('/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)\b/', $vol->headlineUtamaArtikel, $matches))
                                     @if($vol->type=='series')
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.series', $vol->id)}}">{{ $matches[0]}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.series', $vol->slug)}}">{{ $matches[0]}}</a></h5>
                                     @else
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.show', $vol->id)}}">{{ $matches[0]}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.show', $vol->slug)}}">{{ $matches[0]}}</a></h5>
                                     @endif
                                 @else
                                     @if($vol->type=='series')
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.series', $vol->id)}}">{{ Str::words($string, 2)}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.series', $vol->slug)}}">{{ Str::words($string, 2)}}</a></h5>
                                     @else
-                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.show', $vol->id)}}">{{ Str::words($string, 2)}}</a></h5>
+                                    <h5><a class="text-text-decoration-none text-white" href="{{route('volley.show', $vol->slug)}}">{{ Str::words($string, 2)}}</a></h5>
                                     @endif
                                 @endif
                             </div>
@@ -263,55 +263,55 @@
                                 @if(preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $mar->headlineUtamaArtikel, $matches))
                                     @if($mar->type=='series')
                                         @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('taekwondo.series', $mar->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.series', $mar->slug)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
                                         @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('karate.series', $mar->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('karate.series', $mar->slug)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
                                         @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('silat.series', $mar->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('silat.series', $mar->slug)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
                                         @endif
                                     @else
                                         @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('taekwondo.show', $mar->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.show', $mar->slug)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
                                         @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('karate.show', $mar->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('karate.show', $mar->slug)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
                                         @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('silat.show', $mar->id)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('silat.show', $mar->slug)}}">{{ $matches[1] ?? $matches[2]}}</a></h5>
                                         @endif
                                     @endif
                                 @elseif(preg_match('/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)\b/', $mar->headlineUtamaArtikel, $matches))
                                     @if($mar->type=='series')
                                         @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('taekwondo.series', $mar->id)}}">{{ $matches[0]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.series', $mar->slug)}}">{{ $matches[0]}}</a></h5>
                                         @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('karate.series', $mar->id)}}">{{ $matches[0]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('karate.series', $mar->slug)}}">{{ $matches[0]}}</a></h5>
                                         @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('silat.series', $mar->id)}}">{{ $matches[0]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('silat.series', $mar->slug)}}">{{ $matches[0]}}</a></h5>
                                         @endif
                                     @else
                                         @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('taekwondo.show', $mar->id)}}">{{ $matches[0]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.show', $mar->slug)}}">{{ $matches[0]}}</a></h5>
                                         @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('karate.show', $mar->id)}}">{{ $matches[0]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('karate.show', $mar->slug)}}">{{ $matches[0]}}</a></h5>
                                         @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('silat.show', $mar->id)}}">{{ $matches[0]}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('silat.show', $mar->slug)}}">{{ $matches[0]}}</a></h5>
                                         @endif
                                     @endif
                                 @else
                                     @if($mar->type=='series')
                                         @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('taekwondo.series', $mar->id)}}">{{ Str::words($string, 2)}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.series', $mar->slug)}}">{{ Str::words($string, 2)}}</a></h5>
                                         @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('karate.series', $mar->id)}}">{{ Str::words($string, 2)}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('karate.series', $mar->slug)}}">{{ Str::words($string, 2)}}</a></h5>
                                         @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('silat.series', $mar->id)}}">{{ Str::words($string, 2)}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('silat.series', $mar->slug)}}">{{ Str::words($string, 2)}}</a></h5>
                                         @endif
                                     @else
                                         @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('taekwondo.show', $mar->id)}}">{{ Str::words($string, 2)}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.show', $mar->slug)}}">{{ Str::words($string, 2)}}</a></h5>
                                         @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('karate.show', $mar->id)}}">{{ Str::words($string, 2)}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('karate.show', $mar->slug)}}">{{ Str::words($string, 2)}}</a></h5>
                                         @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('silat.show', $mar->id)}}">{{ Str::words($string, 2)}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('silat.show', $mar->slug)}}">{{ Str::words($string, 2)}}</a></h5>
                                         @endif
                                     @endif
                                 @endif

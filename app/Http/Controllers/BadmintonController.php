@@ -344,7 +344,6 @@ class BadmintonController extends Controller
                 $articles = [];
             }
         }
-
         return view('badminton.viewhighlight', [
             'articles' => $articles
         ]);
