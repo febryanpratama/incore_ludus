@@ -262,20 +262,21 @@
                         <p>Data Kosong</p>
                     @else 
                         @foreach($volleys as $vol)
+
                             <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
                                 <div class="card h-100">
                                 @if($vol->type=='series')
-                                <a href="{{route('volley.series', $slug)}}">
+                                <a href="{{route('volley.series', $vol->slug)}}">
                                 @else
-                                <a href="{{route('volley.show', $slug)}}">
+                                <a href="{{route('volley.show', $vol->slug)}}">
                                 @endif
                                     <img src="{{ asset('images_download/'.$vol->image1) }}" class="card-img-top" alt="{{$vol->headlineUtamaArtikel}}">
                                 </a>
                                     <div class="card-body">
                                         @if($vol->type=='series')
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('volley.series', $slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
+                                        <h5><a class="text-decoration-none text-dark" href="{{route('volley.series', $vol->slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
                                         @else
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('volley.show', $slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
+                                        <h5><a class="text-decoration-none text-dark" href="{{route('volley.show', $vol->slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
                                         @endif
                                     </div>
                                 </div>
