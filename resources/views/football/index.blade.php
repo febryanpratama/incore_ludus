@@ -35,11 +35,10 @@
 <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <div class="row w-100">
-    <div class="col-3 col-md-2 col-sm-9">
+        <div class="col-3 col-md-2 col-sm-9">
             <a class="navbar-brand"><h5>Lates News</h5></a>
         </div>
-    </div>
-    <div class="col-3 col-md-2 col-sm-3">
+        <div class="col-3 col-md-2 col-sm-3">
         <a href="{{ route('football.viewall') }}" type="button" class="btn btn-outline-dark p-1">View All</a>
     </div>
   </div>
