@@ -324,25 +324,27 @@
                         @foreach($martialarts as $mar)
                             @if($mar->image1!=null && $mar->headlineUtamaArtikel!=null && $mar->paragraf1)
                                 <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="card">
+                                    <div class="card h-100">
                                         <img src="{{ asset('images_download/'.$mar->image1) }}" alt="{{$mar->headlineUtamaArtikel}}">
-                                        @if($mar->type=='series')
-                                            @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
-                                                <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.series', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
-                                            @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
-                                                <h5><a class="text-decoration-none text-black" href="{{route('karate.series', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
-                                            @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
-                                                <h5><a class="text-decoration-none text-black" href="{{route('silat.series', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                        <div class="card-body">
+                                            @if($mar->type=='series')
+                                                @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
+                                                    <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.series', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                                @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
+                                                    <h5><a class="text-decoration-none text-black" href="{{route('karate.series', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                                @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
+                                                    <h5><a class="text-decoration-none text-black" href="{{route('silat.series', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                                @endif
+                                            @else
+                                                @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
+                                                    <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.show', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                                @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
+                                                    <h5><a class="text-decoration-none text-black" href="{{route('karate.show', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                                @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
+                                                    <h5><a class="text-decoration-none text-black" href="{{route('silat.show', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                                @endif
                                             @endif
-                                        @else
-                                            @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
-                                                <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.show', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
-                                            @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
-                                                <h5><a class="text-decoration-none text-black" href="{{route('karate.show', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
-                                            @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
-                                                <h5><a class="text-decoration-none text-black" href="{{route('silat.show', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
-                                            @endif
-                                        @endif
+                                        </div>
                                     </div>
                                 </div>
                             @endif
