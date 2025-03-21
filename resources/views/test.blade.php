@@ -18,7 +18,7 @@
                     @foreach($trendingPosts as $trending)
                     <div class="card mb-1" style="background-color: rgba(255, 255, 255, 0.2)">
                         <div class="row">
-                            <div class="col-4 d-flex align-items-center">
+                            <div class="col-4 d-flex align-items-center card bg-transparent">
                                 <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}">
                             </div>
                             <div class="col-8">
@@ -26,35 +26,35 @@
                                     <span class="card-text"><small>{{ \Carbon\Carbon::parse($trending->created_at)->diffForHumans()}}</small></span>
                                     @if($trending->type=='series')
                                         @if($trending->category_name == "Badminton" || $trending->category_name == "badminton")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "Basket" || $trending->category_name == "basket")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "volley" || $trending->category_name == "Volley")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "taekwondo" || $trending->category_name == "Taekwondo")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "Karate" || $trending->category_name == "karate")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "football" || $trending->category_name == "Football")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.series', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @endif
                                     @else
                                         @if($trending->category_name == "Badminton" || $trending->category_name == "badminton")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "Basket" || $trending->category_name == "basket")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "volley" || $trending->category_name == "Volley")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "taekwondo" || $trending->category_name == "Taekwondo")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "Karate" || $trending->category_name == "karate")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @elseif($trending->category_name == "football" || $trending->category_name == "Football")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.show', $trending->id)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                         @endif
                                     @endif
                                 </div>
@@ -84,7 +84,7 @@
                     </h1>
                 </div>
             </div>  
-            <div class="col-sm-12 col-md-8 p-0">
+            <div class="col-sm-8 col-md-8 p-0">
                 <div id="carouselExampleCaptions" class="carousel slide">
                     <div class="carousel-inner">
                         @if($footballTranding==null)
@@ -92,17 +92,17 @@
                         @else 
                         <div class="carousel-item active">
                             @if($footballTranding->type=='series')
-                            <a href="{{route('football.series', $footballTranding->id)}}">
+                            <a href="{{route('football.series', $footballTranding->slug)}}">
                             @else
-                            <a href="{{route('football.show', $footballTranding->id)}}">
+                            <a href="{{route('football.show', $footballTranding->slug)}}">
                             @endif
                             <img src="{{ asset('images_download/'.$footballTranding->image1) }}" class="d-block w-100" alt="{{$footballTranding->headlineUtamaArtikel}}">
                             </a>
                             <div class="carousel-caption d-none d-md-block">
                                 @if($footballTranding->type=='series')
-                                <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $footballTranding->id)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
+                                <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $footballTranding->slug)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
                                 @else
-                                <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $footballTranding->id)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
+                                <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $footballTranding->slug)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
                                 @endif
                                 <div class="row">
                                     <div class="col-5"></div>
@@ -322,28 +322,28 @@
                         <p>Data Kosong</p>
                     @else 
                         @foreach($martialarts as $mar)
-                            <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
-                                <div class="card h-100 border-none">
+                            @if($mar->image1!=null && $mar->headlineUtamaArtikel!=null && $mar->paragraf1)
+                                <div class="col-4">
                                     <img src="{{ asset('images_download/'.$mar->image1) }}" alt="{{$mar->headlineUtamaArtikel}}">
                                     @if($mar->type=='series')
                                         @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('taekwondo.series', $mar->id)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.series', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
                                         @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('karate.series', $mar->id)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('karate.series', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
                                         @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('silat.series', $mar->id)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('silat.series', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
                                         @endif
                                     @else
                                         @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('taekwondo.show', $mar->id)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('taekwondo.show', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
                                         @elseif($mar->category_name == "Karate" || $mar->category_name == "karate")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('karate.show', $mar->id)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('karate.show', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
                                         @elseif($mar->category_name == "Pencak Silat" || $mar->category_name == "pencak silat" || $mar->category_name == "Pencak silat" || $mar->category_name == "pencak Silat" || $mar->category_name == "silat" || $mar->category_name == "Silat")
-                                            <h5><a class="text-decoration-none text-white" href="{{route('silat.show', $mar->id)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
+                                            <h5><a class="text-decoration-none text-black" href="{{route('silat.show', $mar->slug)}}">{{ $mar->headlineUtamaArtikel}}</a></h5>
                                         @endif
                                     @endif
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
                     @endif
                 </div>
