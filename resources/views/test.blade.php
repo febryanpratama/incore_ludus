@@ -16,51 +16,53 @@
                     <p>Data Kosong</p>
                 @else 
                     @foreach($trendingPosts as $trending)
-                    <div class="card mb-1" style="background-color: rgba(255, 255, 255, 0.2)">
-                        <div class="row">
-                            <div class="col-4 d-flex align-items-center">
-                                <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}" style="max-width : 50px;">
-                            </div>
-                            <div class="col-8">
-                                <div class="card-body">
-                                    <span class="card-text"><small>{{ \Carbon\Carbon::parse($trending->created_at)->diffForHumans()}}</small></span>
-                                    @if($trending->type=='series')
-                                        @if($trending->category_name == "Badminton" || $trending->category_name == "badminton")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "Basket" || $trending->category_name == "basket")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "volley" || $trending->category_name == "Volley")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "taekwondo" || $trending->category_name == "Taekwondo")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "Karate" || $trending->category_name == "karate")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "football" || $trending->category_name == "Football")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                        @if($trending->image1!=null && $trending->headlineUtamaArtikel!=null && $trending->paragraf1)
+                        <div class="card mb-1" style="background-color: rgba(255, 255, 255, 0.2)">
+                            <div class="row">
+                                <div class="col-4 d-flex align-items-center">
+                                    <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}" style="max-width : 50px;">
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body">
+                                        <span class="card-text"><small>{{ \Carbon\Carbon::parse($trending->created_at)->diffForHumans()}}</small></span>
+                                        @if($trending->type=='series')
+                                            @if($trending->category_name == "Badminton" || $trending->category_name == "badminton")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "Basket" || $trending->category_name == "basket")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "volley" || $trending->category_name == "Volley")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "taekwondo" || $trending->category_name == "Taekwondo")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "Karate" || $trending->category_name == "karate")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "football" || $trending->category_name == "Football")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @endif
+                                        @else
+                                            @if($trending->category_name == "Badminton" || $trending->category_name == "badminton")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "Basket" || $trending->category_name == "basket")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "volley" || $trending->category_name == "Volley")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "taekwondo" || $trending->category_name == "Taekwondo")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "Karate" || $trending->category_name == "karate")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @elseif($trending->category_name == "football" || $trending->category_name == "Football")
+                                                <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
+                                            @endif
                                         @endif
-                                    @else
-                                        @if($trending->category_name == "Badminton" || $trending->category_name == "badminton")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "Basket" || $trending->category_name == "basket")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('basket.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "volley" || $trending->category_name == "Volley")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('volley.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "taekwondo" || $trending->category_name == "Taekwondo")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "Karate" || $trending->category_name == "karate")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @elseif($trending->category_name == "football" || $trending->category_name == "Football")
-                                            <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                        @endif
-                                    @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        @endif
                     @endforeach
                 @endif
             </div>
@@ -90,59 +92,63 @@
                         @if($footballTranding==null)
                         <p>Data Kosong</p>
                         @else 
-                        <div class="carousel-item active">
-                            @if($footballTranding->type=='series')
-                            <a href="{{route('football.series', $footballTranding->slug)}}">
-                            @else
-                            <a href="{{route('football.show', $footballTranding->slug)}}">
-                            @endif
-                            <img src="{{ asset('images_download/'.$footballTranding->image1) }}" class="d-block w-100" alt="{{$footballTranding->headlineUtamaArtikel}}" style="max-width : 800px;">
-                            </a>
-                            <div class="carousel-caption d-none d-md-block">
+                            @if($footballTranding->image1!=null && $footballTranding->headlineUtamaArtikel!=null && $footballTranding->paragraf1)
+                            <div class="carousel-item active">
                                 @if($footballTranding->type=='series')
-                                <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $footballTranding->slug)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
+                                <a href="{{route('football.series', $footballTranding->slug)}}">
                                 @else
-                                <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $footballTranding->slug)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
+                                <a href="{{route('football.show', $footballTranding->slug)}}">
                                 @endif
-                                <div class="row">
-                                    <div class="col-5"></div>
-                                    <div class="col-5">
-                                        <p><small>{{ \Carbon\Carbon::parse($footballTranding->created_at)->diffForHumans()}}</small></p>
-                                    </div>
-                                    <div class="col-5">
+                                <img src="{{ asset('images_download/'.$footballTranding->image1) }}" class="d-block w-100" alt="{{$footballTranding->headlineUtamaArtikel}}" style="max-width : 800px;">
+                                </a>
+                                <div class="carousel-caption d-none d-md-block">
+                                    @if($footballTranding->type=='series')
+                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $footballTranding->slug)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
+                                    @else
+                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $footballTranding->slug)}}">{{$footballTranding->headlineUtamaArtikel}}</a></h1>
+                                    @endif
+                                    <div class="row">
+                                        <div class="col-5"></div>
+                                        <div class="col-5">
+                                            <p><small>{{ \Carbon\Carbon::parse($footballTranding->created_at)->diffForHumans()}}</small></p>
+                                        </div>
+                                        <div class="col-5">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            @endif
                         @endif
                         @if($footballs==null)
                         <p>Data Kosong</p>
                         @else 
                             @foreach($footballs as $fb)
-                            <div class="carousel-item">
-                                @if($fb->type=='series')
-                                <a href="{{route('football.series', $fb->slug)}}">
-                                @else
-                                <a href="{{route('football.show', $fb->slug)}}">
-                                @endif
-                                    <img src="{{ asset('images_download/'.$fb->image1) }}" class="d-block w-100" alt="{{$fb->headlineUtamaArtikel}}">
-                                </a>
-                                <div class="carousel-caption d-none d-md-block">
-                                    <!-- <h1>FTimnas U-23 Indonesia VS Timnas U-23 Argentina</h1> -->
+                                @if($fb->image1!=null && $fb->headlineUtamaArtikel!=null && $fb->paragraf1)
+                                <div class="carousel-item">
                                     @if($fb->type=='series')
-                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $fb->slug)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
+                                    <a href="{{route('football.series', $fb->slug)}}">
                                     @else
-                                    <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $fb->slug)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
+                                    <a href="{{route('football.show', $fb->slug)}}">
                                     @endif
-                                    <div class="row">
-                                        <div class="col-2">
-                                            <p><small>{{ \Carbon\Carbon::parse($fb->created_at)->diffForHumans()}}</small></p>
-                                        </div>
-                                        <div class="col-10">
+                                        <img src="{{ asset('images_download/'.$fb->image1) }}" class="d-block w-100" alt="{{$fb->headlineUtamaArtikel}}">
+                                    </a>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <!-- <h1>FTimnas U-23 Indonesia VS Timnas U-23 Argentina</h1> -->
+                                        @if($fb->type=='series')
+                                        <h1><a class="text-text-decoration-none text-white" href="{{route('football.series', $fb->slug)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
+                                        @else
+                                        <h1><a class="text-text-decoration-none text-white" href="{{route('football.show', $fb->slug)}}">{{$fb->headlineUtamaArtikel}}</a></h1>
+                                        @endif
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <p><small>{{ \Carbon\Carbon::parse($fb->created_at)->diffForHumans()}}</small></p>
+                                            </div>
+                                            <div class="col-10">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                @endif
                             @endforeach
                         @endif
                     </div>
@@ -182,24 +188,26 @@
                         <p>Data Kosong</p>
                     @else 
                         @foreach($badmintons as $bm)
-                            <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
-                                <div class="card h-100">
-                                @if($bm->type=='series')
-                                <a href="{{route('badminton.series', $bm->slug)}}">
-                                @else
-                                <a href="{{route('badminton.show', $bm->slug)}}">
-                                @endif
-                                    <img src="{{ asset('images_download/'.$bm->image1) }}" class="card-img-top" alt="{{$bm->headlineUtamaArtikel}}">
-                                </a>
-                                    <div class="card-body">
-                                        @if($bm->type=='series')
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('badminton.series', $bm->slug)}}">{{ $bm->headlineUtamaArtikel}}</a></h5>
-                                        @else
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('badminton.show', $bm->slug)}}">{{ $bm->headlineUtamaArtikel}}</a></h5>
-                                        @endif
+                            @if($bm->image1!=null && $bm->headlineUtamaArtikel!=null && $bm->paragraf1)
+                                <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
+                                    <div class="card h-100">
+                                    @if($bm->type=='series')
+                                    <a href="{{route('badminton.series', $bm->slug)}}">
+                                    @else
+                                    <a href="{{route('badminton.show', $bm->slug)}}">
+                                    @endif
+                                        <img src="{{ asset('images_download/'.$bm->image1) }}" class="card-img-top" alt="{{$bm->headlineUtamaArtikel}}">
+                                    </a>
+                                        <div class="card-body">
+                                            @if($bm->type=='series')
+                                            <h5><a class="text-decoration-none text-dark" href="{{route('badminton.series', $bm->slug)}}">{{ $bm->headlineUtamaArtikel}}</a></h5>
+                                            @else
+                                            <h5><a class="text-decoration-none text-dark" href="{{route('badminton.show', $bm->slug)}}">{{ $bm->headlineUtamaArtikel}}</a></h5>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
                     @endif
                 </div>
@@ -228,24 +236,26 @@
                         <p>Data Kosong</p>
                     @else 
                         @foreach($baskets as $bas)
-                            <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
-                                <div class="card h-100">
-                                @if($bas->type=='series')
-                                <a href="{{route('basket.series', $bas->slug)}}">
-                                @else
-                                <a href="{{route('basket.show', $bas->slug)}}">
-                                @endif
-                                    <img src="{{ asset('images_download/'.$bas->image1) }}" class="card-img-top" alt="{{$bas->headlineUtamaArtikel}}">
-                                </a>
-                                    <div class="card-body">
-                                        @if($bas->type=='series')
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('basket.series', $bas->slug)}}">{{ $bas->headlineUtamaArtikel}}</a></h5>
-                                        @else
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('basket.show', $bas->slug)}}">{{ $bas->headlineUtamaArtikel}}</a></h5>
-                                        @endif
+                            @if($bas->image1!=null && $bas->headlineUtamaArtikel!=null && $bas->paragraf1)
+                                <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
+                                    <div class="card h-100">
+                                    @if($bas->type=='series')
+                                    <a href="{{route('basket.series', $bas->slug)}}">
+                                    @else
+                                    <a href="{{route('basket.show', $bas->slug)}}">
+                                    @endif
+                                        <img src="{{ asset('images_download/'.$bas->image1) }}" class="card-img-top" alt="{{$bas->headlineUtamaArtikel}}">
+                                    </a>
+                                        <div class="card-body">
+                                            @if($bas->type=='series')
+                                            <h5><a class="text-decoration-none text-dark" href="{{route('basket.series', $bas->slug)}}">{{ $bas->headlineUtamaArtikel}}</a></h5>
+                                            @else
+                                            <h5><a class="text-decoration-none text-dark" href="{{route('basket.show', $bas->slug)}}">{{ $bas->headlineUtamaArtikel}}</a></h5>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
                     @endif
                 </div>
@@ -262,25 +272,26 @@
                         <p>Data Kosong</p>
                     @else 
                         @foreach($volleys as $vol)
-
-                            <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
-                                <div class="card h-100">
-                                @if($vol->type=='series')
-                                <a href="{{route('volley.series', $vol->slug)}}">
-                                @else
-                                <a href="{{route('volley.show', $vol->slug)}}">
-                                @endif
-                                    <img src="{{ asset('images_download/'.$vol->image1) }}" class="card-img-top" alt="{{$vol->headlineUtamaArtikel}}">
-                                </a>
-                                    <div class="card-body">
-                                        @if($vol->type=='series')
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('volley.series', $vol->slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
-                                        @else
-                                        <h5><a class="text-decoration-none text-dark" href="{{route('volley.show', $vol->slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
-                                        @endif
+                            @if($fb->image1!=null && $fb->headlineUtamaArtikel!=null && $fb->paragraf1)
+                                <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
+                                    <div class="card h-100">
+                                    @if($vol->type=='series')
+                                    <a href="{{route('volley.series', $vol->slug)}}">
+                                    @else
+                                    <a href="{{route('volley.show', $vol->slug)}}">
+                                    @endif
+                                        <img src="{{ asset('images_download/'.$vol->image1) }}" class="card-img-top" alt="{{$vol->headlineUtamaArtikel}}">
+                                    </a>
+                                        <div class="card-body">
+                                            @if($vol->type=='series')
+                                            <h5><a class="text-decoration-none text-dark" href="{{route('volley.series', $vol->slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
+                                            @else
+                                            <h5><a class="text-decoration-none text-dark" href="{{route('volley.show', $vol->slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         @endforeach
                     @endif
                 </div>
