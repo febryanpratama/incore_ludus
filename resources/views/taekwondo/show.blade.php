@@ -27,7 +27,7 @@
 <div class="container-fluid d-pg2">
     <div class="container">
         <div class="row">
-        class="col-lg-3 col-md-3 col-sm-12"></div>
+        <div class="col-lg-3 col-md-3 col-sm-12"></div>
         <div class="col-lg-6 col-md-6 col-sm-12">
                 <div class="header">
                     <p><span>{{date_format($article->created_at,"d M Y")}}<span></p>

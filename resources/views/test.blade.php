@@ -16,11 +16,11 @@
                     <p>Data Kosong</p>
                 @else 
                     @foreach($trendingPosts as $trending)
-                        @if($trending->image1!=null && $trending->headlineUtamaArtikel!=null && $trending->paragraf1)
+                        @if($trending->image1!=null || $trending->headlineUtamaArtikel!=null || $trending->paragraf1)
                         <div class="card mb-1" style="background-color: rgba(255, 255, 255, 0.2)">
                             <div class="row">
                                 <div class="col-4 d-flex align-items-center">
-                                    <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}" style="max-width : 50px;">
+                                    <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}" style="max-width : 100px;">
                                 </div>
                                 <div class="col-8">
                                     <div class="card-body">
@@ -76,7 +76,7 @@
             </div> -->
             <div class="col-md-4 d-flex justify-content-center align-items-center position-relative text-center p-0">
                 <!-- Gambar -->
-                <img src="{{ asset('/img/imagepg2.png') }}" class="img-fluid w-100 h-auto" alt="Martial Arts">
+                <img src="{{ asset('/img/imagepg2.png') }}" class="img-fluid h-100 w-auto" alt="Martial Arts">
             
                 <!-- Teks di atas gambar -->
                 <div class="position-absolute text-white" style="bottom: 5%; left: 50%; transform: translate(-50%, -50%);">
@@ -90,16 +90,16 @@
                 <div id="carouselExampleCaptions" class="carousel slide">
                     <div class="carousel-inner">
                         @if($footballTranding==null)
-                        <p>Data Kosong</p>
+                        <p></p>
                         @else 
-                            @if($footballTranding->image1!=null && $footballTranding->headlineUtamaArtikel!=null && $footballTranding->paragraf1)
+                            @if($footballTranding->image1!=null || $footballTranding->headlineUtamaArtikel!=null || $footballTranding->paragraf1)
                             <div class="carousel-item active">
                                 @if($footballTranding->type=='series')
                                 <a href="{{route('football.series', $footballTranding->slug)}}">
                                 @else
                                 <a href="{{route('football.show', $footballTranding->slug)}}">
                                 @endif
-                                <img src="{{ asset('images_download/'.$footballTranding->image1) }}" class="d-block w-100" alt="{{$footballTranding->headlineUtamaArtikel}}" style="max-width : 800px;">
+                                <img src="{{ asset('images_download/'.$footballTranding->image1) }}" class="d-block w-100" alt="{{$footballTranding->headlineUtamaArtikel}}" style="max-width : 910px;">
                                 </a>
                                 <div class="carousel-caption d-none d-md-block">
                                     @if($footballTranding->type=='series')
@@ -123,7 +123,7 @@
                         <p>Data Kosong</p>
                         @else 
                             @foreach($footballs as $fb)
-                                @if($fb->image1!=null && $fb->headlineUtamaArtikel!=null && $fb->paragraf1)
+                                @if($fb->image1!=null || $fb->headlineUtamaArtikel!=null || $fb->paragraf1)
                                 <div class="carousel-item">
                                     @if($fb->type=='series')
                                     <a href="{{route('football.series', $fb->slug)}}">
@@ -170,7 +170,7 @@
             <!-- Bagian kanan (gambar) -->
             <div class="col-md-5 d-flex justify-content-center align-items-center position-relative text-center order-md-2 order-2">
                 <!-- Gambar -->
-                <img src="{{ asset('img/image-4.png') }}" class="img-fluid w-100 h-auto" alt="Badminton">
+                <img src="{{ asset('img/image-4.png') }}" class="img-fluid h-100 w-auto" alt="Badminton">
             
                 <!-- Teks di atas gambar -->
                 <div class="position-absolute text-white" style="bottom: 5%; left: 50%; transform: translate(-50%, -50%);">
@@ -188,7 +188,7 @@
                         <p>Data Kosong</p>
                     @else 
                         @foreach($badmintons as $bm)
-                            @if($bm->image1!=null && $bm->headlineUtamaArtikel!=null && $bm->paragraf1)
+                            @if($bm->image1!=null || $bm->headlineUtamaArtikel!=null || $bm->paragraf1)
                                 <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
                                     <div class="card h-100">
                                     @if($bm->type=='series')
@@ -219,7 +219,7 @@
         <div class="row">
             <div class="col-md-5 d-flex justify-content-center align-items-center position-relative text-center p-0">
                 <!-- Gambar -->
-                <img src="{{ asset('img/image-pg4.png') }}" class="img-fluid w-100 h-auto" alt="Basket">
+                <img src="{{ asset('img/image-pg4.png') }}" class="img-fluid h-100 w-auto" alt="Basket">
             
                 <!-- Teks di atas gambar -->
                 <div class="position-absolute text-white" style="bottom: 5%; left: 50%; transform: translate(-50%, -50%);">
@@ -236,7 +236,7 @@
                         <p>Data Kosong</p>
                     @else 
                         @foreach($baskets as $bas)
-                            @if($bas->image1!=null && $bas->headlineUtamaArtikel!=null && $bas->paragraf1)
+                            @if($bas->image1!=null || $bas->headlineUtamaArtikel!=null || $bas->paragraf1)
                                 <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
                                     <div class="card h-100">
                                     @if($bas->type=='series')
@@ -272,7 +272,7 @@
                         <p>Data Kosong</p>
                     @else 
                         @foreach($volleys as $vol)
-                            @if($fb->image1!=null && $fb->headlineUtamaArtikel!=null && $fb->paragraf1)
+                            @if($fb->image1!=null || $fb->headlineUtamaArtikel!=null || $fb->paragraf1)
                                 <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
                                     <div class="card h-100">
                                     @if($vol->type=='series')
@@ -317,7 +317,7 @@
         <div class="row">
             <div class="col-md-5 d-flex justify-content-center align-items-center position-relative text-center p-0">
                 <!-- Gambar -->
-                <img src="{{ asset('img/image-pg6.png') }}" class="img-fluid w-100 h-auto" alt="Martial Arts">
+                <img src="{{ asset('img/image-pg6.png') }}" class="img-fluid h-100 w-auto" alt="Martial Arts">
             
                 <!-- Teks di atas gambar -->
                 <div class="position-absolute text-white" style="bottom: 5%; left: 50%; transform: translate(-50%, -50%);">
@@ -333,7 +333,7 @@
                         <p>Data Kosong</p>
                     @else 
                         @foreach($martialarts as $mar)
-                            @if($mar->image1!=null && $mar->headlineUtamaArtikel!=null && $mar->paragraf1)
+                            @if($mar->image1!=null || $mar->headlineUtamaArtikel!=null || $mar->paragraf1)
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="card h-100">
                                         <img src="{{ asset('images_download/'.$mar->image1) }}" alt="{{$mar->headlineUtamaArtikel}}">
