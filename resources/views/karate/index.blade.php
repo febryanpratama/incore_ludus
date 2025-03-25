@@ -51,7 +51,7 @@
             <p></p>
         @else
             @foreach ($articles as $article)
-                @if($article->image1!=null || $article->headlineUtamaArtikel!=null || $article->paragraf1)
+                @if($article->image1!==null || $article->headlineUtamaArtikel!==null || $article->paragraf1!==null)
                 <div class="col-lg-3 col-md-3 col-sm-6 mt-3">
                     <div class="card">
                             @if($article->type=='series')
@@ -126,7 +126,7 @@
             @if($highlightPost==null)
                 <p></p>
             @else 
-                @if($highlightPost->image1!=null || $highlightPost->headlineUtamaArtikel!=null || $highlightPost->paragraf1)
+                @if($highlightPost->image1!==null || $highlightPost->headlineUtamaArtikel!==null || $highlightPost->paragraf1!==null)
                 <div class="label">
                     @if(\Carbon\Carbon::parse($highlightPost->created_at)->diff(now())->days <= 1)
                         <span class="badge text-bg-primary">New</span>
@@ -158,7 +158,7 @@
                 <div class="card">
                     <ul class="list-group list-group-flush">
                         @foreach($sideHighlight as $sh)
-                            @if($sh->image1!=null || $sh->headlineUtamaArtikel!=null || $sh->paragraf1)
+                            @if($sh->image1!==null || $sh->headlineUtamaArtikel!==null || $sh->paragraf1!==null)
                             <li class="list-group-item">
                                 @if(\Carbon\Carbon::parse($sh->created_at)->diff(now())->days <= 1)
                                 <span class="badge text-bg-primary">New</span>
@@ -192,7 +192,7 @@
             <p></p>
         @else 
             @foreach($trendingPosts as $trending)
-                @if($trending->image1!=null || $trending->headlineUtamaArtikel!=null || $trending->paragraf1)
+                @if($trending->image1!==null || $trending->headlineUtamaArtikel!==null || $trending->paragraf1!==null)
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="card">
                         <img src="{{ asset('images_download/'.$trending->image1) }}" class="card-img-top" alt="{{$trending->headlineUtamaArtikel}}">
@@ -255,7 +255,7 @@
             <p></p>
         @else 
             @foreach($recommendations as $rec)
-                @if($rec->image1!=null || $rec->headlineUtamaArtikel!=null || $rec->paragraf1)
+                @if($rec->image1!==null || $rec->headlineUtamaArtikel!==null || $rec->paragraf1!==null)
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="card">
                         <img src="{{ asset('images_download/'.$rec->image1) }}" class="card-img-top" alt="{{$rec->headlineUtamaArtikel}}">
