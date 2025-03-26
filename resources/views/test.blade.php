@@ -11,7 +11,7 @@
     
             <!-- Bagian Kanan -->
             <div class="col-md-6 image-section">
-                <h3 class="text-white">Popular this week</h3>
+                <h3 class="text-white mt-3">Popular this week</h3>
                 @if($trendingPosts==null)
                     <p>Data Kosong</p>
                 @else 
@@ -20,7 +20,7 @@
                         <div class="card mb-1" style="background-color: rgba(255, 255, 255, 0.2)">
                             <div class="row">
                                 <div class="col-4 d-flex align-items-center">
-                                    <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}" style="max-width : 100px;">
+                                    <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}" style="max-width : 100px; max-height: 100px;">
                                 </div>
                                 <div class="col-8">
                                     <div class="card-body">

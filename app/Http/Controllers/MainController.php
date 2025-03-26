@@ -27,7 +27,7 @@ class MainController extends Controller
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
             ->orderBy('engagings.count', 'desc')
-            ->limit(3)
+            ->limit(4)
             ->select('artikels.*', 'categories.name as category_name') // Select category name as category_name
             ->get();
             $footballTranding = DB::table('artikels')
