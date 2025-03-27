@@ -36,7 +36,7 @@
                                                 <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "Karate" || $trending->category_name == "karate")
                                                 <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                            @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat")
+                                            @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat" || $trending->category_name == "pencaksilat")
                                                 <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "football" || $trending->category_name == "Football")
                                                 <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
@@ -52,7 +52,7 @@
                                                 <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('taekwondo.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "Karate" || $trending->category_name == "karate")
                                                 <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('karate.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
-                                            @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat")
+                                            @elseif($trending->category_name == "Pencak Silat" || $trending->category_name == "pencak silat" || $trending->category_name == "Pencak silat" || $trending->category_name == "pencak Silat" || $trending->category_name == "silat" || $trending->category_name == "Silat" || $trending->category_name == "pencaksilat")
                                                 <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('silat.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
                                             @elseif($trending->category_name == "football" || $trending->category_name == "Football")
                                                 <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('football.show', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
