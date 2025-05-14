@@ -13,6 +13,7 @@ use App\Http\Controllers\TaekwondoController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\GenerateController;
 use App\Http\Controllers\CompressImageController;
+use App\Http\Controllers\GenerateImageQueueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -121,3 +122,4 @@ Route::prefix('generate')->group(function(){
 });
 
 Route::get('/compress-images', [CompressImageController::class, 'compress']);
+Route::get('/generate-images-queue', [GenerateImageQueueController::class, 'regenerateImages']);

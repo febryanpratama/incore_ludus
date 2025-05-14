@@ -192,7 +192,27 @@ class GenerateServices
 
         $respImage = $this->fetchImage($respTextImage[$rand], $getRandomArtikel);
 
+        // Coba beberapa kali jika gagal
+        $maxTries = 5;
+        $success = false;
 
+        for ($i = 0; $i < $maxTries; $i++) {
+            $getRandomArtikel = $getArtikel->random();
+            $rand = array_rand($respTextImage, 1);
+
+            $result = $this->fetchImage($respTextImage[$rand], $getRandomArtikel);
+
+            // Periksa apakah salah satu field image telah terisi
+            if (
+                $getRandomArtikel->image1 !== null ||
+                $getRandomArtikel->image2 !== null ||
+                $getRandomArtikel->image3 !== null ||
+                $getRandomArtikel->image4 !== null
+            ) {
+                $success = true;
+                break;
+            }
+        }
     }
 
     public function generateImage($id)
@@ -204,8 +224,6 @@ class GenerateServices
             ->whereNull('image3')
             ->whereNull('image4')
             ->first();
-
-        // dd($getArtikel);
 
         $respTextImage = $this->fetchPromptImage($getArtikel);
         // dd($respTextImage);
@@ -219,16 +237,42 @@ class GenerateServices
         // ];
 
         // get rand array
-
+        // Coba generate pertama kali
         $rand = array_rand($respTextImage, 1);
         // dd($rand);
         // dd($resp[$rand]);
 
         $respImage = $this->fetchImage($respTextImage[$rand], $getArtikel);
 
+        // Coba beberapa kali jika gagal
+        $maxTries = 5;
+        $success = false;
+
+        for ($i = 0; $i < $maxTries; $i++) {
+            $getRandomArtikel = $getArtikel->random();
+            $rand = array_rand($respTextImage, 1);
+
+            $result = $this->fetchImage($respTextImage[$rand], $getRandomArtikel);
+
+            // Periksa apakah salah satu field image telah terisi
+            if (
+                $getRandomArtikel->image1 !== null ||
+                $getRandomArtikel->image2 !== null ||
+                $getRandomArtikel->image3 !== null ||
+                $getRandomArtikel->image4 !== null
+            ) {
+                $success = true;
+                break;
+            }
+        }
     }
 
-    private function fetchPromptImage($artikel)
+    private function artikelStillEmpty($data)
+    {
+        return empty($data->image1) && empty($data->image2) && empty($data->image3) && empty($data->image4);
+    }
+
+    public function fetchPromptImage($artikel)
     {
         $api = new AiApi();
         // $prompt = "Temukan dan informasikan kepada saya semua nama orang atau nama tempat atau nama entitas atau nama peralatan atau nama teknologi dari '{$artikel->paragraf1}', '{$artikel->paragraf2}', '{$artikel->paragraf3}', '{$artikel->paragraf4}' Prioritaskan nama orang atau nama tempat atau nama entitas dahulu, kalau tidak ada semuanya maka cari nama peralatan atau nama teknologi dan sajikan dalam bentuk JSON dengan struktur berikut: { \"entitas\": [ { \"paragraf1\": \"{$artikel->paragraf1}\", \"result\": \"result kamu\" }, { \"paragraf2\": \"{$artikel->paragraf2}\", \"result\": \"result kamu\" }, { \"paragraf3\": \"{$artikel->paragraf3}\", \"result\": \"result kamu\" }, { \"paragraf4\": \"{$artikel->paragraf4}\", \"result\": \"result kamu\" } ] } tanpa ada teks tambahan lain.";
@@ -464,100 +508,138 @@ class GenerateServices
     // }
 
     // new version
-    private function fetchImage($kata_kunci, $data)
+    // public function fetchImage($kata_kunci, $data)
+    // {
+    //     // $prompt = "buatkan gambar manusia nyata bangsa Asia atau lingkungan nyata di Asia tanpa ada huruf, angka, coretan apapun untuk sosial media marketing berdasarkan deskripsi: ".$data['headlineUtamaArtikel']."";
+
+    //     // $prompt = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
+    //     // $replace_characters = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
+    //     // $prompt = $this->limit_words("foto atau gambar ".$replace_characters, 6);
+
+    //     // Match name at the beginning or end
+    //     if (preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $data['headlineUtamaArtikel'], $matches)) {
+    //         $name = $matches[1] ?? $matches[2]; 
+    //     } else if (preg_match('/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)\b/', $data['headlineUtamaArtikel'], $matches)) {
+    //         $name = $matches[0]; 
+    //     } else {
+    //         $name = $data['headlineUtamaArtikel']; // If no name is found
+    //     }
+
+    //     // $prompt = "Carikan Gambar {$kata_kunci} kategori {$data->category->name}";
+    //     $prompt = "{$kata_kunci}";
+    //     // print_r($prompt);
+    //     // dd($prompt);
+    //         // Kirim prompt ke API
+    //         $api = new AiApi();
+    //         // $response = $api->post('/api/generate/generate-images-deepai', $prompt);
+    //         $response = $api->post('/api/generate/generate-images-google', $prompt);
+    //         // dd($response);
+        
+    //     foreach($response['data'] as $image){
+    //         // try {
+    //             //code...
+    //             if(strpos($image['link'], 'jpg')||strpos($image['link'], 'png')||strpos($image['link'], 'jpeg')||strpos($image['link'], 'JPG')||strpos($image['link'], 'PNG')||strpos($image['link'], 'JPEG') ){
+    //                 $string = strtolower($image['title']);
+    //                 $kataArray = explode(" ", $string);
+    //                 $katacari = explode(" ", strtolower($name));
+    //                 // var_dump($kataArray);
+    //                 // var_dump($katacari);
+    //                 // print_r(array_intersect($katacari, $kataArray));
+    //                 // print_r(count(array_intersect($katacari, $kataArray)));
+    //                 if($data->image1==null){
+    //                     $save = $this->saveImage($image['link'], $data);
+    //                         $data->update([
+    //                             'image1' => $save
+    //                         ]);
+
+    //                 } elseif($data->image2==null){
+    //                     $save = $this->saveImage($image['link'], $data);
+    //                     $data->update([
+    //                         'image2' => $save
+    //                     ]);
+    //                 } elseif($data->image3==null){
+    //                     $save = $this->saveImage($image['link'], $data);
+    //                     $data->update([
+    //                         'image3' => $save
+    //                     ]);
+    //                 } elseif($data->image4==null){
+    //                     $save = $this->saveImage($image['link'], $data);
+    //                     $data->update([
+    //                         'image4' => $save
+    //                     ]);
+    //                 }
+                    
+    //                 if (array_intersect($katacari, $kataArray)!=[]) {
+    //                     if(count(array_intersect($katacari, $kataArray))!=0 && count(array_intersect($katacari, $kataArray))<=4){
+
+    //                         // print_r($image);
+    //                         if($data->image1==null){
+    //                             $save = $this->saveImage($image['link'],$data);
+    //                                 $data->update([
+    //                                     'image1' => $save
+    //                                 ]);
+
+    //                         } elseif($data->image2==null){
+    //                             $save = $this->saveImage($image['link'],$data);
+    //                             $data->update([
+    //                                 'image2' => $save
+    //                             ]);
+    //                         } elseif($data->image3==null){
+    //                             $save = $this->saveImage($image['link'],$data);
+    //                             $data->update([
+    //                                 'image3' => $save
+    //                             ]);
+    //                         } elseif($data->image4==null){
+    //                             $save = $this->saveImage($image['link'],$data);
+    //                             $data->update([
+    //                                 'image4' => $save
+    //                             ]);
+    //                         }
+    //                     }
+    //                 } else {
+    //                     // echo "Kata tidak ditemukan dalam string.";
+    //                 }
+    //             }
+    //     }
+    // }
+
+    public function fetchImage($kata_kunci, $data)
     {
-        // $prompt = "buatkan gambar manusia nyata bangsa Asia atau lingkungan nyata di Asia tanpa ada huruf, angka, coretan apapun untuk sosial media marketing berdasarkan deskripsi: ".$data['headlineUtamaArtikel']."";
-
-        // $prompt = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
-        // $replace_characters = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
-        // $prompt = $this->limit_words("foto atau gambar ".$replace_characters, 6);
-
-        // Match name at the beginning or end
+        // Extract name from the headline
         if (preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $data['headlineUtamaArtikel'], $matches)) {
             $name = $matches[1] ?? $matches[2]; 
         } else if (preg_match('/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)\b/', $data['headlineUtamaArtikel'], $matches)) {
             $name = $matches[0]; 
         } else {
-            $name = $data['headlineUtamaArtikel']; // If no name is found
+            $name = $data['headlineUtamaArtikel']; // Default name if none found
         }
 
-        // $prompt = "Carikan Gambar {$kata_kunci} kategori {$data->category->name}";
+        // Prepare prompt and call the API
         $prompt = "{$kata_kunci}";
-        // print_r($prompt);
-        // dd($prompt);
-            // Kirim prompt ke API
-            $api = new AiApi();
-            // $response = $api->post('/api/generate/generate-images-deepai', $prompt);
-            $response = $api->post('/api/generate/generate-images-google', $prompt);
-            // dd($response);
-        
-        foreach($response['data'] as $image){
-            // try {
-                //code...
-                if(strpos($image['link'], 'jpg')||strpos($image['link'], 'png')||strpos($image['link'], 'jpeg')||strpos($image['link'], 'JPG')||strpos($image['link'], 'PNG')||strpos($image['link'], 'JPEG') ){
-                    $string = strtolower($image['title']);
-                    $kataArray = explode(" ", $string);
-                    $katacari = explode(" ", strtolower($name));
-                    // var_dump($kataArray);
-                    // var_dump($katacari);
-                    // print_r(array_intersect($katacari, $kataArray));
-                    // print_r(count(array_intersect($katacari, $kataArray)));
-                    if($data->image1==null){
-                        $save = $this->saveImage($image['link'], $data);
-                            $data->update([
-                                'image1' => $save
-                            ]);
+        $api = new AiApi();
+        $response = $api->post('/api/generate/generate-images-google', $prompt);
 
-                    } elseif($data->image2==null){
-                        $save = $this->saveImage($image['link'], $data);
-                        $data->update([
-                            'image2' => $save
-                        ]);
-                    } elseif($data->image3==null){
-                        $save = $this->saveImage($image['link'], $data);
-                        $data->update([
-                            'image3' => $save
-                        ]);
-                    } elseif($data->image4==null){
-                        $save = $this->saveImage($image['link'], $data);
-                        $data->update([
-                            'image4' => $save
-                        ]);
-                    }
-                    
-                    if (array_intersect($katacari, $kataArray)!=[]) {
-                        if(count(array_intersect($katacari, $kataArray))!=0 && count(array_intersect($katacari, $kataArray))<=4){
+        foreach ($response['data'] as $image) {
+            if (preg_match('/\.(jpg|jpeg|png)$/i', $image['link'])) {  // Simplified image format check
+                $string = strtolower($image['title']);
+                $kataArray = explode(" ", strtolower($name));
 
-                            // print_r($image);
-                            if($data->image1==null){
-                                $save = $this->saveImage($image['link'],$data);
-                                    $data->update([
-                                        'image1' => $save
-                                    ]);
-
-                            } elseif($data->image2==null){
-                                $save = $this->saveImage($image['link'],$data);
-                                $data->update([
-                                    'image2' => $save
-                                ]);
-                            } elseif($data->image3==null){
-                                $save = $this->saveImage($image['link'],$data);
-                                $data->update([
-                                    'image3' => $save
-                                ]);
-                            } elseif($data->image4==null){
-                                $save = $this->saveImage($image['link'],$data);
-                                $data->update([
-                                    'image4' => $save
-                                ]);
-                            }
+                // Process image only if not already assigned
+                for ($i = 1; $i <= 4; $i++) {
+                    if (empty($data["image{$i}"])) {  // Check if image slot is empty
+                        // Match the image name with the headline name
+                        if (array_intersect($kataArray, explode(" ", strtolower($string))) !== []) {
+                            // Save image and update corresponding image field
+                            $save = $this->saveImage($image['link'], $data);
+                            $data->update([ "image{$i}" => $save ]);
+                            break;
                         }
-                    } else {
-                        // echo "Kata tidak ditemukan dalam string.";
                     }
                 }
+            }
         }
     }
+
 
 
     // private function saveImage($url){
@@ -615,67 +697,78 @@ class GenerateServices
 
     private function saveImage($url, $data)
     {
-        $response = Http::get($url);
-        if (!$response->successful()) {
-            return null;
-        }
-
-        $path = parse_url($url, PHP_URL_PATH);
-        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-
-        // Validasi ekstensi yang didukung
-        $allowedExtensions = ['jpg', 'jpeg', 'png'];
-        if (!in_array($extension, $allowedExtensions)) {
-            return null;
-        }
-
-        // Buat nama file dari headline artikel
-        $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
-        $timestamp = now()->format('YmdHis');
-        $random = Str::random(5);
-        $filename = "{$baseName}-{$timestamp}-{$random}.{$extension}";
-
-        $tempOriginalPath = storage_path('app/public/images_download/original_' . $filename);
-        $finalPath = public_path('images_download/' . $filename);
-
-        // Pastikan direktori ada
-        if (!File::exists(public_path('images_download'))) {
-            File::makeDirectory(public_path('images_download'), 0755, true);
-        }
-        if (!File::exists(storage_path('app/public/images_download'))) {
-            File::makeDirectory(storage_path('app/public/images_download'), 0755, true);
-        }
-
-        // Simpan file original sementara
-        file_put_contents($tempOriginalPath, $response->body());
-
-        // Kompres hingga maksimal 300 KB
-        $compressed = false;
-        for ($q = 14; $q <= 40; $q += 2) {
-            $command = "ffmpeg -i " . escapeshellarg($tempOriginalPath)
-                    . " -q:v $q -y " . escapeshellarg($finalPath);
-            exec($command . ' 2>&1', $output, $returnCode);
-
-            if (file_exists($finalPath) && filesize($finalPath) / 1024 <= 300) {
-                $compressed = true;
-                break;
+        try {
+            // Fetch the image
+            $response = Http::get($url);
+            if (!$response->successful()) {
+                throw new \Exception("Failed to fetch image from URL: {$url}");
             }
-        }
 
-        // Hapus file original sementara
-        if (file_exists($tempOriginalPath)) {
-            unlink($tempOriginalPath);
-        }
+            // Extract file extension and validate it
+            $path = parse_url($url, PHP_URL_PATH);
+            $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
-        if (!$compressed) {
-            if (file_exists($finalPath)) {
-                unlink($finalPath);
+            $allowedExtensions = ['jpg', 'jpeg', 'png'];
+            if (!in_array($extension, $allowedExtensions)) {
+                return null;
             }
+
+            // Generate a unique filename
+            $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
+            $timestamp = now()->format('YmdHis');
+            $random = Str::random(5);
+            $filename = "{$baseName}-{$timestamp}-{$random}.{$extension}";
+
+            // Set storage paths
+            $tempOriginalPath = storage_path('app/public/images_download/original_' . $filename);
+            $finalPath = public_path('images_download/' . $filename);
+
+            // Ensure directories exist
+            if (!File::exists(public_path('images_download'))) {
+                File::makeDirectory(public_path('images_download'), 0755, true);
+            }
+            if (!File::exists(storage_path('app/public/images_download'))) {
+                File::makeDirectory(storage_path('app/public/images_download'), 0755, true);
+            }
+
+            // Save the image temporarily
+            file_put_contents($tempOriginalPath, $response->body());
+
+            // Compress image until it's under 300 KB
+            $compressed = false;
+            for ($q = 14; $q <= 40; $q += 2) {
+                $command = "ffmpeg -i " . escapeshellarg($tempOriginalPath)
+                        . " -q:v $q -y " . escapeshellarg($finalPath);
+                exec($command . ' 2>&1', $output, $returnCode);
+
+                // Check if compression was successful and under 300 KB
+                if (file_exists($finalPath) && filesize($finalPath) / 1024 <= 300) {
+                    $compressed = true;
+                    break;
+                }
+            }
+
+            // Remove temporary original file
+            if (file_exists($tempOriginalPath)) {
+                unlink($tempOriginalPath);
+            }
+
+            // If compression was unsuccessful, delete the final file
+            if (!$compressed) {
+                if (file_exists($finalPath)) {
+                    unlink($finalPath);
+                }
+                return null;
+            }
+
+            return $filename;
+        } catch (\Exception $e) {
+            // Log the error and return null
+            Log::error("Image saving failed: " . $e->getMessage());
             return null;
         }
-
-        return $filename;
     }
+
 
 
 
