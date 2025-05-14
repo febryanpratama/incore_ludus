@@ -120,4 +120,4 @@ Route::prefix('generate')->group(function(){
     Route::get('/image/{id}', [GenerateController::class, 'generateImageId']);
 });
 
-Route::get('/compress-images', [CompressImageController::class, 'compressAll']);
+Route::get('/compress-images', [CompressImageController::class]);
