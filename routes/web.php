@@ -12,6 +12,7 @@ use App\Http\Controllers\KarateController;
 use App\Http\Controllers\TaekwondoController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\GenerateController;
+use App\Http\Controllers\CompressImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,3 +119,5 @@ Route::prefix('generate')->group(function(){
     Route::get('/image', [GenerateController::class, 'generateRandomImage']);
     Route::get('/image/{id}', [GenerateController::class, 'generateImageId']);
 });
+
+Route::get('/compress-images', [CompressImageController::class, 'compressAll']);

@@ -633,7 +633,7 @@ class GenerateServices
         $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
         $timestamp = now()->format('YmdHis');
         $random = Str::random(5);
-        $filename = "{$slug}-{$timestamp}-{$random}.{$extension}";
+        $filename = "{$baseName}-{$timestamp}-{$random}.{$extension}";
 
         $tempOriginalPath = storage_path('app/public/images_download/original_' . $filename);
         $finalPath = public_path('images_download/' . $filename);
