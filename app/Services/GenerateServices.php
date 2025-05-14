@@ -503,23 +503,23 @@ class GenerateServices
                     // print_r(array_intersect($katacari, $kataArray));
                     // print_r(count(array_intersect($katacari, $kataArray)));
                     if($data->image1==null){
-                        $save = $this->saveImage($image['link']);
+                        $save = $this->saveImage($image['link'], $data);
                             $data->update([
                                 'image1' => $save
                             ]);
 
                     } elseif($data->image2==null){
-                        $save = $this->saveImage($image['link']);
+                        $save = $this->saveImage($image['link'], $data);
                         $data->update([
                             'image2' => $save
                         ]);
                     } elseif($data->image3==null){
-                        $save = $this->saveImage($image['link']);
+                        $save = $this->saveImage($image['link'], $data);
                         $data->update([
                             'image3' => $save
                         ]);
                     } elseif($data->image4==null){
-                        $save = $this->saveImage($image['link']);
+                        $save = $this->saveImage($image['link'], $data);
                         $data->update([
                             'image4' => $save
                         ]);
@@ -530,23 +530,23 @@ class GenerateServices
 
                             // print_r($image);
                             if($data->image1==null){
-                                $save = $this->saveImage($image['link']);
+                                $save = $this->saveImage($image['link'],$data);
                                     $data->update([
                                         'image1' => $save
                                     ]);
 
                             } elseif($data->image2==null){
-                                $save = $this->saveImage($image['link']);
+                                $save = $this->saveImage($image['link'],$data);
                                 $data->update([
                                     'image2' => $save
                                 ]);
                             } elseif($data->image3==null){
-                                $save = $this->saveImage($image['link']);
+                                $save = $this->saveImage($image['link'],$data);
                                 $data->update([
                                     'image3' => $save
                                 ]);
                             } elseif($data->image4==null){
-                                $save = $this->saveImage($image['link']);
+                                $save = $this->saveImage($image['link'],$data);
                                 $data->update([
                                     'image4' => $save
                                 ]);
@@ -586,32 +586,98 @@ class GenerateServices
     //         }
     // }
 
-    private function saveImage($url)
+    // private function saveImage($url)
+    // {
+    //     $response = Http::get($url);
+    //     if ($response->successful()) {
+    //         $dateTime = now();
+    //         $randomString = Str::random(5);
+            
+    //         // Mengambil ekstensi file
+    //         $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+    //         $filename = $dateTime->format('YmdHis') . $randomString . "." . $extension;
+            
+    //         $filePath = public_path('images_download/' . $filename);
+
+    //         // Pastikan folder 'public/images_download' ada
+    //         if (!File::exists(public_path('images_download'))) {
+    //             File::makeDirectory(public_path('images_download'), 0755, true);
+    //         }
+
+    //         // Simpan file ke folder 'public/images_download'
+    //         file_put_contents($filePath, $response->body());
+
+    //         return $filename;
+    //     } else {
+    //         return null;
+    //     }
+    // }
+
+    private function saveImage($url, $data)
     {
         $response = Http::get($url);
-        if ($response->successful()) {
-            $dateTime = now();
-            $randomString = Str::random(5);
-            
-            // Mengambil ekstensi file
-            $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
-            $filename = $dateTime->format('YmdHis') . $randomString . "." . $extension;
-            
-            $filePath = public_path('images_download/' . $filename);
-
-            // Pastikan folder 'public/images_download' ada
-            if (!File::exists(public_path('images_download'))) {
-                File::makeDirectory(public_path('images_download'), 0755, true);
-            }
-
-            // Simpan file ke folder 'public/images_download'
-            file_put_contents($filePath, $response->body());
-
-            return $filename;
-        } else {
+        if (!$response->successful()) {
             return null;
         }
+
+        $path = parse_url($url, PHP_URL_PATH);
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        // Validasi ekstensi yang didukung
+        $allowedExtensions = ['jpg', 'jpeg', 'png'];
+        if (!in_array($extension, $allowedExtensions)) {
+            return null;
+        }
+
+        // Buat nama file dari headline artikel
+        $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
+        $timestamp = now()->format('YmdHis');
+        $random = Str::random(5);
+        $filename = "{$slug}-{$timestamp}-{$random}.{$extension}";
+
+        $tempOriginalPath = storage_path('app/public/images_download/original_' . $filename);
+        $finalPath = public_path('images_download/' . $filename);
+
+        // Pastikan direktori ada
+        if (!File::exists(public_path('images_download'))) {
+            File::makeDirectory(public_path('images_download'), 0755, true);
+        }
+        if (!File::exists(storage_path('app/public/images_download'))) {
+            File::makeDirectory(storage_path('app/public/images_download'), 0755, true);
+        }
+
+        // Simpan file original sementara
+        file_put_contents($tempOriginalPath, $response->body());
+
+        // Kompres hingga maksimal 300 KB
+        $compressed = false;
+        for ($q = 14; $q <= 40; $q += 2) {
+            $command = "ffmpeg -i " . escapeshellarg($tempOriginalPath)
+                    . " -q:v $q -y " . escapeshellarg($finalPath);
+            exec($command . ' 2>&1', $output, $returnCode);
+
+            if (file_exists($finalPath) && filesize($finalPath) / 1024 <= 300) {
+                $compressed = true;
+                break;
+            }
+        }
+
+        // Hapus file original sementara
+        if (file_exists($tempOriginalPath)) {
+            unlink($tempOriginalPath);
+        }
+
+        if (!$compressed) {
+            if (file_exists($finalPath)) {
+                unlink($finalPath);
+            }
+            return null;
+        }
+
+        return $filename;
     }
+
+
 
     private function limit_words($string, $word_limit)
     {

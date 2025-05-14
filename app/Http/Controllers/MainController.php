@@ -121,7 +121,7 @@ class MainController extends Controller
             ->orderBy('engagings.count', 'desc')
             ->limit(3)
             ->get();
-        if(count($baskets)<30){
+        if(count($baskets)<3){
             $baskets = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
@@ -135,6 +135,7 @@ class MainController extends Controller
                 $baskets = [];
             }
         }
+        // dd($baskets);
         $volleys = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
