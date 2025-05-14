@@ -1,3 +1,4 @@
+<?php
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\File;
@@ -5,7 +6,7 @@ use App\Jobs\CompressImageJob;
 
 class CompressImageController extends Controller
 {
-    public function __invoke()
+    public function compress()
     {
         $folder = public_path('images_download');
         $images = File::files($folder);
