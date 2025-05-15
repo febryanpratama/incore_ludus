@@ -17,12 +17,12 @@
                 @else 
                     @foreach($trendingPosts as $trending)
                         @if(!empty($trending->image1) && !empty($trending->headlineUtamaArtikel) && !empty($trending->paragraf1))
-                        <div class="card mb-1" style="background-color: rgba(255, 255, 255, 0.2)">
+                        <div class="card mb-1" style="background: transparent">
                             <div class="row">
-                                <div class="col-4 d-flex align-items-center">
+                                <div class="col-lg-2 col-md-3 col-4 d-flex align-items-center" style="background-color: rgba(255, 255, 255, 0.2)">
                                     <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}" style="max-width : 100px; max-height: 100px;">
                                 </div>
-                                <div class="col-8">
+                                <div class="col-lg-9 col-md-8 col-7" style="background-color: rgba(255, 255, 255, 0.2)">
                                     <div class="card-body">
                                         <span class="card-text"><small>{{ \Carbon\Carbon::parse($trending->created_at)->diffForHumans()}}</small></span>
                                         @if($trending->type=='series')
@@ -60,6 +60,7 @@
                                         @endif
                                     </div>
                                 </div>
+                                <div class="col-1" style="background: none;"></div>
                             </div>
                         </div>
                         @endif
@@ -90,16 +91,16 @@
                 <div id="carouselExampleCaptions" class="carousel slide">
                     <div class="carousel-inner">
                         @if($footballTranding==null)
-                        <p></p>
+                        <div></div>
                         @else 
                             @if(!empty($footballTranding->image1) && !empty($footballTranding->headlineUtamaArtikel) && !empty($footballTranding->paragraf1))
-                            <div class="carousel-item active">
+                            <div class="carousel-item">
                                 @if($footballTranding->type=='series')
                                 <a href="{{route('football.series', $footballTranding->slug)}}">
                                 @else
                                 <a href="{{route('football.show', $footballTranding->slug)}}">
                                 @endif
-                                <img src="{{ asset('images_download/'.$footballTranding->image1) }}" class="d-block w-100" alt="{{$footballTranding->headlineUtamaArtikel}}" style="max-width : 910px;">
+                                <img src="{{ asset('images_download/'.$footballTranding->image1) }}" class="d-block w-100" alt="{{$footballTranding->headlineUtamaArtikel}}" style="max-height: 736px; object-fit: cover;">
                                 </a>
                                 <div class="carousel-caption d-none d-md-block">
                                     @if($footballTranding->type=='series')
@@ -122,15 +123,15 @@
                         @if($footballs==null)
                         <p></p>
                         @else 
-                            @foreach($footballs as $fb)
+                            @foreach($footballs as $index => $fb)
                                 @if(!empty($fb->image1) && !empty($fb->headlineUtamaArtikel) && !empty($fb->paragraf1))
-                                <div class="carousel-item">
+                                <div class="carousel-item @if($index == 0) active @endif">
                                     @if($fb->type=='series')
                                     <a href="{{route('football.series', $fb->slug)}}">
                                     @else
                                     <a href="{{route('football.show', $fb->slug)}}">
                                     @endif
-                                        <img src="{{ asset('images_download/'.$fb->image1) }}" class="d-block w-100" alt="{{$fb->headlineUtamaArtikel}}">
+                                        <img src="{{ asset('images_download/'.$fb->image1) }}" class="d-block w-100" alt="{{$fb->headlineUtamaArtikel}}" style="max-height: 736px; object-fit: cover;">
                                     </a>
                                     <div class="carousel-caption d-none d-md-block">
                                         <!-- <h1>FTimnas U-23 Indonesia VS Timnas U-23 Argentina</h1> -->

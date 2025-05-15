@@ -110,6 +110,7 @@ class MainController extends Controller
                 $badmintons = [];
             }
         }
+        // dd($badmintons);
 
         $baskets = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
