@@ -243,15 +243,15 @@ class GenerateServices
         }
     }
 
-    public function generateImage($id)
+    public function generateImage()
     {
         $getArtikel = Artikel::with('category')
-        ->where('id', $id)
+        // ->where('id', $id)
         ->whereNull('image1')
         ->whereNull('image2')
         ->whereNull('image3')
         ->whereNull('image4')
-        ->first();
+        ->get();
         // dd($getArtikel);
         
         $respTextImage = $this->fetchPromptImage($getArtikel);
@@ -278,8 +278,7 @@ class GenerateServices
         $success = false;
 
         for ($i = 0; $i < $maxTries; $i++) {
-            $getRandomArtikel = $getArtikel;
-            // $getRandomArtikel = $getArtikel->random();
+            $getRandomArtikel = $getArtikel->random();
             $rand = array_rand($respTextImage, 1);
 
             $result = $this->fetchImage($respTextImage[$rand], $getRandomArtikel);
@@ -656,11 +655,14 @@ class GenerateServices
                 $string = strtolower($image['title']);
                 $kataArray = explode(" ", strtolower($name));
 
+                // dd($image);
                 // Process image only if not already assigned
                 for ($i = 1; $i <= 4; $i++) {
                     if (empty($data["image{$i}"])) {  // Check if image slot is empty
+                        // dd($image['link']);
+                        
                         // Match the image name with the headline name
-                        // if (array_intersect($kataArray, explode(" ", strtolower($string))) !== []) {
+                        // if (array_intersect($kataArray, explode(" ", strtolower($string))) !== []) { // hide dlu
                             // Save image and update corresponding image field
                             $save = $this->saveImage($image['link'], $data);
                             $data->update([ "image{$i}" => $save ]);

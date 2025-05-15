@@ -42,8 +42,8 @@ class GenerateController extends Controller
         $resp = $this->generateServices->generateRandomImage();
     }
 
-    public function generateImageId($id)
+    public function generateImageId()
     {
-        $resp = $this->generateServices->generateImage($id);
+        $resp = $this->generateServices->generateImage();
     }
 }
