@@ -196,7 +196,6 @@ class GenerateServices
     public function generateImage()
     {
         $getArtikel = Artikel::with('category')
-            ->where('category_id', 2)
             ->whereNull('image1')
             ->whereNull('image2')
             ->whereNull('image3')
