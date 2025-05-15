@@ -193,56 +193,41 @@ class GenerateServices
         }
     }
 
-    public function generateRandomImage(){
-        $getArtikel = Artikel::whereNull('image1')
+    public function generateImage()
+    {
+        $getArtikel = Artikel::with('category')
+            ->whereNull('image1')
             ->whereNull('image2')
             ->whereNull('image3')
             ->whereNull('image4')
             ->get();
 
-        $getRandomArtikel = $getArtikel->random();
+        $getOneArtikel = $getArtikel->random();
+        $respTextImage = $this->fetchPromptImage($getOneArtikel);
 
-        $respTextImage = $this->fetchPromptImage($getRandomArtikel);
-        // dd($respTextImage);
-
-        // $resp = [
-        //     "serat karbon",
-        //     "grafit",
-        //     "pegangan ergonomis",
-        //     "bantalan ekstra",
-        //     "teknologi ventilasi",
-        // ];
-
-        // get rand array
-
-        $rand = array_rand($respTextImage, 1);
-        // dd($rand);
-        // dd($resp[$rand]);
-
-        $respImage = $this->fetchImage($respTextImage[$rand], $getRandomArtikel);
-
-        // Coba beberapa kali jika gagal
         $maxTries = 5;
+        $rejectedPrompts = [];
         $success = false;
 
         for ($i = 0; $i < $maxTries; $i++) {
-            $getRandomArtikel = $getArtikel->random();
-            $rand = array_rand($respTextImage, 1);
+            // Ambil prompt yang belum ditolak
+            $availablePrompts = array_diff($respTextImage, $rejectedPrompts);
 
-            $result = $this->fetchImage($respTextImage[$rand], $getRandomArtikel);
+            if (empty($availablePrompts)) {
+                break; // Semua prompt ditolak
+            }
 
-            // Periksa apakah salah satu field image telah terisi
-            if (
-                $getRandomArtikel->image1 !== null ||
-                $getRandomArtikel->image2 !== null ||
-                $getRandomArtikel->image3 !== null ||
-                $getRandomArtikel->image4 !== null
-            ) {
-                $success = true;
+            $randKey = array_rand($availablePrompts);
+            $selectedPrompt = $availablePrompts[$randKey];
+
+            $success = $this->fetchImage($selectedPrompt, $getOneArtikel, $rejectedPrompts);
+
+            if ($success) {
                 break;
             }
         }
     }
+
 
     public function generateImage()
     {
@@ -253,7 +238,6 @@ class GenerateServices
         ->whereNull('image3')
         ->whereNull('image4')
         ->get();
-        // dd($getArtikel);
 
         $getOneArtikel = $getArtikel->random();
         
@@ -271,33 +255,44 @@ class GenerateServices
         
         // get rand array
         // Coba generate pertama kali
-        $rand = array_rand($respTextImage, 1);
-        // dd($rand);
-        // dd($resp[$rand]);
+        // $rand = array_rand($respTextImage, 1);
         
-        $respImage = $this->fetchImage($respTextImage[$rand], $getOneArtikel);
+        // $respImage = $this->fetchImage($respTextImage[$rand], $getOneArtikel);
         
         // Coba beberapa kali jika gagal
         $maxTries = 5;
         $success = false;
+        $invalidPrompts = [];
 
         for ($i = 0; $i < $maxTries; $i++) {
-            $getRandomArtikel = $getOneArtikel;
-            $rand = array_rand($respTextImage, 1);
+            // Filter prompt yang sudah gagal sebelumnya
+            $validPrompts = array_diff($respTextImage, $invalidPrompts);
 
-            $result = $this->fetchImage($respTextImage[$rand], $getRandomArtikel);
+            // Jika tidak ada prompt yang tersisa, keluar dari loop
+            if (empty($validPrompts)) {
+                break;
+            }
 
-            // Periksa apakah salah satu field image telah terisi
+            $rand = array_rand($validPrompts);
+            $selectedPrompt = is_array($validPrompts) ? array_values($validPrompts)[$rand] : $validPrompts;
+
+            $result = $this->fetchImage($selectedPrompt, $getOneArtikel);
+
+            // Cek apakah salah satu image sudah terisi
             if (
-                $getRandomArtikel->image1 !== null ||
-                $getRandomArtikel->image2 !== null ||
-                $getRandomArtikel->image3 !== null ||
-                $getRandomArtikel->image4 !== null
+                $getOneArtikel->image1 !== null ||
+                $getOneArtikel->image2 !== null ||
+                $getOneArtikel->image3 !== null ||
+                $getOneArtikel->image4 !== null
             ) {
                 $success = true;
                 break;
+            } else {
+                // Simpan prompt yang gagal supaya tidak digunakan lagi
+                $invalidPrompts[] = $selectedPrompt;
             }
         }
+
     }
 
     private function artikelStillEmpty($data)
@@ -636,47 +631,50 @@ class GenerateServices
     //     }
     // }
 
-    public function fetchImage($kata_kunci, $data)
+    public function fetchImage($kata_kunci, $data, &$rejectedPrompts = [])
     {
-        // Extract name from the headline
         if (preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $data['headlineUtamaArtikel'], $matches)) {
             $name = $matches[1] ?? $matches[2]; 
         } else if (preg_match('/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)\b/', $data['headlineUtamaArtikel'], $matches)) {
             $name = $matches[0]; 
         } else {
-            $name = $data['headlineUtamaArtikel']; // Default name if none found
+            $name = $data['headlineUtamaArtikel'];
         }
 
-        // Prepare prompt and call the API
         $prompt = "{$kata_kunci}";
         $api = new AiApi();
         $response = $api->post('/api/generate/generate-images-google', $prompt);
 
-        // dd($response);
+        $success = false;
 
         foreach ($response['data'] as $image) {
-            if (preg_match('/\.(jpg|jpeg|png)$/i', $image['link'])) {  // Simplified image format check
+            if (preg_match('/\.(jpg|jpeg|png)$/i', $image['link'])) {
                 $string = strtolower($image['title']);
                 $kataArray = explode(" ", strtolower($name));
 
-                // dd($image);
-                // Process image only if not already assigned
+                // ✅ Filter berdasarkan kecocokan nama (aktifkan)
+                if (array_intersect($kataArray, explode(" ", strtolower($string))) === []) {
+                    continue; // skip gambar ini jika tidak cocok
+                }
+
                 for ($i = 1; $i <= 4; $i++) {
-                    if (empty($data["image{$i}"])) {  // Check if image slot is empty
-                        // dd($image['link']);
-                        
-                        // Match the image name with the headline name
-                        // if (array_intersect($kataArray, explode(" ", strtolower($string))) !== []) { // hide dlu
-                            // Save image and update corresponding image field
-                            $save = $this->saveImage($image['link'], $data);
-                            $data->update([ "image{$i}" => $save ]);
-                            break;
-                        // }
+                    if (empty($data["image{$i}"])) {
+                        $save = $this->saveImage($image['link'], $data);
+                        $data->update(["image{$i}" => $save]);
+                        $success = true;
+                        break 2;
                     }
                 }
             }
         }
+
+        if (!$success) {
+            $rejectedPrompts[] = $kata_kunci; // ❌ Simpan prompt yang gagal
+        }
+
+        return $success;
     }
+
 
 
 
@@ -774,6 +772,7 @@ class GenerateServices
 
             // Compress image until it's under 300 KB
             $compressed = false;
+            // $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
             for ($q = 14; $q <= 40; $q += 2) {
                 $command = "ffmpeg -i " . escapeshellarg($tempOriginalPath)
                         . " -q:v $q -y " . escapeshellarg($finalPath);

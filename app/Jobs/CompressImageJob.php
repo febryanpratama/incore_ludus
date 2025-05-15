@@ -20,21 +20,26 @@ class CompressImageJob implements ShouldQueue
     }
 
     public function handle()
-    {
-        $tempOutputPath = $this->imagePath . '_temp.jpg';
-        // $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
-        for ($q = 20; $q <= 40; $q += 2) {
-            $command = "ffmpeg -i " . escapeshellarg($this->imagePath) . " -q:v $q -y " . escapeshellarg($tempOutputPath);
-            // $command = "$ffmpegPath -i " . escapeshellarg($this->imagePath) . " -q:v $q -y " . escapeshellarg($tempOutputPath);
-            exec($command, $output, $returnVar);
+{
+    Log::info("Running CompressImageJob for: " . $this->imagePath);
 
-            if (file_exists($tempOutputPath) && filesize($tempOutputPath) / 1024 <= 300) {
-                File::move($tempOutputPath, $this->imagePath);
-                Log::info("Compressed: " . $this->imagePath);
-                return;
-            }
+    $tempOutputPath = $this->imagePath . '_temp.jpg';
+    $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
+
+    for ($q = 20; $q <= 40; $q += 2) {
+        $command = "$ffmpegPath -i " . escapeshellarg($this->imagePath) . " -q:v $q -y " . escapeshellarg($tempOutputPath);
+        exec($command, $output, $returnVar);
+
+        Log::info("Tried q=$q, return=$returnVar", ['cmd' => $command, 'output' => $output]);
+
+        if (file_exists($tempOutputPath) && filesize($tempOutputPath) / 1024 <= 300) {
+            File::move($tempOutputPath, $this->imagePath);
+            Log::info("Compressed: " . $this->imagePath);
+            return;
         }
-
-        Log::warning("Failed to compress: " . $this->imagePath);
     }
+
+    Log::warning("Failed to compress: " . $this->imagePath);
+}
+
 }

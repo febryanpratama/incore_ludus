@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-7" style="background-color: rgba(255, 255, 255, 0.2)">
                                     <div class="card-body">
-                                        <span class="card-text"><small>{{ \Carbon\Carbon::parse($trending->created_at)->diffForHumans()}}</small></span>
+                                        <span class="card-text text-black"><small>{{ \Carbon\Carbon::parse($trending->created_at)->diffForHumans()}}</small></span>
                                         @if($trending->type=='series')
                                             @if($trending->category_name == "Badminton" || $trending->category_name == "badminton")
                                                 <h6 class="card-title"><a class="text-decoration-none text-white" href="{{route('badminton.series', $trending->slug)}}">{{$trending->headlineUtamaArtikel}}</a></h6>
