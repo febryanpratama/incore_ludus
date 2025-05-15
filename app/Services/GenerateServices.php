@@ -254,14 +254,15 @@ class GenerateServices
         ->get();
         // dd($getArtikel);
         
+        // Generate Kata Kunci
         $respTextImage = $this->fetchPromptImage($getArtikel);
-        // dd($respTextImage);
         
+        // sample
         // $resp = [
-            //     "serat karbon",
-            //     "grafit",
-            //     "pegangan ergonomis",
-            //     "bantalan ekstra",
+        //     "serat karbon",
+        //     "grafit",
+        //     "pegangan ergonomis",
+        //     "bantalan ekstra",
         //     "teknologi ventilasi",
         // ];
         
