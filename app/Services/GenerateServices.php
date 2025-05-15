@@ -196,6 +196,7 @@ class GenerateServices
     public function generateImage()
     {
         $getArtikel = Artikel::with('category')
+            ->where('category_id', 2)
             ->whereNull('image1')
             ->whereNull('image2')
             ->whereNull('image3')
@@ -204,8 +205,8 @@ class GenerateServices
 
             // dd($getArtikel);
 
-        // $getOneArtikel = $getArtikel->random();
-        $getOneArtikel = $getArtikel[2];
+        $getOneArtikel = $getArtikel->random();
+        // $getOneArtikel = $getArtikel[2];
         // dd($getArtikel[2]);
         $respTextImage = $this->fetchPromptImage($getOneArtikel);
 
