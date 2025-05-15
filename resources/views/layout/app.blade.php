@@ -27,6 +27,7 @@
         <!-- Styles -->
         <link href="https://db.onlinewebfonts.com/c/44620fe64734f268ad07740e6ec5127d?family=CoolveticaRg-Regular+V1" rel="stylesheet" type="text/css"/>
         <link href="https://db.onlinewebfonts.com/c/0754a87a6aa14ab86abe03e805d71adf?family=CoolveticaCondensedRg-Regular" rel="stylesheet" type="text/css"/>
+        <link href="https://db.onlinewebfonts.com/c/e695a2b548e145591a266fc50eb492e0?family=Regular" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <!-- <script src="{{ asset('js/bootstrap.js') }}"></script> -->

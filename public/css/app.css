@@ -1,6 +1,7 @@
 
 body {
-    font-family: "CoolveticaRg-Regular V1";
+    font-family: "Regular";
+    /* font-family: "CoolveticaRg-Regular V1"; */
 }
 .navbar .container-fluid .navbar-brand img {
     max-width: 200px;
