@@ -93,10 +93,38 @@ class GenerateServices
 
 
     }
+    public function generateArtikelCatId($catId)
+    {
+        // 
+        // $topic = "Tangerang Hawks Basketball Club";
+        // $topic = "Pemain voli megawati";
+        // $topic = "Badminton Jonatan Cristie";
+
+        // dd($topic);
+
+        $topic = $this->_fetchTopicCatId($catId);
+        // dd($topic);
+
+        $resp = $this->fetchArtikel($topic->topic_name, $topic->category_id);
+
+        $topic->update([
+            'is_generated' => 'Y'
+        ]);
+
+
+    }
 
     private function _fetchTopicRandom()
     {
         $data = Topic::all();
+
+        $randomTopic = $data->random();
+
+        return $randomTopic;
+    }
+    private function _fetchTopicCatId($catId)
+    {
+        $data = Topic::where('category_id', $catId)->where('is_generated', 'N')->get();
 
         $randomTopic = $data->random();
 
@@ -218,38 +246,40 @@ class GenerateServices
     public function generateImage($id)
     {
         $getArtikel = Artikel::with('category')
-            ->where('id', $id)
-            ->whereNull('image1')
-            ->whereNull('image2')
-            ->whereNull('image3')
-            ->whereNull('image4')
-            ->first();
-
+        ->where('id', $id)
+        ->whereNull('image1')
+        ->whereNull('image2')
+        ->whereNull('image3')
+        ->whereNull('image4')
+        ->first();
+        // dd($getArtikel);
+        
         $respTextImage = $this->fetchPromptImage($getArtikel);
         // dd($respTextImage);
-
+        
         // $resp = [
-        //     "serat karbon",
-        //     "grafit",
-        //     "pegangan ergonomis",
-        //     "bantalan ekstra",
+            //     "serat karbon",
+            //     "grafit",
+            //     "pegangan ergonomis",
+            //     "bantalan ekstra",
         //     "teknologi ventilasi",
         // ];
-
+        
         // get rand array
         // Coba generate pertama kali
         $rand = array_rand($respTextImage, 1);
         // dd($rand);
         // dd($resp[$rand]);
-
+        
         $respImage = $this->fetchImage($respTextImage[$rand], $getArtikel);
-
+        
         // Coba beberapa kali jika gagal
         $maxTries = 5;
         $success = false;
 
         for ($i = 0; $i < $maxTries; $i++) {
-            $getRandomArtikel = $getArtikel->random();
+            $getRandomArtikel = $getArtikel;
+            // $getRandomArtikel = $getArtikel->random();
             $rand = array_rand($respTextImage, 1);
 
             $result = $this->fetchImage($respTextImage[$rand], $getRandomArtikel);
@@ -619,6 +649,8 @@ class GenerateServices
         $api = new AiApi();
         $response = $api->post('/api/generate/generate-images-google', $prompt);
 
+        // dd($response);
+
         foreach ($response['data'] as $image) {
             if (preg_match('/\.(jpg|jpeg|png)$/i', $image['link'])) {  // Simplified image format check
                 $string = strtolower($image['title']);
@@ -628,12 +660,12 @@ class GenerateServices
                 for ($i = 1; $i <= 4; $i++) {
                     if (empty($data["image{$i}"])) {  // Check if image slot is empty
                         // Match the image name with the headline name
-                        if (array_intersect($kataArray, explode(" ", strtolower($string))) !== []) {
+                        // if (array_intersect($kataArray, explode(" ", strtolower($string))) !== []) {
                             // Save image and update corresponding image field
                             $save = $this->saveImage($image['link'], $data);
                             $data->update([ "image{$i}" => $save ]);
                             break;
-                        }
+                        // }
                     }
                 }
             }

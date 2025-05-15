@@ -31,6 +31,12 @@ class GenerateController extends Controller
         $resp = $this->generateServices->generateArtikel();
     }
 
+    public function generateArtikelCat($cat_id)
+    {
+
+        $resp = $this->generateServices->generateArtikelCatId($cat_id);
+    }
+
     public function generateRandomImage()
     {
         $resp = $this->generateServices->generateRandomImage();
