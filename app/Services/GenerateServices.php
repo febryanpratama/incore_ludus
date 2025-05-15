@@ -11,6 +11,7 @@ use App\Models\Categories;
 use App\Models\Topic;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 
 class GenerateServices
 {
@@ -253,9 +254,11 @@ class GenerateServices
         ->whereNull('image4')
         ->get();
         // dd($getArtikel);
+
+        $getOneArtikel = $getArtikel->random();
         
         // Generate Kata Kunci
-        $respTextImage = $this->fetchPromptImage($getArtikel);
+        $respTextImage = $this->fetchPromptImage($getOneArtikel);
         
         // sample
         // $resp = [
@@ -272,14 +275,14 @@ class GenerateServices
         // dd($rand);
         // dd($resp[$rand]);
         
-        $respImage = $this->fetchImage($respTextImage[$rand], $getArtikel);
+        $respImage = $this->fetchImage($respTextImage[$rand], $getOneArtikel);
         
         // Coba beberapa kali jika gagal
         $maxTries = 5;
         $success = false;
 
         for ($i = 0; $i < $maxTries; $i++) {
-            $getRandomArtikel = $getArtikel->random();
+            $getRandomArtikel = $getOneArtikel;
             $rand = array_rand($respTextImage, 1);
 
             $result = $this->fetchImage($respTextImage[$rand], $getRandomArtikel);
@@ -799,6 +802,7 @@ class GenerateServices
             return $filename;
         } catch (\Exception $e) {
             // Log the error and return null
+            dd($e->getMessage());
             Log::error("Image saving failed: " . $e->getMessage());
             return null;
         }
