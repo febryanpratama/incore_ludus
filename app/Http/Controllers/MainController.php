@@ -45,7 +45,7 @@ class MainController extends Controller
         if($footballTranding==null){
             $footballTranding = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                 ->where(function ($query) {
                     $query->where('categories.name', 'Football')
                         ->orWhere('categories.name', 'football');
@@ -61,7 +61,7 @@ class MainController extends Controller
         $footballs = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-            ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
             ->where('categories.name', 'Football')
             ->orWhere('categories.name', 'football')
             ->select('artikels.*', 'categories.name as category_name')
@@ -73,7 +73,7 @@ class MainController extends Controller
         if(count($footballs)==0) {
             $footballs = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                 ->where('categories.name', 'Football')
                 ->orWhere('categories.name', 'football')
                 ->select('artikels.*', 'categories.name as category_name')
@@ -89,7 +89,7 @@ class MainController extends Controller
         $badmintons = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-            ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
             ->where('categories.name', 'Badminton')
             ->orWhere('categories.name', 'badminton')
             ->select('artikels.*', 'categories.name as category_name')
@@ -99,7 +99,7 @@ class MainController extends Controller
         if(count($badmintons)==0){
             $badmintons = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                 ->where('categories.name', 'Badminton')
                 ->orWhere('categories.name', 'badminton')
                 ->select('artikels.*', 'categories.name as category_name')
@@ -115,7 +115,7 @@ class MainController extends Controller
         $baskets = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-            ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
             ->where('categories.name', 'Basket')
             ->orWhere('categories.name', 'basket')
             ->select('artikels.*', 'categories.name as category_name')
@@ -125,7 +125,7 @@ class MainController extends Controller
         if(count($baskets)<3){
             $baskets = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                 ->where('categories.name', 'Basket')
                 ->orWhere('categories.name', 'basket')
                 ->select('artikels.*', 'categories.name as category_name')
@@ -140,7 +140,7 @@ class MainController extends Controller
         $volleys = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-            ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
             ->where('categories.name', 'Volley')
             ->orWhere('categories.name', 'volley')
             ->select('artikels.*', 'categories.name as category_name')
@@ -150,7 +150,7 @@ class MainController extends Controller
         if(count($volleys)<3){
             $volleys = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                 ->where('categories.name', 'Volley')
                 ->orWhere('categories.name', 'volley')
                 ->select('artikels.*', 'categories.name as category_name')
@@ -165,7 +165,7 @@ class MainController extends Controller
         $martialarts = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-            ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
             ->where('name', 'martialarts')
             ->orWhere('name', 'martial arts')
             ->orWhere('name', 'Martial Arts')
@@ -185,7 +185,7 @@ class MainController extends Controller
         if(count($martialarts)<3){
             $martialarts = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                 ->where('name', 'martialarts')
                 ->orWhere('name', 'martial arts')
                 ->orWhere('name', 'Martial Arts')

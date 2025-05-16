@@ -33,14 +33,16 @@
         @else
             @foreach ($articles as $article)
             <div class="col-lg-4 col-md-4 col-sm-12 mt-3 mb-4">
-                <div class="card">
+                <div class="card h-100 d-flex flex-column">
+                    <div class="ratio ratio-4x3">
                             @if($article->type=='series')
                             <a href="{{route('badminton.series', $article->slug)}}">
                             @else
                             <a href="{{route('badminton.show', $article->slug)}}">
                             @endif
-                        <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top" alt="{{$article->headlineUtamaArtikel}}">
+                        <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top object-cover" alt="{{$article->headlineUtamaArtikel}}">
                         </a>
+                    </div>
                         <div class="card-body">
                             @if(\Carbon\Carbon::parse($article->created_at)->diff(now())->days <= 1)
                             <span class="badge text-bg-primary">New</span>

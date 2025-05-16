@@ -16,10 +16,12 @@
                     <p>Data Kosong</p>
                 @else 
                     @foreach($trendingPosts as $trending)
-                        <div class="card mb-1" style="background: transparent">
+                        <div class="card mb-1 h-100 d-flex flex-column" style="background: transparent">
                             <div class="row t2">
                                 <div class="col-lg-2 col-md-3 col-4 d-flex align-items-center" style="background-color: rgba(255, 255, 255, 0.2)">
-                                    <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start ms-2 ms-md-0 ms-lg-0" alt="{{$trending->headlineUtamaArtikel}}">
+                                    <div class="ratio ratio-4x3">
+                                    <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start ms-2 ms-md-0 ms-lg-0 object-cover" alt="{{$trending->headlineUtamaArtikel}}">
+                                    </div>
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-7" style="background-color: rgba(255, 255, 255, 0.2)">
                                     <div class="card-body t1">
@@ -92,7 +94,7 @@
                         <div></div>
                         @else 
                             @if(!empty($footballTranding->image1) && !empty($footballTranding->headlineUtamaArtikel) && !empty($footballTranding->paragraf1))
-                            <div class="carousel-item">
+                            <div class="carousel-item imgset">
                                 @if($footballTranding->type=='series')
                                 <a href="{{route('football.series', $footballTranding->slug)}}">
                                 @else
@@ -189,13 +191,15 @@
                         @foreach($badmintons as $bm)
                             @if(!empty($bm->image1) && !empty($bm->headlineUtamaArtikel) && !empty($bm->paragraf1))
                                 <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
-                                    <div class="card h-100">
+                                    <div class="card h-100 d-flex flex-column">
                                     @if($bm->type=='series')
                                     <a href="{{route('badminton.series', $bm->slug)}}">
                                     @else
                                     <a href="{{route('badminton.show', $bm->slug)}}">
                                     @endif
-                                        <img src="{{ asset('images_download/'.$bm->image1) }}" class="card-img-top" alt="{{$bm->headlineUtamaArtikel}}">
+                                    <div class="ratio ratio-4x3">
+                                        <img src="{{ asset('images_download/'.$bm->image1) }}" class="card-img-top object-cover" alt="{{$bm->headlineUtamaArtikel}}">
+                                    </div>
                                     </a>
                                         <div class="card-body">
                                             @if($bm->type=='series')
@@ -237,13 +241,15 @@
                         @foreach($baskets as $bas)
                             @if(!empty($bas->image1) && !empty($bas->headlineUtamaArtikel) && !empty($bas->paragraf1))
                                 <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
-                                    <div class="card h-100">
+                                    <div class="card h-100 d-flex flex-column">
                                     @if($bas->type=='series')
                                     <a href="{{route('basket.series', $bas->slug)}}">
                                     @else
                                     <a href="{{route('basket.show', $bas->slug)}}">
                                     @endif
-                                        <img src="{{ asset('images_download/'.$bas->image1) }}" class="card-img-top" alt="{{$bas->headlineUtamaArtikel}}">
+                                    <div class="ratio ratio-4x3">
+                                        <img src="{{ asset('images_download/'.$bas->image1) }}" class="card-img-top object-cover" alt="{{$bas->headlineUtamaArtikel}}">
+                                    </div>
                                     </a>
                                         <div class="card-body">
                                             @if($bas->type=='series')
@@ -273,15 +279,17 @@
                         @foreach($volleys as $vol)
                            @if(!empty($vol->image1) && !empty($vol->headlineUtamaArtikel) && !empty($vol->paragraf1))
                                 <div class="col-12 col-sm-6 col-md-4 mb-3 mt-4">
-                                    <div class="card h-100">
+                                    <div class="card h-100 d-flex flex-column">
                                     @if($vol->type=='series')
                                     <a href="{{route('volley.series', $vol->slug)}}">
                                     @else
                                     <a href="{{route('volley.show', $vol->slug)}}">
                                     @endif
-                                        <img src="{{ asset('images_download/'.$vol->image1) }}" class="card-img-top" alt="{{$vol->headlineUtamaArtikel}}">
+                                    <div class="ratio ratio-4x3">
+
+                                        <img src="{{ asset('images_download/'.$vol->image1) }}" class="card-img-top object-cover" alt="{{$vol->headlineUtamaArtikel}}">
+                                    </div>
                                     </a>
-                                    <p>{{$vol->id}}</p>
                                         <div class="card-body">
                                             @if($vol->type=='series')
                                             <h5><a class="text-decoration-none text-dark" href="{{route('volley.series', $vol->slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>
@@ -335,8 +343,10 @@
                         @foreach($martialarts as $mar)
                            @if(!empty($mar->image1) && !empty($mar->headlineUtamaArtikel) && !empty($mar->paragraf1))
                                 <div class="col-lg-4 col-md-4 col-sm-12">
-                                    <div class="card h-100">
-                                        <img src="{{ asset('images_download/'.$mar->image1) }}" alt="{{$mar->headlineUtamaArtikel}}">
+                                    <div class="card h-100 d-flex flex-column">
+                                        <div class="ratio ratio-4x3">
+                                        <img src="{{ asset('images_download/'.$mar->image1) }}" alt="{{$mar->headlineUtamaArtikel}}" class="card-img-top object-cover">
+                                        </div>
                                         <div class="card-body">
                                             @if($mar->type=='series')
                                                 @if($mar->category_name == "taekwondo" || $mar->category_name == "Taekwondo")

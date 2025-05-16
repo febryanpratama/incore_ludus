@@ -112,8 +112,10 @@
         @else
             @foreach($recommendations as $i => $rec)
             <div class="col-lg-3 col-md-3 col-sm-12">
-                <div class="card">
-                    <img src="{{ asset('images_download/'.$rec->image1) }}" class="card-img-top" alt="{{$rec->headlineUtamaArtikel}}">
+                <div class="card h-100 d-flex flex-column">
+                    <div class="ratio ratio-4x3">
+                    <img src="{{ asset('images_download/'.$rec->image1) }}" class="card-img-top object-cover" alt="{{$rec->headlineUtamaArtikel}}">
+                    </div>
                     <div class="card-body">
                         <span class="badge text-bg-secondary">Basket</span>
                         <!-- Button trigger modal -->

@@ -3,7 +3,7 @@
 @section('content')
 <!-- Navbar -->
 <div class="container-fluid pg-1">
-    <div class="container">
+    <div class="container-sm container-md container-lg">
         <div class="row">
             <div class="col-12">
                 <div class="row">
@@ -11,7 +11,7 @@
                         <p class="responsive-text">HOT ARTICLES</p>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                        <p class="fs-5 text-muted mt-3">EXPLORE NEWS ABOUT TAEKWONDO ON LUDUS. YOU'LL GET THE LATEST INFORMATION HERE.</p>
+                        <p class="fs-5 text-muted mt-3">EXPLORE NEWS ABOUT BADMINTON ON LUDUS. YOU'LL GET THE LATEST INFORMATION HERE.</p>
                     </div>
                 </div>
                 <div class="row">
@@ -53,13 +53,15 @@
             @foreach ($articles as $article)
                 @if($article->image1!==null || $article->headlineUtamaArtikel!==null || $article->paragraf1!==null)
                 <div class="col-lg-3 col-md-3 col-sm-6 mt-3">
-                    <div class="card">
+                    <div class="card h-100 d-flex flex-column">
                             @if($article->type=='series')
                             <a href="{{route('taekwondo.series', $article->slug)}}">
                             @else
                             <a href="{{route('taekwondo.show', $article->slug)}}">
                             @endif
-                            <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top" alt="{{$article->headlineUtamaArtikel}}">
+                            <div class="ratio ratio-4x3">
+                            <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top object-cover" alt="{{$article->headlineUtamaArtikel}}">
+                            </div>
                             </a>
                             <div class="card-body">
                                 @if($article->created_at->diff(now())->days <= 1)
@@ -120,7 +122,7 @@
   </div>
 </nav>
 <!-- Data hightlight artikel yang sedang tranding -->
-<div class="container-fluid pg-3">
+<div class="container-fluid pg-3 overflow-hidden">
     <div class="row">
         <div class="col-lg-7 col-md-7 col-sm-6">
             @if($highlightPost==null)
@@ -194,8 +196,10 @@
             @foreach($trendingPosts as $trending)
                 @if($trending->image1!==null || $trending->headlineUtamaArtikel!==null || $trending->paragraf1!==null)
                 <div class="col-lg-4 col-md-4 col-sm-12">
-                    <div class="card">
-                        <img src="{{ asset('images_download/'.$trending->image1) }}" class="card-img-top" alt="{{$trending->headlineUtamaArtikel}}">
+                    <div class="card h-100 d-flex flex-column">
+                        <div class="ratio ratio-4x3">
+                        <img src="{{ asset('images_download/'.$trending->image1) }}" class="card-img-top object-cover" alt="{{$trending->headlineUtamaArtikel}}">
+                        </div>
                         <div class="card-body">
                             @if(\Carbon\Carbon::parse($trending->created_at)->diff(now())->days <= 1)
                                 <span class="badge text-bg-primary">New</span>
@@ -257,8 +261,10 @@
             @foreach($recommendations as $rec)
                 @if($rec->image1!==null || $rec->headlineUtamaArtikel!==null || $rec->paragraf1!==null)
                 <div class="col-lg-4 col-md-4 col-sm-12">
-                    <div class="card">
-                        <img src="{{ asset('images_download/'.$rec->image1) }}" class="card-img-top" alt="{{$rec->headlineUtamaArtikel}}">
+                    <div class="card h-100 d-flex flex-column">
+                        <div class="ratio ratio-4x3">
+                        <img src="{{ asset('images_download/'.$rec->image1) }}" class="card-img-top object-cover" alt="{{$rec->headlineUtamaArtikel}}">
+                        </div>
                         <div class="card-body">
                             <span class="badge text-bg-danger">Tranding</span>
                             <span class="badge text-bg-secondary">Taekwondo</span>

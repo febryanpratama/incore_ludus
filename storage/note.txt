@@ -1,0 +1,23 @@
+
+Alur generate ulang image (file terkait GenerateServices, GenerateImageJob dan GenerateImageQueueController)
+1. panggil fungsi fetchPromptImage
+2. cari keyword berdasarkan headlineutama dan paragraf 1-3
+3. request ke api berdasarkan keyword (menghasilkan text untuk mencari gambar)
+4. Periksa apakah ada field imag1 yg kosong diartikel
+5. Jika ada jalankan fungsi fetchImage
+6. Cek apakah ada nama atau key penting pada kalimat headlineutama?
+7. Cari gambar berdasarkan nama atau key yang ada di fungsi fetchImage
+8. Periksa ekstensi apakah jpg,jpeg atau png
+9. Jika ekstensi sesuai dan (image1, image2, image3, atau image4 kosong) maka jalankan fungsi saveImage
+10. Jika tidak ada gambar yang sesuai maka masukkan keyword dari fungsi fetchPromptImage kedalam array invalid promt agar tidak dieksekusi lagi
+11. Pada fungsi saveImage terdapat pengecekan ekstensi lagi dan pemberian nama file hasil generate dari google
+12 terdapat pengecekan apakah ukuran file > 300 KB, jika benar maka akan dilakukan pengompresan
+13. Saat semua langkah sudah berjalan maka image yang berukuran <300 KB akan disimpan di database sesuai nama slug headlineutama - timeStamp - randomcharacter
+
+
+Alur kompres image difolder public/images_download (file terkait CompressImageJob dan CompressImageController)
+1. Lakukan pengulangan untuk mengompres file sampai <300KB
+2. Lakukan pemeriksaan pada ukuran file, jika sudah <300KB maka akan dipindahkan ke folder public/images_download dan file ukuran sebelumnya akan dihapus
+
+
+Untuk menjalankan fungsi diatas running php artisan queue:work diterminal

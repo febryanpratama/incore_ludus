@@ -827,104 +827,93 @@ class GenerateServices
 
     // sample saveimage new
     private function saveImage($url, $data)
-    {
-        try {
-            // Fetch the image from URL
-            $response = Http::withOptions([
-                'verify' => false, // Jangan lupa matikan ini di production jika tidak perlu
-            ])->get($url);
+{
+    try {
+        $response = Http::withOptions([
+            'verify' => false,
+        ])->get($url);
 
-            if (!$response->successful()) {
-                throw new \Exception("Failed to fetch image from URL: {$url}");
-            }
-
-            // Validate extension from URL path
-            $path = parse_url($url, PHP_URL_PATH);
-            $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-            $allowedExtensions = ['jpg', 'jpeg', 'png'];
-            if (!in_array($extension, $allowedExtensions)) {
-                throw new \Exception("Invalid image extension: .{$extension}");
-            }
-
-            // Optional: validate MIME type from response header
-            $mime = $response->header('Content-Type');
-            $allowedMimes = ['image/jpeg', 'image/png'];
-            if (!in_array($mime, $allowedMimes)) {
-                throw new \Exception("Invalid MIME type: {$mime}");
-            }
-
-            // Create filename
-            $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
-            $timestamp = now()->format('YmdHis');
-            $random = Str::random(5);
-            $filename = "{$baseName}-{$timestamp}-{$random}.{$extension}";
-
-            // Path
-            $originalDir = storage_path('app/public/images_download');
-            $publicDir = public_path('images_download');
-            $tempOriginalPath = $originalDir . '/original_' . $filename;
-            $finalPath = $publicDir . '/' . $filename;
-
-            // Ensure directories exist
-            if (!File::exists($originalDir)) {
-                File::makeDirectory($originalDir, 0755, true);
-            }
-            if (!File::exists($publicDir)) {
-                File::makeDirectory($publicDir, 0755, true);
-            }
-
-            // Save original image temporarily
-            if (file_put_contents($tempOriginalPath, $response->body()) === false) {
-                throw new \Exception("Failed to write image to temporary file.");
-            }
-            $outputPath = str_replace(".{$extension}", ".jpg", $finalPath);
-
-
-            // Compress using ffmpeg until file is under 300 KB
-            $compressed = false;
-            for ($q = 14; $q <= 40; $q += 2) {
-                // Compress image once using ffmpeg (without size limit)
-                $command = "ffmpeg -i " . escapeshellarg($tempOriginalPath)
-                        . " -q:v 20 -y -f image2 " . escapeshellarg($finalPath);
-                exec($command . ' 2>&1', $output, $returnCode);
-
-
-                // ================ DISINI MASALAHNYA =================
-
-                // if (file_exists($outputPath) && filesize($outputPath) / 1024 <= 300) {
-                //     $compressed = true;
-                //     $filename = basename($outputPath);
-                //     break;
-                // }
-
-                // ================ END DISINI MASALAHNYA =================
-
-            }
-
-            // Cleanup original file
-            if (file_exists($tempOriginalPath)) {
-                unlink($tempOriginalPath);
-            }
-
-            // If compression failed, remove final file and throw error
-            // if (!$compressed) {
-            //     if (file_exists($outputPath)) {
-            //         unlink($outputPath);
-            //     }
-            //     throw new \Exception("Image compression failed or result too large.");
-            // }
-
-            // dd($filename);
-
-            return $filename;
-
-        } catch (\Exception $e) {
-
-            // dd($e->getMessage());
-            Log::error("Image saving failed: " . $e->getMessage());
-            return null;
+        if (!$response->successful()) {
+            throw new \Exception("Failed to fetch image from URL: {$url}");
         }
+
+        $path = parse_url($url, PHP_URL_PATH);
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $allowedExtensions = ['jpg', 'jpeg', 'png'];
+        if (!in_array($extension, $allowedExtensions)) {
+            throw new \Exception("Invalid image extension: .{$extension}");
+        }
+
+        $mime = $response->header('Content-Type');
+        $allowedMimes = ['image/jpeg', 'image/png'];
+        if (!in_array($mime, $allowedMimes)) {
+            throw new \Exception("Invalid MIME type: {$mime}");
+        }
+
+        $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
+        $timestamp = now()->format('YmdHis');
+        $random = Str::random(5);
+        $filenameBase = "{$baseName}-{$timestamp}-{$random}";
+        $filename = $filenameBase . ".jpg"; // force jpg as output
+        $originalDir = storage_path('app/public/images_download');
+        $publicDir = public_path('images_download');
+        $tempOriginalPath = $originalDir . '/original_' . $filename;
+        $finalPath = $publicDir . '/' . $filename;
+
+        if (!File::exists($originalDir)) {
+            File::makeDirectory($originalDir, 0755, true);
+        }
+        if (!File::exists($publicDir)) {
+            File::makeDirectory($publicDir, 0755, true);
+        }
+
+        if (file_put_contents($tempOriginalPath, $response->body()) === false) {
+            throw new \Exception("Failed to write image to temporary file.");
+        }
+        // $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
+        $compressed = false;
+        for ($q = 14; $q <= 40; $q += 2) {
+            $tempCompressedPath = $publicDir . "/{$filenameBase}_q{$q}.jpg";
+
+            $command = "ffmpeg -i " . escapeshellarg($tempOriginalPath)
+                     . " -q:v {$q} -y -f image2 " . escapeshellarg($tempCompressedPath);
+            exec($command . ' 2>&1', $output, $returnCode);
+            Log::debug("FFmpeg Output:\n" . implode("\n", $output));
+            Log::debug("Return code: {$returnCode}");
+
+            if (file_exists($tempCompressedPath)) {
+                $sizeKB = filesize($tempCompressedPath) / 1024;
+                if ($sizeKB <= 300) {
+                    // Simpan file ini sebagai final output
+                    rename($tempCompressedPath, $finalPath);
+                    $compressed = true;
+                    $filename = basename($finalPath);
+                    break;
+                } else {
+                    unlink($tempCompressedPath); // hapus yang kebesaran
+                }
+            }
+        }
+
+        if (file_exists($tempOriginalPath)) {
+            unlink($tempOriginalPath);
+        }
+
+        if (!$compressed) {
+            if (file_exists($finalPath)) {
+                unlink($finalPath);
+            }
+            throw new \Exception("Image compression failed or result too large.");
+        }
+
+        return $filename;
+
+    } catch (\Exception $e) {
+        Log::error("Image saving failed: " . $e->getMessage());
+        return null;
     }
+}
+
 
 
 

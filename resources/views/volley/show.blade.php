@@ -9,7 +9,7 @@
                 <span class="badge text-bg-danger">Tranding</span>
                 <span class="badge text-bg-success">{{$article->type}}</span>
                 <span class="badge text-bg-secondary">Volley</span>
-                <h1 class="fs-1 text-white mb-3 mt-2">{{ $article->headlineUtamaArtikel }}</h1>
+                <h1 class="fs-1 text-white mb-3 mt-2 fw-bolder">{{ $article->headlineUtamaArtikel }}</h1>
                 <a href="" type="button" class="btn btn-outline-dark">Request Advertorial</a>
                 <a href="" type="button" class="btn btn-outline-dark"><svg width="14" height="18" viewBox="0 0 14 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1.53033 10.4697C1.23744 10.1768 0.762563 10.1768 0.46967 10.4697C0.176777 10.7626 0.176777 11.2374 0.46967 11.5303L1.53033 10.4697ZM6.46967 17.5303C6.76256 17.8232 7.23744 17.8232 7.53033 17.5303C7.82322 17.2374 7.82322 16.7626 7.53033 16.4697L6.46967 17.5303ZM6.46962 16.4697C6.17672 16.7626 6.17672 17.2374 6.46961 17.5303C6.76251 17.8232 7.23738 17.8232 7.53028 17.5303L6.46962 16.4697ZM13.5303 11.5303C13.8232 11.2374 13.8232 10.7626 13.5303 10.4697C13.2374 10.1768 12.7625 10.1768 12.4696 10.4697L13.5303 11.5303ZM6.24996 17C6.24996 17.4142 6.58575 17.75 6.99996 17.75C7.41418 17.75 7.74996 17.4142 7.74996 17L6.24996 17ZM7.74996 1C7.74996 0.585785 7.41418 0.25 6.99996 0.25C6.58575 0.25 6.24996 0.585785 6.24996 1L7.74996 1ZM0.46967 11.5303L6.46967 17.5303L7.53033 16.4697L1.53033 10.4697L0.46967 11.5303ZM7.53028 17.5303L13.5303 11.5303L12.4696 10.4697L6.46962 16.4697L7.53028 17.5303ZM7.74996 17L7.74996 1L6.24996 1L6.24996 17L7.74996 17Z" fill="#F6F6F6"/></svg>
@@ -110,8 +110,10 @@
         @else
             @foreach($recommendations as $i => $rec)
             <div class="col-lg-3 col-md-3 col-sm-12">
-                <div class="card">
-                    <img src="{{ asset('images_download/'.$rec->image1) }}" class="card-img-top" alt="{{$rec->headlineUtamaArtikel}}">
+                <div class="card h-100 d-flex flex-column">
+                    <div class="ratio ratio-4x3">
+                    <img src="{{ asset('images_download/'.$rec->image1) }}" class="card-img-top object-cover" alt="{{$rec->headlineUtamaArtikel}}">
+                    </div>
                     <div class="card-body">
                         <span class="badge text-bg-secondary">Volley</span>
                         <!-- Button trigger modal -->

@@ -28,18 +28,20 @@
     </div>
     <!-- Data artikel terbaru dan yang sedang trending -->
     <div class="row row-cols-lg-4 mb-5 mt-4">
-        @if(count($articles) == 0)
+        @if(count($recommendations) == 0)
             <p style="margin-bottom : 15%;">Data Kosong</p>
         @else 
             @foreach ($recommendations as $article)
             <div class="col-lg-4 col-md-4 col-sm-12 mt-3 mb-4">
-                <div class="card">
+                <div class="card h-100 d-flex flex-column">
                             @if($article->type=='series')
                             <a href="{{route('basket.series', $article->slug)}}">
                             @else
                             <a href="{{route('basket.show', $article->slug)}}">
                             @endif
-                        <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top" alt="{{$article->headlineUtamaArtikel}}">
+                        <div class="ratio ratio-4x3">
+                        <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top object-cover" alt="{{$article->headlineUtamaArtikel}}">
+                        </div>
                         </a>
                         <div class="card-body">
                             @if(\Carbon\Carbon::parse($article->created_at)->diff(now())->days <= 1)
