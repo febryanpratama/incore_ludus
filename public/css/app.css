@@ -23,7 +23,6 @@ a {
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height: 100vh;
 }
 
 .pg1 .row1 {
@@ -411,4 +410,21 @@ a {
 
 .mar-10 {
     margin-right: 10px;
+}
+/* Default: Extra small devices (xs, <576px) */
+
+.t2 img {
+  max-height: 100px;
+}
+
+.t2 div {
+  padding: 5px !important;
+}
+
+/* Small devices (sm: ≥576px and <768px) */
+@media (min-width: 576px) {
+}
+
+/* Medium devices (md: ≥768px and <992px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
 }

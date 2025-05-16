@@ -16,14 +16,13 @@
                     <p>Data Kosong</p>
                 @else 
                     @foreach($trendingPosts as $trending)
-                        @if(!empty($trending->image1) && !empty($trending->headlineUtamaArtikel) && !empty($trending->paragraf1))
                         <div class="card mb-1" style="background: transparent">
-                            <div class="row">
+                            <div class="row t2">
                                 <div class="col-lg-2 col-md-3 col-4 d-flex align-items-center" style="background-color: rgba(255, 255, 255, 0.2)">
-                                    <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start" alt="{{$trending->headlineUtamaArtikel}}" style="max-width : 100px; max-height: 100px;">
+                                    <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start ms-2 ms-md-0 ms-lg-0" alt="{{$trending->headlineUtamaArtikel}}">
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-7" style="background-color: rgba(255, 255, 255, 0.2)">
-                                    <div class="card-body">
+                                    <div class="card-body t1">
                                         <span class="card-text text-black"><small>{{ \Carbon\Carbon::parse($trending->created_at)->diffForHumans()}}</small></span>
                                         @if($trending->type=='series')
                                             @if($trending->category_name == "Badminton" || $trending->category_name == "badminton")
@@ -63,7 +62,6 @@
                                 <div class="col-1" style="background: none;"></div>
                             </div>
                         </div>
-                        @endif
                     @endforeach
                 @endif
             </div>
@@ -283,6 +281,7 @@
                                     @endif
                                         <img src="{{ asset('images_download/'.$vol->image1) }}" class="card-img-top" alt="{{$vol->headlineUtamaArtikel}}">
                                     </a>
+                                    <p>{{$vol->id}}</p>
                                         <div class="card-body">
                                             @if($vol->type=='series')
                                             <h5><a class="text-decoration-none text-dark" href="{{route('volley.series', $vol->slug)}}">{{ $vol->headlineUtamaArtikel}}</a></h5>

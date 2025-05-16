@@ -25,9 +25,9 @@ class MainController extends Controller
         $trendingPosts = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-            ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
             ->orderBy('engagings.count', 'desc')
-            ->limit(4)
+            ->limit(5)
             ->select('artikels.*', 'categories.name as category_name') // Select category name as category_name
             ->get();
             $footballTranding = DB::table('artikels')
@@ -41,7 +41,7 @@ class MainController extends Controller
             ->select('artikels.*', 'categories.name as category_name')
             ->orderBy('engagings.count', 'desc')
             ->first();
-        
+        // dd($trendingPosts);
         if($footballTranding==null){
             $footballTranding = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
@@ -161,6 +161,7 @@ class MainController extends Controller
                 $volleys = [];
             }
         }
+        // dd($volleys);
         $martialarts = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
