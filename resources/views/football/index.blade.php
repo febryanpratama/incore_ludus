@@ -128,7 +128,7 @@
                 <p></p>
             @else 
                 @if($highlightPost->image1!==null || $highlightPost->headlineUtamaArtikel!==null || $highlightPost->paragraf1!==null)
-                <div class="label">
+                <div class="label" style="margin-top:1%; position: absolute; margin-left:20px;">
                     @if(\Carbon\Carbon::parse($highlightPost->created_at)->diff(now())->days <= 1)
                         <span class="badge text-bg-primary">New</span>
                     @endif
