@@ -40,7 +40,7 @@
                         <a href="{{route('volley.show', $article->slug)}}">
                         @endif
                         <div class="ratio ratio-4x3">
-                        <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top object-cover" alt="{{$article->headlineUtamaArtikel}}">
+                        <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top object-fit-cover w-100 h-100" style="object-position: center;" alt="{{$article->headlineUtamaArtikel}}">
                         </div>
                         </a>
                         <div class="card-body">

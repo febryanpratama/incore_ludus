@@ -20,7 +20,7 @@
                             <div class="row t2">
                                 <div class="col-lg-2 col-md-3 col-4 d-flex align-items-center" style="background-color: rgba(255, 255, 255, 0.2)">
                                     <div class="ratio ratio-4x3">
-                                    <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start ms-2 ms-md-0 ms-lg-0 object-cover" alt="{{$trending->headlineUtamaArtikel}}">
+                                    <img src="{{asset('images_download/'.$trending->image1)}}" class="img-fluid rounded-start ms-2 ms-md-0 ms-lg-0 object-fit-cover w-100 h-100" style="object-position: center;" alt="{{$trending->headlineUtamaArtikel}}">
                                     </div>
                                 </div>
                                 <div class="col-lg-9 col-md-8 col-7" style="background-color: rgba(255, 255, 255, 0.2)">
@@ -198,7 +198,7 @@
                                     <a href="{{route('badminton.show', $bm->slug)}}">
                                     @endif
                                     <div class="ratio ratio-4x3">
-                                        <img src="{{ asset('images_download/'.$bm->image1) }}" class="card-img-top object-cover" alt="{{$bm->headlineUtamaArtikel}}">
+                                        <img src="{{ asset('images_download/'.$bm->image1) }}" class="card-img-top object-fit-cover w-100 h-100" style="object-position: center;" alt="{{$bm->headlineUtamaArtikel}}">
                                     </div>
                                     </a>
                                         <div class="card-body">
@@ -248,7 +248,7 @@
                                     <a href="{{route('basket.show', $bas->slug)}}">
                                     @endif
                                     <div class="ratio ratio-4x3">
-                                        <img src="{{ asset('images_download/'.$bas->image1) }}" class="card-img-top object-cover" alt="{{$bas->headlineUtamaArtikel}}">
+                                        <img src="{{ asset('images_download/'.$bas->image1) }}" class="card-img-top object-fit-cover w-100 h-100" style="object-position: center;" alt="{{$bas->headlineUtamaArtikel}}">
                                     </div>
                                     </a>
                                         <div class="card-body">
@@ -287,7 +287,7 @@
                                     @endif
                                     <div class="ratio ratio-4x3">
 
-                                        <img src="{{ asset('images_download/'.$vol->image1) }}" class="card-img-top object-cover" alt="{{$vol->headlineUtamaArtikel}}">
+                                        <img src="{{ asset('images_download/'.$vol->image1) }}" class="card-img-top object-fit-cover w-100 h-100" style="object-position: center;" alt="{{$vol->headlineUtamaArtikel}}">
                                     </div>
                                     </a>
                                         <div class="card-body">
@@ -335,7 +335,7 @@
                     </h1>
                 </div>
             </div>  
-            <div class="col-12 col-md-7 order-md-2 order-1 p-0">
+            <div class="col-12 col-md-7 order-md-2 order-1 p-0 mt-4">
                 <div class="row">
                     @if($martialarts==null)
                         <p>Data Kosong</p>
@@ -345,7 +345,7 @@
                                 <div class="col-lg-4 col-md-4 col-sm-12">
                                     <div class="card h-100 d-flex flex-column">
                                         <div class="ratio ratio-4x3">
-                                        <img src="{{ asset('images_download/'.$mar->image1) }}" alt="{{$mar->headlineUtamaArtikel}}" class="card-img-top object-cover">
+                                        <img src="{{ asset('images_download/'.$mar->image1) }}" alt="{{$mar->headlineUtamaArtikel}}" class="card-img-top object-fit-cover w-100 h-100" style="object-position: center;">
                                         </div>
                                         <div class="card-body">
                                             @if($mar->type=='series')

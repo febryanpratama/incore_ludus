@@ -60,7 +60,7 @@
                             <a href="{{route('karate.show', $article->slug)}}">
                             @endif
                             <div class="ratio ratio-4x3">
-                            <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top object-cover" alt="{{$article->headlineUtamaArtikel}}">
+                            <img src="{{ asset('images_download/'.$article->image1) }}" class="card-img-top object-fit-cover w-100 h-100" style="object-position: center;" alt="{{$article->headlineUtamaArtikel}}">
                             </div>
                             </a>
                             <div class="card-body">
@@ -198,7 +198,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="card h-100 d-flex flex-column">
                         <div class="ratio ratio-4x3">
-                        <img src="{{ asset('images_download/'.$trending->image1) }}" class="card-img-top object-cover" alt="{{$trending->headlineUtamaArtikel}}">
+                        <img src="{{ asset('images_download/'.$trending->image1) }}" class="card-img-top object-fit-cover w-100 h-100" style="object-position: center;" alt="{{$trending->headlineUtamaArtikel}}">
                         </div>
                         <div class="card-body">
                             @if(\Carbon\Carbon::parse($trending->created_at)->diff(now())->days <= 1)
@@ -263,7 +263,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="card h-100 d-flex flex-column">
                         <div class="ratio ratio-4x3">
-                        <img src="{{ asset('images_download/'.$rec->image1) }}" class="card-img-top object-cover" alt="{{$rec->headlineUtamaArtikel}}">
+                        <img src="{{ asset('images_download/'.$rec->image1) }}" class="card-img-top object-fit-cover w-100 h-100" style="object-position: center;" alt="{{$rec->headlineUtamaArtikel}}">
                         </div>
                         <div class="card-body">
                             <span class="badge text-bg-danger">Tranding</span>
