@@ -4,6 +4,14 @@
     @php
         $defaultKeywords = 'berita olahraga, update skor, hasil pertandingan, statistik olahraga, jadwal pertandingan, skor bola, jadwal liga, live score, NBA updates, transfer pemain, komunitas olahraga, forum olahraga, diskusi pertandingan, penggemar olahraga, live chat bola';
 
+        $defauldDescription = 'Tentang berita terbaru, hasil pertandingan, statistik, dan informasi seputar olahraga sepak bola dalam satu aplikasi yang bisa dilihat kapan saja dan di mana saja. Untuk Komunitas & Sosial : Bisa temukan teman, diskusikan pertandingan, dan bagikan pengalaman olahraga Anda. Dari penggemar hingga atlet, semua bisa terhubung di sini.Pelatihan & Kesehatan : akan tampil performa olahraga Anda dengan panduan latihan, program kebugaran, dan tips kesehatan dari para ahli. Mulai perjalanan olahraga Anda dengan rencana yang sesuai dengan kebutuhan Anda!';
+
+        $descriptionArtikel = trim($article->highlight1 ?? '');
+
+        $description = strlen($descriptionArtikel ?? '') > 0
+            ? $descriptionArtikel
+            : $defauldDescription;
+
         $headline = trim($article->headlineUtamaArtikel ?? '');
 
         $keywords = strlen($headline) > 0
@@ -11,6 +19,7 @@
             : $defaultKeywords;
     @endphp
     <meta name="keywords" content="{{ $keywords }}">
+    <meta name="description" content="{{ $description }}">
 @endsection
 
 @section('content')
