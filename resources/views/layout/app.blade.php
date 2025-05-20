@@ -2,15 +2,14 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Umum (Berita & Informasi Olahraga) : Tentang berita terbaru, hasil pertandingan, statistik, dan informasi seputar olahraga favorit Anda dalam satu aplikasi! Ikuti perkembangan dunia olahraga, mulai dari sepak bola, basket, hingga olahraga ekstrem, bisa dilihat kapan saja dan di mana saja. Untuk Komunitas & Sosial : Bisa temukan teman, diskusikan pertandingan, dan bagikan pengalaman olahraga Anda. Dari penggemar hingga atlet, semua bisa terhubung di sini.Pelatihan & Kesehatan : akan tampil performa olahraga Anda dengan panduan latihan, program kebugaran, dan tips kesehatan dari para ahli. Mulai perjalanan olahraga Anda dengan rencana yang sesuai dengan kebutuhan Anda!">
-        <meta name="keywords" content="berita olahraga, update skor, hasil pertandingan, statistik olahraga, jadwal pertandingan, skor bola, jadwal liga, live score, NBA updates, transfer pemain, komunitas olahraga, forum olahraga, diskusi pertandingan, penggemar olahraga, live chat bola">
+        <!-- <meta name="keywords" content="berita olahraga, update skor, hasil pertandingan, statistik olahraga, jadwal pertandingan, skor bola, jadwal liga, live score, NBA updates, transfer pemain, komunitas olahraga, forum olahraga, diskusi pertandingan, penggemar olahraga, live chat bola"> -->
 
         <title>Ludic.id</title>
 
         <title>Berita & Informasi Olahraga Terbaru | Skor, Jadwal, dan Statistik</title>
-        <meta name="description" content="Tentang berita terbaru, hasil pertandingan, statistik, dan informasi seputar olahraga favorit Anda dalam satu aplikasi! Ikuti perkembangan dunia olahraga, mulai dari sepak bola, basket, hingga olahraga ekstrem, bisa dilihat kapan saja dan di mana saja.">
-        <meta name="keywords" content="berita olahraga, update skor, hasil pertandingan, statistik olahraga, jadwal pertandingan, skor bola, jadwal liga, live score, NBA updates, transfer pemain, komunitas olahraga, forum olahraga, diskusi pertandingan, penggemar olahraga, live chat bola">
+        <meta name="description" content="Tentang berita terbaru, hasil pertandingan, statistik, dan informasi seputar olahraga favorit Anda dalam satu aplikasi! Ikuti perkembangan dunia olahraga, mulai dari sepak bola, basket, hingga olahraga ekstrem, bisa dilihat kapan saja dan di mana saja. Umum (Berita & Informasi Olahraga) : Tentang berita terbaru, hasil pertandingan, statistik, dan informasi seputar olahraga favorit Anda dalam satu aplikasi! Ikuti perkembangan dunia olahraga, mulai dari sepak bola, basket, hingga olahraga ekstrem, bisa dilihat kapan saja dan di mana saja. Untuk Komunitas & Sosial : Bisa temukan teman, diskusikan pertandingan, dan bagikan pengalaman olahraga Anda. Dari penggemar hingga atlet, semua bisa terhubung di sini.Pelatihan & Kesehatan : akan tampil performa olahraga Anda dengan panduan latihan, program kebugaran, dan tips kesehatan dari para ahli. Mulai perjalanan olahraga Anda dengan rencana yang sesuai dengan kebutuhan Anda!">
+        @yield('meta')
+
         <meta name="author" content="Nama Anda atau Nama Website">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="robots" content="index, follow">

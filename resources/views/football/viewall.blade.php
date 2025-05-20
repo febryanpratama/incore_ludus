@@ -1,5 +1,19 @@
 @extends('layout.app')
 
+@section('meta')
+    @php
+        $defaultKeywords = 'berita olahraga, update skor, hasil pertandingan, statistik olahraga, jadwal pertandingan, skor bola, jadwal liga, live score, NBA updates, transfer pemain, komunitas olahraga, forum olahraga, diskusi pertandingan, penggemar olahraga, live chat bola';
+
+        $headline = trim($article->headlineUtamaArtikel ?? '');
+
+        $keywords = strlen($headline) > 0
+            ? implode(', ', preg_split('/\s+/', $headline))
+            : $defaultKeywords;
+    @endphp
+
+    <meta name="keywords" content="{{ $keywords }}">
+@endsection
+
 @section('content')
 <div class="container-fluid viewall">
     <form class="d-flex" role="search" method="GET" action="{{ route('basket.viewrecommendation') }}">
