@@ -12,6 +12,7 @@ use App\Models\Topic;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use App\Models\Category;
 
 class GenerateServices
 {
@@ -355,286 +356,6 @@ class GenerateServices
         return $jsonData['entities'] ?? [];
     }
 
-    // private function extractEntitiesFromResponse($response)
-    // {
-    //     // Pastikan response memiliki data yang diperlukan
-    //     if (!isset($response['data']['response'])) {
-    //         return [];
-    //     }
-    
-    //     // 1. Ambil response JSON yang masih dalam string
-    //     $jsonString = trim($response['data']['response']);
-    
-    //     // 2. Hapus blok kode ```json ... ``` dan karakter whitespace berlebih
-    //     $jsonString = preg_replace('/^```json/', '', $jsonString); // Hapus ```json di awal
-    //     $jsonString = preg_replace('/```$/', '', $jsonString); // Hapus ``` di akhir
-    //     $jsonString = trim($jsonString); // Hapus whitespace tambahan
-    
-    //     // 3. Decode JSON menjadi array
-    //     $jsonData = json_decode($jsonString, true);
-    
-    //     // 4. Debugging jika decoding gagal
-    //     if (json_last_error() !== JSON_ERROR_NONE) {
-    //         dd("JSON Error: " . json_last_error_msg(), $jsonString);
-    //     }
-    
-    //     // 5. Ambil daftar `paragraf` dan `result` dari setiap entri dalam `entitas`
-    //     $entities = [];
-    //     if (isset($jsonData['entitas']) && is_array($jsonData['entitas'])) {
-    //         foreach ($jsonData['entitas'] as $item) {
-    //             if (isset($item['paragraf1']) && isset($item['result'])) {
-    //                 $entities[] = [
-    //                     'paragraf' => $item['paragraf1'],
-    //                     'result' => $item['result']
-    //                 ];
-    //             } elseif (isset($item['paragraf2']) && isset($item['result'])) {
-    //                 $entities[] = [
-    //                     'paragraf' => $item['paragraf2'],
-    //                     'result' => $item['result']
-    //                 ];
-    //             } elseif (isset($item['paragraf3']) && isset($item['result'])) {
-    //                 $entities[] = [
-    //                     'paragraf' => $item['paragraf3'],
-    //                     'result' => $item['result']
-    //                 ];
-    //             } elseif (isset($item['paragraf4']) && isset($item['result'])) {
-    //                 $entities[] = [
-    //                     'paragraf' => $item['paragraf4'],
-    //                     'result' => $item['result']
-    //                 ];
-    //             }
-    //         }
-    //     }
-    
-    //     return $entities;
-    // }
-    
-
-    // old version
-    // private function fetchImage($data)
-    // {
-    //         // $prompt = "buatkan gambar manusia nyata bangsa Asia atau lingkungan nyata di Asia tanpa ada huruf, angka, coretan apapun untuk sosial media marketing berdasarkan deskripsi: ".$data['headlineUtamaArtikel']."";
-
-    //         $prompt = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
-    //         // $replace_characters = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
-    //         // $prompt = $this->limit_words("foto atau gambar ".$replace_characters, 6);
-
-    //         // Match name at the beginning or end
-    //         if (preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $data['headlineUtamaArtikel'], $matches)) {
-    //             $name = $matches[1] ?? $matches[2]; 
-    //         } else if (preg_match('/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)\b/', $data['headlineUtamaArtikel'], $matches)) {
-    //             $name = $matches[0]; 
-    //         } else {
-    //             $name = $data['headlineUtamaArtikel']; // If no name is found
-    //         }
-    //         // print_r($prompt);
-    //         // dd($name);
-    //          // Kirim prompt ke API
-    //          $api = new AiApi();
-    //          // $response = $api->post('/api/generate/generate-images-deepai', $prompt);
-    //          $response = $api->post('/api/generate/generate-images-google', $prompt);
-    //         //  dd($response);
-            
-    //         foreach($response['data'] as $image){
-    //             // try {
-    //                 //code...
-    //                 if(strpos($image['link'], 'jpg')||strpos($image['link'], 'png')||strpos($image['link'], 'jpeg')||strpos($image['link'], 'JPG')||strpos($image['link'], 'PNG')||strpos($image['link'], 'JPEG') ){
-    //                     $string = strtolower($image['title']);
-    //                     $kataArray = explode(" ", $string);
-    //                     $katacari = explode(" ", strtolower($name));
-    //                     // var_dump($kataArray);
-    //                     // var_dump($katacari);
-    //                     // print_r(array_intersect($katacari, $kataArray));
-    //                     // print_r(count(array_intersect($katacari, $kataArray)));
-                        
-    //                     if (array_intersect($katacari, $kataArray)!=[]) {
-    //                         if(count(array_intersect($katacari, $kataArray))!=0 && count(array_intersect($katacari, $kataArray))<=4){
-
-    //                             // print_r($image);
-    //                             if($data->image1==null){
-    //                                 $save = $this->saveImage($image['link']);
-    //                                     $data->update([
-    //                                         'image1' => $save
-    //                                     ]);
-    
-    //                             } elseif($data->image2==null){
-    //                                 $save = $this->saveImage($image['link']);
-    //                                 $data->update([
-    //                                     'image2' => $save
-    //                                 ]);
-    //                             } elseif($data->image3==null){
-    //                                 $save = $this->saveImage($image['link']);
-    //                                 $data->update([
-    //                                     'image3' => $save
-    //                                 ]);
-    //                             } elseif($data->image4==null){
-    //                                 $save = $this->saveImage($image['link']);
-    //                                 $data->update([
-    //                                     'image4' => $save
-    //                                 ]);
-    //                             }
-    //                         }
-    //                     } else {
-    //                         // echo "Kata tidak ditemukan dalam string.";
-    //                     }
-    //                 }
-    //             // } catch (\Throwable $th) {
-    //             //     //throw $th;
-    //             //     continue;
-    //             // }
-    //         }
-    //         // dd();
-    //         // if(count($response['data'])>=4){
-    //         //     $data->update([
-    //         //         'image1' => $response['data'][0]['link'],
-    //         //         'image2' => $response['data'][1]['link'],
-    //         //         'image3' => $response['data'][2]['link'],
-    //         //         'image4' => $response['data'][3]['link']
-    //         //     ]);
-    //         // }else if(count($response['data'])!=0 && count($response['data'])<4){ 
-    //         //     for($i=0; $i<count($response['data']); $i++){
-    //         //         $data->update([
-    //         //             'image'.($i+1) => $response['data'][$i]['link']
-    //         //         ]);
-    //         //     }
-    //         // }
-    //         // dd($data);
-
-    //     // foreach ($getArtikel as $key) {
-    //     //     // Membuat prompt untuk API
-    //     //     // $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 500 kata, dibagi menjadi tiga paragraf, memiliki link http://www.cerita.ceritain.com/".$key->slug." serta sajikan dalam bentuk kode HTML yang optimal untuk tampil di halaman pertama mesin pencarian. Selain itu, formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"content\": \"\", \"meta_html\": \"\" } tanpa ada teks tambahan lain. Dalam pembuatan artikel itu wajib menggunakan deskripsi berikut ini sebagai referensi kamu: Meta Title: ".$key['title'].", Meta Description: ".$key->category->meta_category->meta_description.", Meta Keywords: ".$key->category->meta_category->meta_keywords.", Meta Hashtags: ".$key->category->meta_category->meta_hashtags.".";
-
-    //     //     // save to public path
-
-    //     //     $imageContent = file_get_contents($responseImagePath);
-
-    //     //     if ($imageContent !== false) {
-    //     //         // Buat nama file unik
-    //     //         $filename = 'image_' . rand(111, 9999) . time() . '.jpg';
-            
-    //     //         // Tentukan folder penyimpanan gambar di public path
-    //     //         $savePath = public_path('artikel/images'); // Anda dapat mengganti 'images' dengan folder lain yang diinginkan
-            
-    //     //         // Pastikan folder tujuan ada
-    //     //         if (!is_dir($savePath)) {
-    //     //             mkdir($savePath, 0755, true); // Membuat folder jika belum ada
-    //     //         }
-            
-    //     //         // Simpan gambar ke folder public/images
-    //     //         file_put_contents($savePath . '/' . $filename, $imageContent);
-            
-    //     //         // URL untuk mengakses gambar
-    //     //         $imageUrl = asset('artikel/images/' . $filename);
-    //     //         // dd($prompt, $response,$responseImagePath);
-
-    //     //         $updateArtikel = Artikel::find($key->id);
-                
-    //     //         $updateArtikel->path_image = $imageUrl;
-    //     //         $updateArtikel->save();
-
-    //     //     } else {
-    //     //         continue;
-    //     //     }
-
-    //     // }
-    // }
-
-    // new version
-    // public function fetchImage($kata_kunci, $data)
-    // {
-    //     // $prompt = "buatkan gambar manusia nyata bangsa Asia atau lingkungan nyata di Asia tanpa ada huruf, angka, coretan apapun untuk sosial media marketing berdasarkan deskripsi: ".$data['headlineUtamaArtikel']."";
-
-    //     // $prompt = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
-    //     // $replace_characters = preg_replace("/[^A-Za-z0-9\  ]/", "", $data['headlineUtamaArtikel']);
-    //     // $prompt = $this->limit_words("foto atau gambar ".$replace_characters, 6);
-
-    //     // Match name at the beginning or end
-    //     if (preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $data['headlineUtamaArtikel'], $matches)) {
-    //         $name = $matches[1] ?? $matches[2]; 
-    //     } else if (preg_match('/\b([A-Z][a-z]+(?:\s[A-Z][a-z]+)+)\b/', $data['headlineUtamaArtikel'], $matches)) {
-    //         $name = $matches[0]; 
-    //     } else {
-    //         $name = $data['headlineUtamaArtikel']; // If no name is found
-    //     }
-
-    //     // $prompt = "Carikan Gambar {$kata_kunci} kategori {$data->category->name}";
-    //     $prompt = "{$kata_kunci}";
-    //     // print_r($prompt);
-    //     // dd($prompt);
-    //         // Kirim prompt ke API
-    //         $api = new AiApi();
-    //         // $response = $api->post('/api/generate/generate-images-deepai', $prompt);
-    //         $response = $api->post('/api/generate/generate-images-google', $prompt);
-    //         // dd($response);
-        
-    //     foreach($response['data'] as $image){
-    //         // try {
-    //             //code...
-    //             if(strpos($image['link'], 'jpg')||strpos($image['link'], 'png')||strpos($image['link'], 'jpeg')||strpos($image['link'], 'JPG')||strpos($image['link'], 'PNG')||strpos($image['link'], 'JPEG') ){
-    //                 $string = strtolower($image['title']);
-    //                 $kataArray = explode(" ", $string);
-    //                 $katacari = explode(" ", strtolower($name));
-    //                 // var_dump($kataArray);
-    //                 // var_dump($katacari);
-    //                 // print_r(array_intersect($katacari, $kataArray));
-    //                 // print_r(count(array_intersect($katacari, $kataArray)));
-    //                 if($data->image1==null){
-    //                     $save = $this->saveImage($image['link'], $data);
-    //                         $data->update([
-    //                             'image1' => $save
-    //                         ]);
-
-    //                 } elseif($data->image2==null){
-    //                     $save = $this->saveImage($image['link'], $data);
-    //                     $data->update([
-    //                         'image2' => $save
-    //                     ]);
-    //                 } elseif($data->image3==null){
-    //                     $save = $this->saveImage($image['link'], $data);
-    //                     $data->update([
-    //                         'image3' => $save
-    //                     ]);
-    //                 } elseif($data->image4==null){
-    //                     $save = $this->saveImage($image['link'], $data);
-    //                     $data->update([
-    //                         'image4' => $save
-    //                     ]);
-    //                 }
-                    
-    //                 if (array_intersect($katacari, $kataArray)!=[]) {
-    //                     if(count(array_intersect($katacari, $kataArray))!=0 && count(array_intersect($katacari, $kataArray))<=4){
-
-    //                         // print_r($image);
-    //                         if($data->image1==null){
-    //                             $save = $this->saveImage($image['link'],$data);
-    //                                 $data->update([
-    //                                     'image1' => $save
-    //                                 ]);
-
-    //                         } elseif($data->image2==null){
-    //                             $save = $this->saveImage($image['link'],$data);
-    //                             $data->update([
-    //                                 'image2' => $save
-    //                             ]);
-    //                         } elseif($data->image3==null){
-    //                             $save = $this->saveImage($image['link'],$data);
-    //                             $data->update([
-    //                                 'image3' => $save
-    //                             ]);
-    //                         } elseif($data->image4==null){
-    //                             $save = $this->saveImage($image['link'],$data);
-    //                             $data->update([
-    //                                 'image4' => $save
-    //                             ]);
-    //                         }
-    //                     }
-    //                 } else {
-    //                     // echo "Kata tidak ditemukan dalam string.";
-    //                 }
-    //             }
-    //     }
-    // }
-
     public function fetchImage($kata_kunci, $data, &$rejectedPrompts = [])
     {
         if (preg_match('/^([a-zA-Z\s]+)(?=:)|(?<=: )([a-zA-Z\s]+)$/', $data['headlineUtamaArtikel'], $matches)) {
@@ -689,239 +410,216 @@ class GenerateServices
         return $success;
     }
 
-
-
-
-    // private function saveImage($url){
-    //     $response = Http::get($url);
-    //         if($response->successful()){
-    //             $dateTime = now();
-    //             $randomString = Str::random(5);
-    //             // Mengambil ekstensi file
-    //             $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
-    //             $filename = $dateTime->format('YmdHis').$randomString.".".$extension;
-                
-    //             $filePath = 'images_download/' . $filename;
-    //             // dd($filePath);
-
-    //             // Validasi path folder
-    //             if (!Storage::disk('public')->exists('images_download')) {
-    //                 // Membuat folder jika belum ada
-    //                 Storage::disk('public')->makeDirectory('images_download'); 
-    //             }
-
-    //                 // Simpan file ke folder 'public/images_download'
-    //             Storage::disk('public')->put($filePath, $response->body());
-    //             return $filename;
-    //         } else {
-    //             return null;
-    //         }
-    // }
-
-    // private function saveImage($url)
-    // {
-    //     $response = Http::get($url);
-    //     if ($response->successful()) {
-    //         $dateTime = now();
-    //         $randomString = Str::random(5);
-            
-    //         // Mengambil ekstensi file
-    //         $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
-    //         $filename = $dateTime->format('YmdHis') . $randomString . "." . $extension;
-            
-    //         $filePath = public_path('images_download/' . $filename);
-
-    //         // Pastikan folder 'public/images_download' ada
-    //         if (!File::exists(public_path('images_download'))) {
-    //             File::makeDirectory(public_path('images_download'), 0755, true);
-    //         }
-
-    //         // Simpan file ke folder 'public/images_download'
-    //         file_put_contents($filePath, $response->body());
-
-    //         return $filename;
-    //     } else {
-    //         return null;
-    //     }
-    // }
-
-    // private function saveImage($url, $data)
-    // {
-    //     try {
-    //         // Fetch the image
-    //         $response = Http::withOptions([
-    //             'verify' => false,
-    //         ])->get($url);
-    //         if (!$response->successful()) {
-    //             throw new \Exception("Failed to fetch image from URL: {$url}");
-    //         }
-
-    //         // Extract file extension and validate it
-    //         $path = parse_url($url, PHP_URL_PATH);
-    //         $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-
-    //         $allowedExtensions = ['jpg', 'jpeg', 'png'];
-    //         if (!in_array($extension, $allowedExtensions)) {
-    //             return null;
-    //         }
-
-    //         // Generate a unique filename
-    //         $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
-    //         $timestamp = now()->format('YmdHis');
-    //         $random = Str::random(5);
-    //         $filename = "{$baseName}-{$timestamp}-{$random}.{$extension}";
-
-    //         // Set storage paths
-    //         $tempOriginalPath = storage_path('app/public/images_download/original_' . $filename);
-    //         $finalPath = public_path('images_download/' . $filename);
-
-    //         // Ensure directories exist
-    //         if (!File::exists(public_path('images_download'))) {
-    //             File::makeDirectory(public_path('images_download'), 0755, true);
-    //         }
-    //         if (!File::exists(storage_path('app/public/images_download'))) {
-    //             File::makeDirectory(storage_path('app/public/images_download'), 0755, true);
-    //         }
-
-    //         // Save the image temporarily
-    //         file_put_contents($tempOriginalPath, $response->body());
-
-    //         // Compress image until it's under 300 KB
-    //         $compressed = false;
-    //         // $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
-    //         for ($q = 14; $q <= 40; $q += 2) {
-    //             $command = "ffmpeg -i " . escapeshellarg($tempOriginalPath)
-    //                     . " -q:v $q -y " . escapeshellarg($finalPath);
-    //             exec($command . ' 2>&1', $output, $returnCode);
-
-    //             // Check if compression was successful and under 300 KB
-    //             if (file_exists($finalPath) && filesize($finalPath) / 1024 <= 300) {
-    //                 $compressed = true;
-    //                 break;
-    //             }
-    //         }
-
-    //         // Remove temporary original file
-    //         if (file_exists($tempOriginalPath)) {
-    //             unlink($tempOriginalPath);
-    //         }
-
-    //         // If compression was unsuccessful, delete the final file
-    //         if (!$compressed) {
-    //             if (file_exists($finalPath)) {
-    //                 unlink($finalPath);
-    //             }
-    //             return null;
-    //         }
-
-    //         dd($filename);
-
-    //         return $filename;
-    //     } catch (\Exception $e) {
-    //         // Log the error and return null
-    //         dd($e->getMessage());
-    //         Log::error("Image saving failed: " . $e->getMessage());
-    //         return null;
-    //     }
-    // }
-
-    // sample saveimage new
     private function saveImage($url, $data)
-{
-    try {
-        $response = Http::withOptions([
-            'verify' => false,
-        ])->get($url);
+    {
+        try {
+            $response = Http::withOptions([
+                'verify' => false,
+            ])->get($url);
 
-        if (!$response->successful()) {
-            throw new \Exception("Failed to fetch image from URL: {$url}");
-        }
+            if (!$response->successful()) {
+                throw new \Exception("Failed to fetch image from URL: {$url}");
+            }
 
-        $path = parse_url($url, PHP_URL_PATH);
-        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-        $allowedExtensions = ['jpg', 'jpeg', 'png'];
-        if (!in_array($extension, $allowedExtensions)) {
-            throw new \Exception("Invalid image extension: .{$extension}");
-        }
+            $path = parse_url($url, PHP_URL_PATH);
+            $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+            $allowedExtensions = ['jpg', 'jpeg', 'png'];
+            if (!in_array($extension, $allowedExtensions)) {
+                throw new \Exception("Invalid image extension: .{$extension}");
+            }
 
-        $mime = $response->header('Content-Type');
-        $allowedMimes = ['image/jpeg', 'image/png'];
-        if (!in_array($mime, $allowedMimes)) {
-            throw new \Exception("Invalid MIME type: {$mime}");
-        }
+            $mime = $response->header('Content-Type');
+            $allowedMimes = ['image/jpeg', 'image/png'];
+            if (!in_array($mime, $allowedMimes)) {
+                throw new \Exception("Invalid MIME type: {$mime}");
+            }
 
-        $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
-        $timestamp = now()->format('YmdHis');
-        $random = Str::random(5);
-        $filenameBase = "{$baseName}-{$timestamp}-{$random}";
-        $filename = $filenameBase . ".jpg"; // force jpg as output
-        $originalDir = storage_path('app/public/images_download');
-        $publicDir = public_path('images_download');
-        $tempOriginalPath = $originalDir . '/original_' . $filename;
-        $finalPath = $publicDir . '/' . $filename;
+            $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
+            $timestamp = now()->format('YmdHis');
+            $random = Str::random(5);
+            $filenameBase = "{$baseName}-{$timestamp}-{$random}";
+            $filename = $filenameBase . ".jpg"; // force jpg as output
+            $originalDir = storage_path('app/public/images_download');
+            $publicDir = public_path('images_download');
+            $tempOriginalPath = $originalDir . '/original_' . $filename;
+            $finalPath = $publicDir . '/' . $filename;
 
-        if (!File::exists($originalDir)) {
-            File::makeDirectory($originalDir, 0755, true);
-        }
-        if (!File::exists($publicDir)) {
-            File::makeDirectory($publicDir, 0755, true);
-        }
+            if (!File::exists($originalDir)) {
+                File::makeDirectory($originalDir, 0755, true);
+            }
+            if (!File::exists($publicDir)) {
+                File::makeDirectory($publicDir, 0755, true);
+            }
 
-        if (file_put_contents($tempOriginalPath, $response->body()) === false) {
-            throw new \Exception("Failed to write image to temporary file.");
-        }
-        // $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
-        $compressed = false;
-        for ($q = 14; $q <= 40; $q += 2) {
-            $tempCompressedPath = $publicDir . "/{$filenameBase}_q{$q}.jpg";
+            if (file_put_contents($tempOriginalPath, $response->body()) === false) {
+                throw new \Exception("Failed to write image to temporary file.");
+            }
+            // $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
+            $compressed = false;
+            for ($q = 14; $q <= 40; $q += 2) {
+                $tempCompressedPath = $publicDir . "/{$filenameBase}_q{$q}.jpg";
 
-            $command = "ffmpeg -i " . escapeshellarg($tempOriginalPath)
-                     . " -q:v {$q} -y -f image2 " . escapeshellarg($tempCompressedPath);
-            exec($command . ' 2>&1', $output, $returnCode);
-            Log::debug("FFmpeg Output:\n" . implode("\n", $output));
-            Log::debug("Return code: {$returnCode}");
+                $command = "ffmpeg -i " . escapeshellarg($tempOriginalPath)
+                        . " -q:v {$q} -y -f image2 " . escapeshellarg($tempCompressedPath);
+                exec($command . ' 2>&1', $output, $returnCode);
+                Log::debug("FFmpeg Output:\n" . implode("\n", $output));
+                Log::debug("Return code: {$returnCode}");
 
-            if (file_exists($tempCompressedPath)) {
-                $sizeKB = filesize($tempCompressedPath) / 1024;
-                if ($sizeKB <= 300) {
-                    // Simpan file ini sebagai final output
-                    rename($tempCompressedPath, $finalPath);
-                    $compressed = true;
-                    $filename = basename($finalPath);
-                    break;
-                } else {
-                    unlink($tempCompressedPath); // hapus yang kebesaran
+                if (file_exists($tempCompressedPath)) {
+                    $sizeKB = filesize($tempCompressedPath) / 1024;
+                    if ($sizeKB <= 300) {
+                        // Simpan file ini sebagai final output
+                        rename($tempCompressedPath, $finalPath);
+                        $compressed = true;
+                        $filename = basename($finalPath);
+                        break;
+                    } else {
+                        unlink($tempCompressedPath); // hapus yang kebesaran
+                    }
                 }
             }
-        }
 
-        if (file_exists($tempOriginalPath)) {
-            unlink($tempOriginalPath);
-        }
-
-        if (!$compressed) {
-            if (file_exists($finalPath)) {
-                unlink($finalPath);
+            if (file_exists($tempOriginalPath)) {
+                unlink($tempOriginalPath);
             }
-            throw new \Exception("Image compression failed or result too large.");
+
+            if (!$compressed) {
+                if (file_exists($finalPath)) {
+                    unlink($finalPath);
+                }
+                throw new \Exception("Image compression failed or result too large.");
+            }
+
+            return $filename;
+
+        } catch (\Exception $e) {
+            Log::error("Image saving failed: " . $e->getMessage());
+            return null;
         }
-
-        return $filename;
-
-    } catch (\Exception $e) {
-        Log::error("Image saving failed: " . $e->getMessage());
-        return null;
     }
-}
-
-
-
-
-
 
     private function limit_words($string, $word_limit)
     {
         $words = explode(" ",$string);
         return implode(" ",array_splice($words,0,$word_limit));
+    }
+
+    public function fetchListTrending()
+    {
+        $api = new AiApi();
+        // get list trending filter by category Sport
+        // kategori sport masih belum tau idnya berapa, harus dicoba dulu di postman
+        $response = $api->get('/api/google-trends/list-trends', 'sport');
+
+        $rawResponse = $response['data']['response'];
+
+        try {
+            $jsonObject = $this->extractJsonObject($rawResponse);
+            
+            foreach ($jsonObject as $key => $value) {
+                $title = $value['title'] ?? null;
+
+                if ($title && !$this->isTopikExist($title)) {
+                    Topik::create([
+                        'topic_name' => $title,
+                        // 'category_id' => $cat_id,
+                        'slug' => Str::slug($title),
+                        'link' => $value['link'],
+                        'time_start_trend' => $value['time_start_trend'],
+                        'is_generated' => 'N'
+                    ]);
+                }
+            }
+
+
+        } catch (\Exception $e) {
+            // Tangani error
+            // continue;
+            // dd($e->getMessage());
+            \Log::error('Error fetchListTrending: ' . $e->getMessage());
+        }
+    }
+
+    private function fetchArtikelByTrend(Topic $topic)
+    {
+        $api = new AiApi();
+        // list berita
+        $responseNewsTrend = $api->get('api/google-trends/news?trend_title', $judultrend);
+
+        $rawResponseTrend = $responseNewsTrend['data']['response'];
+
+        try {
+            $jsonObjectTrend = $this->extractJsonObject($rawResponseTrend);
+            $response = $api->post('/api/google-trends/article', $topic['link']);
+            $rawResponse = $response['data']['response'];    
+    
+            try {
+                $jsonObject = $this->extractJsonObject($rawResponse);    
+    
+                $artikel = new Artikel();
+                foreach ($jsonObject as $key => $value) {
+                    $headings = $value['seo']['headings'] ?? [];
+
+                    $h1 = $headings['h1'] ?? [];
+                    $h2 = $headings['h2'] ?? [];
+                    $h3 = $headings['h3'] ?? [];
+                    $h4 = $headings['h4'] ?? [];
+                    $h5 = $headings['h5'] ?? [];
+                    $h6 = $headings['h6'] ?? [];
+                    $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 300 kata mengenai ".$value['title'].", seperti berita berikut ".$h1." ".$h2." ".$h3." ".$h4." ".$h5." ".$h6.", dalam periode ".$topic['time_start_trend'].". Artikel dibagi menjadi dua paragraf, dengan ketentuan yaitu ada headline utama artikel, highlight 1 maksimal 300 huruf, paragraf 1 maksimal 370 huruf, paragraf 2 maksimal 290 huruf, highlight 2 maksimal 150 huruf, paragraf 3 maksimal 320 huruf, dan paragraf 4 maksimal 500 huruf. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"headlineUtamaArtikel\": \"\",\"highlight1\": \"\", \"paragraf1\": \"\", \"image1\": \"\",\"paragraf2\": \"\", \"highlight2\": \"\", \"image2\": \"\", \"paragraf3\": \"\", \"image3\": \"\", \"paragraf4\", \"image4\":} tanpa ada tag html";
+                    $responseArtikel = $api->post('/api/generate/text', $prompt);
+                    
+                    $artikel->category_id = getCategory($jsonObjectTrend['title']);
+                    $artikel->slug = Str::slug($jsonObjectTrend['title'].'-'.Carbon::now()->format('Ymd'));
+                    $artikel->headlineUtamaArtikel = $value['headlineUtamaArtikel'];
+                    $artikel->highlight1 = $value['highlight1'];
+                    $artikel->paragraf1 = $value['paragraf1'];
+                    $artikel->paragraf2 = $value['paragraf2'];
+                    $artikel->highlight2 = $value['highlight2'];
+                    $artikel->paragraf3 = $value['paragraf3'];
+                    $artikel->paragraf4 = $value['paragraf4'];
+                    $artikel->save();
+
+                    $topic->update([
+                        'category_id' => $artikel->category_id,
+                        'is_generated' => 'Y',
+                    ]);
+                }
+    
+    
+            } catch (\Exception $e) {
+                \Log::error('Error fetchArtikelByTrend get Artikel: ' . $e->getMessage());
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error fetchArtikelByTrend get News: ' . $e->getMessage());
+        }
+    }
+
+    public function getCategory($judulArtikel){
+        $api = new AiApi();
+        $promptcategory = "Berdasarkan ".$jsonObjectTrend['title']." sebutkan kategori olahraga terkait berita tersebut. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"kategori\": } tanpa ada tag html".
+        $responsecategory = $api->post('/api/generate/text', $promptcategory);
+        $rawResponsecategory = $responsecategory['data']['response'];
+        $category_id = "";
+
+        try{
+            $jsonObjectcategory = $this->extractJsonObject($rawResponsecategory);
+            // Cari di database
+            foreach ($jsonObjectcategory as $value) {
+                $kategoriApi = mb_strtolower(trim($value['kategori']), 'UTF-8');
+                
+                $kategori = Category::whereRaw('LOWER(name) = ?', [$kategoriApi])->first();
+                if ($kategori) {
+                    $category_id = $kategori->id;
+                    break;
+                }
+            }
+
+        } catch (\Exception $e) {
+            // Tangani error
+            // continue;
+            // dd($e->getMessage());
+        }
+
     }
 }

@@ -16,4 +16,9 @@ class Topic extends Model
     {
         return $this->hasOne('App\Models\categories', 'id', 'category_id');
     }
+
+    protected function isTopikExist($title)
+    {
+        return \App\Models\Topik::where('title', $title)->exists();
+    }
 }
