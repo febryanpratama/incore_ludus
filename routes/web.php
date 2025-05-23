@@ -117,6 +117,7 @@ Route::prefix('topic')->group(function(){
 Route::prefix('generate')->group(function(){
     Route::get('/title/{cat_id}', [GenerateController::class, 'generateTitle']);
     Route::get('/artikel', [GenerateController::class, 'generateArtikel']);
+    Route::get('/trending-artikel', [GenerateController::class, 'generateNewsbyTrend']);
     Route::get('/image', [GenerateController::class, 'generateRandomImage']);
     Route::get('/image-null', [GenerateController::class, 'generateImageId']);
     Route::get('/artikel/{cat_id}', [GenerateController::class, 'generateArtikelCat']);

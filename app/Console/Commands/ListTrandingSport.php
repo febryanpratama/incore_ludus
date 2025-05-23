@@ -43,7 +43,7 @@ class ListTrandingSport extends Command
     public function handle()
     {
         // Panggil service
-        $this->generateServices->fetchListTrending();
-        $this->info('Artikel trending sport berhasil di-fetch.');
+        // $this->generateServices->fetchListTrending();
+        // $this->info('Artikel trending sport berhasil di-fetch.');
     }
 }

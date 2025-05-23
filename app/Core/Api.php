@@ -1,0 +1,232 @@
+<?php
+
+namespace App\Core;
+
+use Illuminate\Support\Facades\Http;
+
+class Api
+{
+
+    protected $url;
+
+    public function __construct()
+    {
+        $this->url = 'https://crawling.indonesiacore.com';
+    }
+
+    public function get($endpoint)
+    {
+        try {
+            //code...
+            // $url= 'https://apirs.indonesiacore.com/api/auth/login';
+            $url = $this->url . $endpoint;
+
+            $result = Http::withOptions(['verify' => false])
+                ->get($url);
+            $resData = json_decode($result, true);
+            
+            if ($resData['status'] == 'success') {
+                return [
+                    'status' => true,
+                    'message' => $resData['message'],
+                    'data' => $resData['data']
+                ];
+            } else {
+                return [
+                    'status' => false,
+                    'message' => $resData['message'],
+                    'data' => null
+                ];
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+
+            return [
+                'status' => false,
+                'message' => $th->getMessage(),
+                'data' => null
+            ];
+        }
+    }
+
+    public function post($endpoint, $param)
+    {
+        try {
+            $url  = $this->url . $endpoint;
+
+            $listdata = [
+                'news_link' => $param
+            ];
+
+            $data = json_encode($listdata);
+            $result = Http::withOptions(['verify' => false]) // use if needed
+            ->withHeaders([
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . (session('token') ?? ''),
+            ])
+            ->withBody(json_encode($listdata), 'application/json') // force raw JSON body
+            ->post($url);
+
+            $resData = $result->json(); 
+            dd($resData);
+
+            if ($resData['status'] == true) {
+                return [
+                    'status' => true,
+                    'message' => $resData['message'],
+                    'data' => $resData['result']
+                ];
+            } else {
+                return [
+                    'status' => false,
+                    'message' => $resData['message'],
+                    'data' => null
+                ];
+            }
+        } catch (\Throwable $th) {
+            // throw $th;
+
+            return [
+                'status' => false,
+                'data' => $th->getMessage()
+            ];
+        }
+    }
+
+    public function put($endpoint, $param)
+    {
+        try {
+
+            $url = $this->url . $endpoint;
+
+            $data = json_encode($param);
+
+            $result =  Http::withOptions(
+                [
+                    'verify' => false,
+                ]
+            )->withHeaders(
+                [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . session('token') ?? null,
+                ]
+            )->put($url, $param);
+
+            $resData =  json_decode($result, true);
+
+            if ($resData['status'] == 'success') {
+                return [
+                    'status' => true,
+                    'message' => $resData['message'],
+                    'data' => $resData['data']
+                ];
+            } else {
+                return [
+                    'status' => false,
+                    'message' => $resData['message'],
+                    'data' => null
+                ];
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return [
+                'status' => false,
+                'data' => $th->getMessage()
+            ];
+        }
+    }
+
+    public function delete($endpoint, $param)
+    {
+        try {
+
+            $url = $this->url . $endpoint;
+
+            $data = json_encode($param);
+
+            $result =  Http::withOptions(
+                [
+                    'verify' => false,
+                ]
+            )->withHeaders(
+                [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . session('token') ?? null,
+                ]
+            )->delete($url, $param);
+
+            $resData =  json_decode($result, true);
+
+            if ($resData['status'] == 'success') {
+                return [
+                    'status' => true,
+                    'message' => $resData['message'],
+                    'data' => $resData['data']
+                ];
+            } else {
+                return [
+                    'status' => false,
+                    'message' => $resData['message'],
+                    'data' => null
+                ];
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return [
+                'status' => false,
+                'data' => $th->getMessage()
+            ];
+        }
+    }
+
+    public function curlImage($endpoint, $param)
+    {
+
+        $url  = $this->url . $endpoint;
+        $data = [
+            'prompt' => 'Gambar Hris Application dan Hris, Application System'
+        ];
+        
+        // Inisialisasi cURL
+        $ch = curl_init();
+        
+        // Opsi cURL
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json'
+        ]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        // Eksekusi request dan mendapatkan respons
+        $response = curl_exec($ch);
+        
+        // Cek kesalahan
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+
+            return [
+                'status' => false,
+                'message' => curl_error($ch),
+                'data' => null
+            ];
+        } else {
+            // Cetak hasil
+            $resp = json_decode($response, true);
+
+            // dd($resp['result']);
+            return [
+                'status' => true,
+                'message' => 'Success',
+                'data' => $resp['result']
+            ];
+        }
+        
+        // Tutup cURL
+        curl_close($ch);
+    }
+
+}

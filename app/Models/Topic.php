@@ -19,6 +19,6 @@ class Topic extends Model
 
     protected function isTopikExist($title)
     {
-        return \App\Models\Topik::where('title', $title)->exists();
+        return \App\Models\Topic::where('topic_name', $title)->exists();
     }
 }

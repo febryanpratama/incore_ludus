@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Core\AiApi;
+use App\Core\Api;
 use App\Models\Artikel;
 use App\Models\Categories;
 use App\Models\Topic;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
-use App\Models\Category;
 
 class GenerateServices
 {
@@ -504,122 +504,235 @@ class GenerateServices
         return implode(" ",array_splice($words,0,$word_limit));
     }
 
-    public function fetchListTrending()
+    public function fetchArtikelByTrend()
     {
-        $api = new AiApi();
-        // get list trending filter by category Sport
-        // kategori sport masih belum tau idnya berapa, harus dicoba dulu di postman
-        $response = $api->get('/api/google-trends/list-trends', 'sport');
+        $api = new Api();
+        $aiApi = new AiApi();
+        // list berita
+        $responseNewsTrend = $api->get('/api/google-trends/generate-news?category=17');
 
-        $rawResponse = $response['data']['response'];
-
+        $rawResponseTrend = $responseNewsTrend['data'];
         try {
-            $jsonObject = $this->extractJsonObject($rawResponse);
-            
-            foreach ($jsonObject as $key => $value) {
-                $title = $value['title'] ?? null;
+            if (!$rawResponseTrend) {
+                \Log::warning('Empty response from API get list news.');
+                return response()->view('error.maintenance', [], 503);
+            }
+            $jsonObjectTrend = $rawResponseTrend[0];
+            $prompt = "";
+            $title = "";
 
-                if ($title && !$this->isTopikExist($title)) {
-                    Topik::create([
-                        'topic_name' => $title,
-                        // 'category_id' => $cat_id,
-                        'slug' => Str::slug($title),
-                        'link' => $value['link'],
-                        'time_start_trend' => $value['time_start_trend'],
-                        'is_generated' => 'N'
-                    ]);
-                }
+            $artikel = new Artikel();
+            if(isset($jsonObjectTrend['seo'])){
+                $title = $jsonObjectTrend['seo']['metaTitle'];
+
+                // $headings = $jsonObjectTrend['seo']['headings'] ?? [];
+    
+                // $h1 = $headings['h1'] ?? [];
+                // $h2 = $headings['h2'] ?? [];
+                // $h3 = $headings['h3'] ?? [];
+                // $h4 = $headings['h4'] ?? [];
+                // $h5 = $headings['h5'] ?? [];
+                // $h6 = $headings['h6'] ?? [];
+                // if((isset($h1) || isset($h2) || isset($h3) || isset($h4) || isset($h5) || isset($h6))){
+    
+                //     $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 400 kata mengenai \"" . $jsonObjectTrend['seo']['metaTitle'] . "\", dengan memperhatikan deskripsi sebagai berikut: " . $jsonObjectTrend['seo']['metaDescription'] . " dan meta keywords berikut: " . $jsonObjectTrend['seo']['metaKeywords'] . ". Artikel ini harus dibuat seperti berita berdasarkan informasi berikut: " . $h1 . ", " . $h2 . ", " . $h3 . ", " . $h4 . ", " . $h5 . ", " . $h6 . ". Artikel dibagi menjadi empat paragraf, dengan ketentuan yaitu ada headline utama artikel, highlight 1 maksimal 300 huruf, paragraf 1 maksimal 370 huruf, paragraf 2 maksimal 290 huruf, highlight 2 maksimal 150 huruf, paragraf 3 maksimal 320 huruf, dan paragraf 4 maksimal 500 huruf. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"headlineUtamaArtikel\": \"\",\"highlight1\": \"\", \"paragraf1\": \"\", \"paragraf2\": \"\", \"highlight2\": \"\", \"paragraf3\": \"\", \"paragraf4\":} dalam bahasa indonesia, tanpa ada tag html";
+        
+                // } else {
+                    $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 400 kata mengenai \"" . $title . "\", dengan memperhatikan deskripsi sebagai berikut: " . $jsonObjectTrend['seo']['metaDescription'] . " dan meta keywords berikut: " . $jsonObjectTrend['seo']['metaKeywords'] . ". Artikel dibagi menjadi empat paragraf, dengan ketentuan yaitu ada headline utama artikel, highlight 1 maksimal 300 huruf, paragraf 1 maksimal 370 huruf, paragraf 2 maksimal 290 huruf, highlight 2 maksimal 150 huruf, paragraf 3 maksimal 320 huruf, dan paragraf 4 maksimal 500 huruf. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"headlineUtamaArtikel\": \"\",\"highlight1\": \"\", \"paragraf1\": \"\", \"paragraf2\": \"\", \"highlight2\": \"\", \"paragraf3\": \"\",  \"paragraf4\":} dalam bahasa indonesia, tanpa ada tag html.";
+                // }
+                // dd($prompt);
+            } else {
+                $title = $jsonObjectTrend['title'];
+                $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 400 kata mengenai \"" . $jsonObjectTrend['title'] . "\", dengan memperhatikan deskripsi sebagai berikut: " . $jsonObjectTrend['description'] . " dan meta keywords berikut: " . $jsonObjectTrend['keyword'] . ". Artikel dibagi menjadi empat paragraf, dengan ketentuan yaitu ada headline utama artikel, highlight 1 maksimal 300 huruf, paragraf 1 maksimal 370 huruf, paragraf 2 maksimal 290 huruf, highlight 2 maksimal 150 huruf, paragraf 3 maksimal 320 huruf, dan paragraf 4 maksimal 500 huruf. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"headlineUtamaArtikel\": \"\",\"highlight1\": \"\", \"paragraf1\": \"\", \"paragraf2\": \"\", \"highlight2\": \"\", \"paragraf3\": \"\", \"paragraf4\":} dalam bahasa indonesia, tanpa ada tag html.";
             }
 
+            $responseArtikel = $aiApi->post('/api/generate/text', $prompt);
 
-        } catch (\Exception $e) {
-            // Tangani error
-            // continue;
-            // dd($e->getMessage());
-            \Log::error('Error fetchListTrending: ' . $e->getMessage());
-        }
-    }
-
-    private function fetchArtikelByTrend(Topic $topic)
-    {
-        $api = new AiApi();
-        // list berita
-        $responseNewsTrend = $api->get('api/google-trends/news?trend_title', $judultrend);
-
-        $rawResponseTrend = $responseNewsTrend['data']['response'];
-
-        try {
-            $jsonObjectTrend = $this->extractJsonObject($rawResponseTrend);
-            $response = $api->post('/api/google-trends/article', $topic['link']);
-            $rawResponse = $response['data']['response'];    
-    
+            $rawResponseArtikel = $responseArtikel['data']['response'];
             try {
-                $jsonObject = $this->extractJsonObject($rawResponse);    
-    
-                $artikel = new Artikel();
-                foreach ($jsonObject as $key => $value) {
-                    $headings = $value['seo']['headings'] ?? [];
-
-                    $h1 = $headings['h1'] ?? [];
-                    $h2 = $headings['h2'] ?? [];
-                    $h3 = $headings['h3'] ?? [];
-                    $h4 = $headings['h4'] ?? [];
-                    $h5 = $headings['h5'] ?? [];
-                    $h6 = $headings['h6'] ?? [];
-                    $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 300 kata mengenai ".$value['title'].", seperti berita berikut ".$h1." ".$h2." ".$h3." ".$h4." ".$h5." ".$h6.", dalam periode ".$topic['time_start_trend'].". Artikel dibagi menjadi dua paragraf, dengan ketentuan yaitu ada headline utama artikel, highlight 1 maksimal 300 huruf, paragraf 1 maksimal 370 huruf, paragraf 2 maksimal 290 huruf, highlight 2 maksimal 150 huruf, paragraf 3 maksimal 320 huruf, dan paragraf 4 maksimal 500 huruf. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"headlineUtamaArtikel\": \"\",\"highlight1\": \"\", \"paragraf1\": \"\", \"image1\": \"\",\"paragraf2\": \"\", \"highlight2\": \"\", \"image2\": \"\", \"paragraf3\": \"\", \"image3\": \"\", \"paragraf4\", \"image4\":} tanpa ada tag html";
-                    $responseArtikel = $api->post('/api/generate/text', $prompt);
-                    
-                    $artikel->category_id = getCategory($jsonObjectTrend['title']);
-                    $artikel->slug = Str::slug($jsonObjectTrend['title'].'-'.Carbon::now()->format('Ymd'));
-                    $artikel->headlineUtamaArtikel = $value['headlineUtamaArtikel'];
-                    $artikel->highlight1 = $value['highlight1'];
-                    $artikel->paragraf1 = $value['paragraf1'];
-                    $artikel->paragraf2 = $value['paragraf2'];
-                    $artikel->highlight2 = $value['highlight2'];
-                    $artikel->paragraf3 = $value['paragraf3'];
-                    $artikel->paragraf4 = $value['paragraf4'];
-                    $artikel->save();
-
-                    $topic->update([
-                        'category_id' => $artikel->category_id,
-                        'is_generated' => 'Y',
-                    ]);
+                if (!$rawResponseArtikel) {
+                    \Log::warning('Empty response from API generate news.');
+                    return response()->view('error.maintenance', [], 503);
                 }
+                $jsonObjectArtikel = $this->extractJsonObject($rawResponseArtikel);
+
+                // Cek apakah sudah ada judul yang sama
+                $existingArtikel = Artikel::where('headlineUtamaArtikel', $jsonObjectArtikel['headlineUtamaArtikel'])->first();
+                if ($existingArtikel) {
+                    \Log::info("Artikel dengan judul yang sama sudah ada: " . $jsonObjectArtikel['headlineUtamaArtikel']);
+                    return; // hentikan proses jika sudah ada
+                } else {
+
+                    if($this->getCategory($title) != null){
+                        
+                        $artikel->category_id = $this->getCategory($title);
+                        $artikel->slug = Str::slug($title.'-'.Carbon::now()->format('Ymd'));
+                        $artikel->headlineUtamaArtikel = $jsonObjectArtikel['headlineUtamaArtikel'];
+                        $artikel->highlight1 = $jsonObjectArtikel['highlight1'];
+                        $artikel->paragraf1 = $jsonObjectArtikel['paragraf1'];
+                        $artikel->paragraf2 = $jsonObjectArtikel['paragraf2'];
+                        $artikel->highlight2 = $jsonObjectArtikel['highlight2'];
+                        $artikel->paragraf3 = $jsonObjectArtikel['paragraf3'];
+                        $artikel->paragraf4 = $jsonObjectArtikel['paragraf4'];
+                        $artikel->save();
     
-    
+                        $tes = $this->downloadAndCompressImage($jsonObjectTrend['image_link'], $artikel);
+                        if ($tes) {
+                            $artikel->update([
+                                'image1' => $tes
+                            ]);
+                        } else {
+                            \Log::error('Failed to download or compress image. ');
+                        }
+                    } else {
+                        \Log::error('Failed to generate category. ');
+                    }
+                }
+
+
             } catch (\Exception $e) {
-                \Log::error('Error fetchArtikelByTrend get Artikel: ' . $e->getMessage());
+                \Log::error('Error fetchArtikelByTrend gerenerate Artikel: ' . $e->getMessage());
+                return response()->view('error.maintenance', [], 503);
             }
         } catch (\Exception $e) {
             \Log::error('Error fetchArtikelByTrend get News: ' . $e->getMessage());
+            return response()->view('error.maintenance', [], 503);
         }
     }
 
     public function getCategory($judulArtikel){
         $api = new AiApi();
-        $promptcategory = "Berdasarkan ".$jsonObjectTrend['title']." sebutkan kategori olahraga terkait berita tersebut. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"kategori\": } tanpa ada tag html".
+        $promptcategory = "Berdasarkan ".$judulArtikel." sebutkan kategori olahraga terkait berita tersebut. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"kategori\": } tanpa ada tag html";
         $responsecategory = $api->post('/api/generate/text', $promptcategory);
         $rawResponsecategory = $responsecategory['data']['response'];
-        $category_id = "";
-
         try{
-            $jsonObjectcategory = $this->extractJsonObject($rawResponsecategory);
-            // Cari di database
-            foreach ($jsonObjectcategory as $value) {
-                $kategoriApi = mb_strtolower(trim($value['kategori']), 'UTF-8');
-                
-                $kategori = Category::whereRaw('LOWER(name) = ?', [$kategoriApi])->first();
-                if ($kategori) {
-                    $category_id = $kategori->id;
-                    break;
-                }
+            if (!$rawResponsecategory) {
+                \Log::warning('Empty response from API generate category.');
+                return response()->view('error.maintenance', [], 503);
             }
-
+            $jsonObjectcategory = $this->extractJsonObject($rawResponsecategory);
+            
+            $kategoriApi = mb_strtolower(trim($jsonObjectcategory['kategori']), 'UTF-8');
+            if($kategoriApi == 'sepak bola'){
+                $kategoriApi = 'football';
+            } elseif($kategoriApi == 'bulu tangkis'){
+                $kategoriApi = 'badminton';
+            } elseif($kategoriApi == 'bola basket'){
+                $kategoriApi = 'basket';
+            } elseif($kategoriApi == 'voli' || $kategoriApi == 'bola voli'){
+                $kategoriApi = 'volley';
+            } elseif($kategoriApi == 'pencak silat' || $kategoriApi == 'silat'){
+                $kategoriApi = 'pencaksilat';
+            }
+            // Cari di database
+            $kategori = Categories::select('id')
+                        ->whereRaw('LOWER(name) = ?', [$kategoriApi])->first();
+            // $sql = vsprintf(
+            //     str_replace('?', "'%s'", $kategori->toSql()),
+            //     $kategori->getBindings()
+            // );
+            if ($kategori) {
+                $category_id = $kategori->id;
+            } else {
+                $category_id = null;
+            }
+            return $category_id;
         } catch (\Exception $e) {
-            // Tangani error
-            // continue;
-            // dd($e->getMessage());
+            \Log::error('Error get category: ' . $e->getMessage());
+            return response()->view('error.maintenance', [], 503);
         }
 
     }
+
+    private function downloadAndCompressImage($url, $data, $saveDir = null): ?string
+    {
+        try {
+            // 1. Download image with user-agent spoofing
+            $response = Http::withHeaders([
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/90.0 Safari/537.36',
+            ])->withOptions([
+                'verify' => false,
+            ])->get($url);
+
+            if (!$response->successful()) {
+                throw new \Exception("Failed to fetch image from URL: {$url}");
+            }
+
+            // 2. Prepare save directory
+            if (is_null($saveDir)) {
+                $saveDir = public_path('images_download');
+                // $saveDir = storage_path('app/public/images_download');
+            }
+            if (!File::exists($saveDir)) {
+                File::makeDirectory($saveDir, 0755, true);
+            }
+
+            // 3. Generate filename base
+            $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
+            $timestamp = now()->format('YmdHis');
+            $random = Str::random(5);
+            $filenameBase = "{$baseName}-{$timestamp}-{$random}";
+
+            // 4. Determine extension (force jpg if unsure)
+            $path = parse_url($url, PHP_URL_PATH);
+            $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+            $allowedExtensions = ['jpg', 'jpeg', 'png'];
+            if (!in_array($extension, $allowedExtensions)) {
+                $extension = 'jpg';
+            }
+
+            $originalFilePath = $saveDir . DIRECTORY_SEPARATOR . "original_{$filenameBase}.{$extension}";
+            $finalFilePath = $saveDir . DIRECTORY_SEPARATOR . "{$filenameBase}.jpg"; // final forced jpg
+
+            // 5. Save original image
+            $saved = file_put_contents($originalFilePath, $response->body());
+            if (!$saved) {
+                throw new \Exception("Failed to save original image.");
+            }
+
+            // 6. Compress using ffmpeg with varying quality to target <= 300KB
+            $compressed = false;
+            for ($q = 14; $q <= 40; $q += 2) {
+                $tempCompressedPath = $saveDir . DIRECTORY_SEPARATOR . "{$filenameBase}_q{$q}.jpg";
+
+                $command = "ffmpeg -i " . escapeshellarg($originalFilePath)
+                    . " -q:v {$q} -y -f image2 " . escapeshellarg($tempCompressedPath);
+
+                exec($command . ' 2>&1', $output, $returnCode);
+                Log::debug("FFmpeg Output:\n" . implode("\n", $output));
+                Log::debug("Return code: {$returnCode}");
+
+                if (file_exists($tempCompressedPath)) {
+                    $sizeKB = filesize($tempCompressedPath) / 1024;
+                    if ($sizeKB <= 300) {
+                        rename($tempCompressedPath, $finalFilePath);
+                        $compressed = true;
+                        break;
+                    } else {
+                        unlink($tempCompressedPath);
+                    }
+                }
+            }
+
+            // Clean up original
+            if (file_exists($originalFilePath)) {
+                unlink($originalFilePath);
+            }
+
+            if (!$compressed) {
+                if (file_exists($finalFilePath)) {
+                    unlink($finalFilePath);
+                }
+                throw new \Exception("Failed to compress image to target size.");
+            }
+
+            return basename($finalFilePath);
+
+        } catch (\Exception $e) {
+            Log::error("Image download & compress failed: " . $e->getMessage());
+            return null;
+        }
+    }
+
+
 }

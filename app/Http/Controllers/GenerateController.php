@@ -46,4 +46,16 @@ class GenerateController extends Controller
     {
         $resp = $this->generateServices->generateImage();
     }
+
+    public function generateNewsbyTrend()
+    {
+        // $topik = $this->generateServices->fetchListTrending();
+
+        $resp = $this->generateServices->fetchArtikelByTrend();
+        if ($resp) {
+            \Log::info('New topic created.');
+        } else {
+            \Log::info('No new topic not created.');
+        }
+    }
 }

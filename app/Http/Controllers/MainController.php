@@ -30,59 +30,91 @@ class MainController extends Controller
             ->limit(5)
             ->select('artikels.*', 'categories.name as category_name') // Select category name as category_name
             ->get();
-            $footballTranding = DB::table('artikels')
+        $footballTranding = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
-            ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-            ->where('artikels.created_at', '>=', Carbon::now()->subDays(7)) // Last 7 days
-            ->where(function ($query) {
-                $query->where('categories.name', 'Football')
-                      ->orWhere('categories.name', 'football');
-            })
+            ->join('categories', 'artikels.category_id', '=', 'categories.id')
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(7))
+            ->whereRaw('LOWER(categories.name) = ?', ['football'])
             ->select('artikels.*', 'categories.name as category_name')
             ->orderBy('engagings.count', 'desc')
             ->first();
-        // dd($trendingPosts);
-        if($footballTranding==null){
+
+        if (!$footballTranding) {
             $footballTranding = DB::table('artikels')
-                ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-                ->where(function ($query) {
-                    $query->where('categories.name', 'Football')
-                        ->orWhere('categories.name', 'football');
-                })
+                ->join('categories', 'artikels.category_id', '=', 'categories.id')
+                ->where('artikels.created_at', '>=', Carbon::now()->subDays(7))
+                ->whereRaw('LOWER(categories.name) = ?', ['football'])
                 ->orderBy('artikels.id', 'desc')
                 ->select('artikels.*', 'categories.name as category_name')
                 ->first();
 
-                if($footballTranding==null){
-                    $footballTranding = [];
-                }
-        }
-        $footballs = DB::table('artikels')
+            if (!$footballTranding) {
+                $footballTranding = [];
+            }
+            $footballs = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
-            ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-            ->where('categories.name', 'Football')
-            ->orWhere('categories.name', 'football')
+            ->join('categories', 'artikels.category_id', '=', 'categories.id')
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30))
+            ->where(function ($query) {
+                $query->where('categories.name', 'Football')
+                    ->orWhere('categories.name', 'football');
+            })
             ->select('artikels.*', 'categories.name as category_name')
             ->orderBy('engagings.count', 'desc')
-            ->skip(1)                   // Skip the first post (index starts at 0)
-            ->take(2)                   // Take the next 2 posts (2nd, 3rd)
+            ->skip(1)
+            ->take(2)
             ->get();
+                
+            if (count($footballs) == 0) {
+                $footballs = DB::table('artikels')
+                    ->join('categories', 'artikels.category_id', '=', 'categories.id')
+                    ->where('artikels.created_at', '>=', Carbon::now()->subDays(30))
+                    ->where(function ($query) {
+                        $query->where('categories.name', 'Football')
+                            ->orWhere('categories.name', 'football');
+                    })
+                    ->select('artikels.*', 'categories.name as category_name')
+                    ->orderBy('artikels.id', 'desc')
+                    ->skip(1)
+                    ->take(2)
+                    ->get();
+        
+                if (count($footballs) == 0) {
+                    $footballs = [];
+                }
+            }
+
+        } else{
             
-        if(count($footballs)==0) {
             $footballs = DB::table('artikels')
-                ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-                ->where('categories.name', 'Football')
-                ->orWhere('categories.name', 'football')
-                ->select('artikels.*', 'categories.name as category_name')
-                ->orderBy('artikels.id', 'desc')
-                ->skip(1)                   // Skip the first post (index starts at 0)
-                ->take(2)                   // Take the next 2 posts (2nd, 3rd)
-                ->get();
-            if(count($footballs)==0) {
-                $footballs = [];
+            ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+            ->join('categories', 'artikels.category_id', '=', 'categories.id')
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30))
+            ->where(function ($query) {
+                $query->where('categories.name', 'Football')
+                    ->orWhere('categories.name', 'football');
+            })
+            ->select('artikels.*', 'categories.name as category_name')
+            ->orderBy('engagings.count', 'desc')
+            ->take(2)
+            ->get();
+                
+            if (count($footballs) == 0) {
+                $footballs = DB::table('artikels')
+                    ->join('categories', 'artikels.category_id', '=', 'categories.id')
+                    ->where('artikels.created_at', '>=', Carbon::now()->subDays(30))
+                    ->where(function ($query) {
+                        $query->where('categories.name', 'Football')
+                            ->orWhere('categories.name', 'football');
+                    })
+                    ->select('artikels.*', 'categories.name as category_name')
+                    ->orderBy('artikels.id', 'desc')
+                    ->take(2)
+                    ->get();
+        
+                if (count($footballs) == 0) {
+                    $footballs = [];
+                }
             }
         }
 
