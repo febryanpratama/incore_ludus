@@ -366,13 +366,11 @@ class GenerateServices
             $name = $data['headlineUtamaArtikel'];
         }
 
-        $prompt = "{$kata_kunci}";
+        $prompt = "temukan gambar atau foto dengan kata kunci {$kata_kunci} dengan ukuran panjang gambar minimal 600 pixel dan lebar gambar minimal 900 pixel";
         $api = new AiApi();
         $response = $api->post('/api/generate/generate-images-google', $prompt);
 
         $success = false;
-
-        // dd($response);
 
         foreach ($response['data'] as $image) {
             if (preg_match('/\.(jpg|jpeg|png)$/i', $image['link'])) {
@@ -385,17 +383,12 @@ class GenerateServices
                 //     continue; // skip gambar ini jika tidak cocok
                 // }
 
-                // dd($image);
-
                 for ($i = 1; $i <= 4; $i++) {
                     
                     if (empty($data["image{$i}"])) {
                         // dd($image['link'], $data["image_{$i}"]);  
                         $save = $this->saveImage($image['link'], $data);
-                        // dd($save);
                         $data->update(["image{$i}" => $save]);
-                        
-                        // dd($save,$data);
                         $success = true;
                         break 2;
                     }
@@ -459,6 +452,8 @@ class GenerateServices
             for ($q = 14; $q <= 40; $q += 2) {
                 $tempCompressedPath = $publicDir . "/{$filenameBase}_q{$q}.jpg";
 
+                // $command = "{$ffmpegPath} -i " . escapeshellarg($tempOriginalPath)
+                //         . " -q:v {$q} -y -f image2 " . escapeshellarg($tempCompressedPath);
                 $command = "ffmpeg -i " . escapeshellarg($tempOriginalPath)
                         . " -q:v {$q} -y -f image2 " . escapeshellarg($tempCompressedPath);
                 exec($command . ' 2>&1', $output, $returnCode);
@@ -518,29 +513,25 @@ class GenerateServices
                 return response()->view('error.maintenance', [], 503);
             }
             $jsonObjectTrend = $rawResponseTrend[0];
+
             $prompt = "";
             $title = "";
+            $image_url = $jsonObjectTrend['image_link'];
 
             $artikel = new Artikel();
             if(isset($jsonObjectTrend['seo'])){
-                $title = $jsonObjectTrend['seo']['metaTitle'];
+                $image_url = $jsonObjectTrend['seo']['ogImage'];
+                if($jsonObjectTrend['seo']['metaTitle']!=null){
+                    $title = $jsonObjectTrend['seo']['metaTitle'];
+                }
 
-                // $headings = $jsonObjectTrend['seo']['headings'] ?? [];
-    
-                // $h1 = $headings['h1'] ?? [];
-                // $h2 = $headings['h2'] ?? [];
-                // $h3 = $headings['h3'] ?? [];
-                // $h4 = $headings['h4'] ?? [];
-                // $h5 = $headings['h5'] ?? [];
-                // $h6 = $headings['h6'] ?? [];
-                // if((isset($h1) || isset($h2) || isset($h3) || isset($h4) || isset($h5) || isset($h6))){
-    
-                //     $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 400 kata mengenai \"" . $jsonObjectTrend['seo']['metaTitle'] . "\", dengan memperhatikan deskripsi sebagai berikut: " . $jsonObjectTrend['seo']['metaDescription'] . " dan meta keywords berikut: " . $jsonObjectTrend['seo']['metaKeywords'] . ". Artikel ini harus dibuat seperti berita berdasarkan informasi berikut: " . $h1 . ", " . $h2 . ", " . $h3 . ", " . $h4 . ", " . $h5 . ", " . $h6 . ". Artikel dibagi menjadi empat paragraf, dengan ketentuan yaitu ada headline utama artikel, highlight 1 maksimal 300 huruf, paragraf 1 maksimal 370 huruf, paragraf 2 maksimal 290 huruf, highlight 2 maksimal 150 huruf, paragraf 3 maksimal 320 huruf, dan paragraf 4 maksimal 500 huruf. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"headlineUtamaArtikel\": \"\",\"highlight1\": \"\", \"paragraf1\": \"\", \"paragraf2\": \"\", \"highlight2\": \"\", \"paragraf3\": \"\", \"paragraf4\":} dalam bahasa indonesia, tanpa ada tag html";
-        
-                // } else {
-                    $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 400 kata mengenai \"" . $title . "\", dengan memperhatikan deskripsi sebagai berikut: " . $jsonObjectTrend['seo']['metaDescription'] . " dan meta keywords berikut: " . $jsonObjectTrend['seo']['metaKeywords'] . ". Artikel dibagi menjadi empat paragraf, dengan ketentuan yaitu ada headline utama artikel, highlight 1 maksimal 300 huruf, paragraf 1 maksimal 370 huruf, paragraf 2 maksimal 290 huruf, highlight 2 maksimal 150 huruf, paragraf 3 maksimal 320 huruf, dan paragraf 4 maksimal 500 huruf. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"headlineUtamaArtikel\": \"\",\"highlight1\": \"\", \"paragraf1\": \"\", \"paragraf2\": \"\", \"highlight2\": \"\", \"paragraf3\": \"\",  \"paragraf4\":} dalam bahasa indonesia, tanpa ada tag html.";
-                // }
-                // dd($prompt);
+                if($jsonObjectTrend['seo']['metaKeywords']!=null){
+                    $keyword = $jsonObjectTrend['seo']['metaKeywords'];
+                } else {
+                    $keyword = $jsonObjectTrend['keyword'];
+                }
+                
+                    $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 400 kata mengenai \"" . $title . "\", dengan memperhatikan deskripsi sebagai berikut: " . $jsonObjectTrend['seo']['metaDescription'] . " dan meta keywords berikut: " . $keyword . ". Artikel dibagi menjadi empat paragraf, dengan ketentuan yaitu ada headline utama artikel, highlight 1 maksimal 300 huruf, paragraf 1 maksimal 370 huruf, paragraf 2 maksimal 290 huruf, highlight 2 maksimal 150 huruf, paragraf 3 maksimal 320 huruf, dan paragraf 4 maksimal 500 huruf. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"headlineUtamaArtikel\": \"\",\"highlight1\": \"\", \"paragraf1\": \"\", \"paragraf2\": \"\", \"highlight2\": \"\", \"paragraf3\": \"\",  \"paragraf4\":} dalam bahasa indonesia, tanpa ada tag html.";
             } else {
                 $title = $jsonObjectTrend['title'];
                 $prompt = "Sebagai seorang profesional pembuat konten web, tolong buatkan satu artikel berisi maksimal 400 kata mengenai \"" . $jsonObjectTrend['title'] . "\", dengan memperhatikan deskripsi sebagai berikut: " . $jsonObjectTrend['description'] . " dan meta keywords berikut: " . $jsonObjectTrend['keyword'] . ". Artikel dibagi menjadi empat paragraf, dengan ketentuan yaitu ada headline utama artikel, highlight 1 maksimal 300 huruf, paragraf 1 maksimal 370 huruf, paragraf 2 maksimal 290 huruf, highlight 2 maksimal 150 huruf, paragraf 3 maksimal 320 huruf, dan paragraf 4 maksimal 500 huruf. Formatkan hasilnya ke dalam JSON dengan struktur berikut: { \"headlineUtamaArtikel\": \"\",\"highlight1\": \"\", \"paragraf1\": \"\", \"paragraf2\": \"\", \"highlight2\": \"\", \"paragraf3\": \"\", \"paragraf4\":} dalam bahasa indonesia, tanpa ada tag html.";
@@ -562,7 +553,6 @@ class GenerateServices
                     \Log::info("Artikel dengan judul yang sama sudah ada: " . $jsonObjectArtikel['headlineUtamaArtikel']);
                     return; // hentikan proses jika sudah ada
                 } else {
-
                     if($this->getCategory($title) != null){
                         
                         $artikel->category_id = $this->getCategory($title);
@@ -575,14 +565,20 @@ class GenerateServices
                         $artikel->paragraf3 = $jsonObjectArtikel['paragraf3'];
                         $artikel->paragraf4 = $jsonObjectArtikel['paragraf4'];
                         $artikel->save();
-    
-                        $tes = $this->downloadAndCompressImage($jsonObjectTrend['image_link'], $artikel);
-                        if ($tes) {
-                            $artikel->update([
-                                'image1' => $tes
-                            ]);
-                        } else {
-                            \Log::error('Failed to download or compress image. ');
+                        
+                        if($this->checkImageDimensions($image_url) == true){
+                            // dd("true");
+
+                            $tes = $this->downloadAndCompressImage($image_url, $artikel);
+                            if ($tes) {
+                                $artikel->update([
+                                    'image1' => $tes
+                                ]);
+                            } else {
+                                \Log::error('Failed to download or compress image. ');
+                            }
+                        }else{
+                            $this->generateImageByTrendingNews($artikel);
                         }
                     } else {
                         \Log::error('Failed to generate category. ');
@@ -694,7 +690,9 @@ class GenerateServices
             $compressed = false;
             for ($q = 14; $q <= 40; $q += 2) {
                 $tempCompressedPath = $saveDir . DIRECTORY_SEPARATOR . "{$filenameBase}_q{$q}.jpg";
-
+                // $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
+                // $command = "{$ffmpegPath} -i " . escapeshellarg($originalFilePath)
+                //     . " -q:v {$q} -y -f image2 " . escapeshellarg($tempCompressedPath);
                 $command = "ffmpeg -i " . escapeshellarg($originalFilePath)
                     . " -q:v {$q} -y -f image2 " . escapeshellarg($tempCompressedPath);
 
@@ -734,5 +732,79 @@ class GenerateServices
         }
     }
 
+    public function checkImageDimensions($url)
+    {
+        // $url = 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRDgtjCkg-ZE49-Xco5FZx4d7dLdB9r5iPrEvJF2ZXzMcUkkslMiJY8wjZ1JTE';
 
+        $allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+        // Ambil konten gambar
+        $imageContent = @file_get_contents($url);
+        if ($imageContent === false) {
+            Log::error('Gagal mengambil gambar dari URL: ' . $url);
+            return response()->json(['error' => 'Gagal mengambil gambar dari URL'], 400);
+        }
+
+        // Simpan sementara
+        $tempPath = storage_path('app/temp_image');
+        file_put_contents($tempPath, $imageContent);
+
+        // Deteksi MIME type dan konversi ke ekstensi
+        $mimeType = mime_content_type($tempPath);
+        $mimeMap = [
+            'image/jpeg' => 'jpeg',
+            'image/png' => 'png',
+            'image/jpg' => 'jpg',
+        ];
+
+        $extension = $mimeMap[$mimeType] ?? null;
+
+        if (!in_array($extension, $allowedExtensions)) {
+            unlink($tempPath);
+            Log::warning('Format gambar tidak didukung. Hanya JPG, JPEG, atau PNG yang diperbolehkan.');
+            return response()->json([
+                'valid' => false,
+                'message' => 'Format gambar tidak didukung. Hanya JPG, JPEG, atau PNG yang diperbolehkan.'
+            ]);
+        }
+
+        // Ambil dimensi gambar
+        [$width, $height] = getimagesize($tempPath);
+
+        // Hapus file sementara
+        unlink($tempPath);
+
+        Log::info('Ukuran gambar: ' . $width . 'x' . $height);
+        // Cek dimensi minimal
+        if ($width >= 900 && $height >= 600) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private function generateImageByTrendingNews($artikel){
+        $respTextImage = $this->fetchPromptImage($artikel);
+        $maxTries = 5;
+        $rejectedPrompts = [];
+        $success = false;
+
+        for ($i = 0; $i < $maxTries; $i++) {
+            // Ambil prompt yang belum ditolak
+            $availablePrompts = array_diff($respTextImage, $rejectedPrompts);
+
+            if (empty($availablePrompts)) {
+                break; // Semua prompt ditolak
+            }
+
+            $randKey = array_rand($availablePrompts);
+            $selectedPrompt = $availablePrompts[$randKey];
+
+            $success = $this->fetchImage($selectedPrompt, $artikel, $rejectedPrompts);
+
+            if ($success) {
+                break;
+            }
+        }
+    }
 }
