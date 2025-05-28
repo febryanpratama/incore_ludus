@@ -115,7 +115,6 @@
                         @if($footballTranding==null)
                         <div></div>
                         @else 
-                            @if(!empty($footballTranding->image1) && !empty($footballTranding->headlineUtamaArtikel) && !empty($footballTranding->paragraf1))
                             <div class="carousel-item imgset">
                                 @if($footballTranding->type=='series')
                                 <a href="{{route('football.series', $footballTranding->slug)}}">
@@ -140,13 +139,11 @@
                                     </div>
                                 </div>
                             </div>
-                            @endif
                         @endif
                         @if($footballs==null)
                         <p></p>
                         @else 
                             @foreach($footballs as $index => $fb)
-                                @if(!empty($fb->image1) && !empty($fb->headlineUtamaArtikel) && !empty($fb->paragraf1))
                                 <div class="carousel-item @if($index == 0) active @endif">
                                     @if($fb->type=='series')
                                     <a href="{{route('football.series', $fb->slug)}}">
@@ -171,7 +168,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @endif
                             @endforeach
                         @endif
                     </div>

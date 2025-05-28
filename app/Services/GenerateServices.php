@@ -369,29 +369,46 @@ class GenerateServices
         $prompt = "temukan gambar atau foto dengan kata kunci {$kata_kunci} dengan ukuran panjang gambar minimal 600 pixel dan lebar gambar minimal 900 pixel";
         $api = new AiApi();
         $response = $api->post('/api/generate/generate-images-google', $prompt);
+        // dd($prompt, $response);
 
         $success = false;
+        if (!is_array($response) || !isset($response['data']) || !is_array($response['data'])) {
+            Log::info('Response tidak valid atau tidak mengandung data array.', $response);
+            return;
+        }
 
         foreach ($response['data'] as $image) {
             if (preg_match('/\.(jpg|jpeg|png)$/i', $image['link'])) {
                 $string = strtolower($image['title']);
                 $kataArray = explode(" ", strtolower($name));
 
-                // ✅ Filter berdasarkan kecocokan nama (aktifkan) INI MASIH SAYA HIDE, JIKA SUDAH BISA DOWNLOAD DAN TERSIMPAN DI DATABASE, BARU DI UNHIDE
-                // if (array_intersect($kataArray, explode(" ", strtolower($string))) === []) {
-                //     // dd('intersect');
-                //     continue; // skip gambar ini jika tidak cocok
-                // }
+                // ✅ Aktifkan filter: simpan hanya jika ada kata yang cocok
+                if (array_intersect($kataArray, explode(" ", $string)) === []) {
+                    continue; // skip gambar ini jika tidak cocok
+                }
 
                 for ($i = 1; $i <= 4; $i++) {
-                    
                     if (empty($data["image{$i}"])) {
-                        // dd($image['link'], $data["image_{$i}"]);  
                         $save = $this->saveImage($image['link'], $data);
-                        $data->update(["image{$i}" => $save]);
-                        $success = true;
-                        break 2;
+                        if ($save) {
+                            $data->update(["image{$i}" => $save]);
+                            $success = true;
+                        } else {
+                            Log::warning("Gagal menyimpan gambar ke image{$i}: {$image['link']}");
+                        }
+                        break; // stop loop for setelah simpan di 1 slot
                     }
+                }
+
+                // Tambahan: stop loop luar jika sudah 4 image terisi
+                $filled = 0;
+                for ($j = 1; $j <= 4; $j++) {
+                    if (!empty($data["image{$j}"])) {
+                        $filled++;
+                    }
+                }
+                if ($filled >= 4) {
+                    break;
                 }
             }
         }
@@ -447,15 +464,16 @@ class GenerateServices
             if (file_put_contents($tempOriginalPath, $response->body()) === false) {
                 throw new \Exception("Failed to write image to temporary file.");
             }
-            // $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
+
             $compressed = false;
             for ($q = 14; $q <= 40; $q += 2) {
                 $tempCompressedPath = $publicDir . "/{$filenameBase}_q{$q}.jpg";
 
-                // $command = "{$ffmpegPath} -i " . escapeshellarg($tempOriginalPath)
-                //         . " -q:v {$q} -y -f image2 " . escapeshellarg($tempCompressedPath);
                 $command = "ffmpeg -i " . escapeshellarg($tempOriginalPath)
                         . " -q:v {$q} -y -f image2 " . escapeshellarg($tempCompressedPath);
+                // $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
+                // $command = "{$ffmpegPath} -i " . escapeshellarg($tempOriginalPath)
+                //     . " -q:v {$q} -y -f image2 " . escapeshellarg($tempCompressedPath);
                 exec($command . ' 2>&1', $output, $returnCode);
                 Log::debug("FFmpeg Output:\n" . implode("\n", $output));
                 Log::debug("Return code: {$returnCode}");
@@ -464,7 +482,10 @@ class GenerateServices
                     $sizeKB = filesize($tempCompressedPath) / 1024;
                     if ($sizeKB <= 300) {
                         // Simpan file ini sebagai final output
-                        rename($tempCompressedPath, $finalPath);
+                        if (!rename($tempCompressedPath, $finalPath)) {
+                            unlink($tempCompressedPath);
+                            throw new \Exception("Failed to rename compressed image to final path.");
+                        }
                         $compressed = true;
                         $filename = basename($finalPath);
                         break;
@@ -485,6 +506,11 @@ class GenerateServices
                 throw new \Exception("Image compression failed or result too large.");
             }
 
+            // **Pengecekan penting: pastikan file benar-benar ada sebelum return**
+            if (!file_exists($finalPath)) {
+                throw new \Exception("Final image file not found after saving: {$finalPath}");
+            }
+
             return $filename;
 
         } catch (\Exception $e) {
@@ -492,6 +518,7 @@ class GenerateServices
             return null;
         }
     }
+
 
     private function limit_words($string, $word_limit)
     {

@@ -28,15 +28,19 @@ class FootballController extends Controller
             if($request->search!=null){
                 $articles = Articles::where('category_id', $categories->id)
                     ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
+                    ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
                     ->latest()->paginate(7);
             } else {
-                $articles = Articles::where('category_id', $categories->id)->latest()->paginate(7);
+                $articles = Articles::where('category_id', $categories->id)
+                ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+                ->latest()->paginate(7);
             }
             $highlightPost = DB::table('artikels')
                 ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
                 ->where('artikels.category_id', $categories->id) // Filter by specific category
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(14)) // Filter articles from last 14 days
+                ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                 ->select(
                     'artikels.*', 
                     'categories.name as category_name', // Example of selecting category name
@@ -50,6 +54,7 @@ class FootballController extends Controller
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
                 ->where('artikels.category_id', $categories->id) // Filter by specific category
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(14)) // Filter articles from last 14 days
+                ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                 ->select(
                     'artikels.*', 
                     'categories.name as category_name', // Example of selecting category name
@@ -64,6 +69,7 @@ class FootballController extends Controller
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
                 ->where('artikels.category_id', $categories->id) // Filter by specific category
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(14)) // Filter articles from last 14 days
+                ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                 ->select(
                     'artikels.*', 
                     'categories.name as category_name', // Example of selecting category name
@@ -77,12 +83,15 @@ class FootballController extends Controller
             if($user!=null) {
                 $articleClick = ArticleClick::where('category_id', $categories->id)->where('user_id', $user->id)->first();
                 if($articleClick!=null){
-                    $recommendations = Articles::where('category_id', $categories->id)->latest()->paginate(2);
+                    $recommendations = Articles::where('category_id', $categories->id)
+                    ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+                    ->latest()->paginate(2);
                 } else {
                     $recommendations = DB::table('artikels')
                         ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
                         ->where('artikels.category_id', $categories->id)
                         ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                        ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                         ->orderBy('engagings.count', 'desc')
                         ->paginate(2);
                 }
@@ -91,6 +100,7 @@ class FootballController extends Controller
                     ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
                     ->where('artikels.category_id', $categories->id)
                     ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                    ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                     ->orderBy('engagings.count', 'desc')
                     ->paginate(2);
             }
@@ -101,6 +111,7 @@ class FootballController extends Controller
             $recommendations = [];
             $trendingPosts = [];
         }
+        // dd($articles);
 
         return view('football.index', [
             'articles' => $articles,
@@ -174,6 +185,7 @@ class FootballController extends Controller
         $recommendations = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->orderBy('artikels.created_at', 'desc')
             ->paginate(4);
 
@@ -208,6 +220,7 @@ class FootballController extends Controller
         $recommendations = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->orderBy('artikels.created_at', 'desc')
             ->paginate(4);
         if($eng==!null){
@@ -228,12 +241,14 @@ class FootballController extends Controller
         $previousArticle = Articles::where('category_id', $article->category_id)
             ->where('type', 'series')
             ->where('id', '<', $article->id)
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->orderBy('id', 'desc')
             ->first();
 
         $nextArticle = Articles::where('category_id', $article->category_id)
             ->where('type', 'series')
             ->where('id', '>', $article->id)
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->orderBy('id', 'asc')
             ->first();
         
@@ -305,13 +320,16 @@ class FootballController extends Controller
             if($categories==!null){
                 $articles = Articles::where('category_id', $categories->id)
                     ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
+                    ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
                     ->latest()->paginate(20);
             } else {
                 $articles = [];
             }
         } else {
             if($categories==!null){
-                $articles = Articles::where('category_id', $categories->id)->latest()->paginate(20);
+                $articles = Articles::where('category_id', $categories->id)
+                ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+                ->latest()->paginate(20);
             } else {
                 $articles = [];
             }
@@ -330,6 +348,7 @@ class FootballController extends Controller
                 ->where('artikels.category_id', $categories->id)
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                 ->where('artikels.headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
+                ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                 ->orderBy('engagings.count', 'desc')
                 ->paginate(20);
             } else {
@@ -341,6 +360,7 @@ class FootballController extends Controller
                 ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
                 ->where('artikels.category_id', $categories->id)
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                 ->orderBy('engagings.count', 'desc')
                 ->paginate(20);
             } else {
@@ -368,12 +388,14 @@ class FootballController extends Controller
                     if($articleClick!=null){
                         $recommendations = Articles::where('category_id', $categories->id)
                         ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
+                        ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                         ->latest()->paginate(2);
                     } else {
                         $recommendations = DB::table('artikels')
                             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
                             ->where('artikels.category_id', $categories->id)
                             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                             ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
                             ->orderBy('engagings.count', 'desc')
                             ->paginate(20);
@@ -384,6 +406,7 @@ class FootballController extends Controller
                         ->where('artikels.category_id', $categories->id)
                         ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
                         ->where('headlineUtamaArtikel', 'LIKE', '%' . $request->search . '%')
+                        ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                         ->orderBy('engagings.count', 'desc')
                         ->paginate(20);
                 }
@@ -395,12 +418,15 @@ class FootballController extends Controller
                 if($user!=null){
                     $articleClick = ArticleClick::where('category_id', $categories->id)->where('user_id', $user->id)->first();
                     if($articleClick!=null){
-                        $recommendations = Articles::where('category_id', $categories->id)->latest()->paginate(2);
+                        $recommendations = Articles::where('category_id', $categories->id)
+                        ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+                        ->latest()->paginate(2);
                     } else {
                         $recommendations = DB::table('artikels')
                             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
                             ->where('artikels.category_id', $categories->id)
                             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                             ->orderBy('engagings.count', 'desc')
                             ->paginate(20);
                     }
@@ -409,6 +435,7 @@ class FootballController extends Controller
                         ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
                         ->where('artikels.category_id', $categories->id)
                         ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
+                        ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                         ->orderBy('engagings.count', 'desc')
                         ->paginate(20);
                 }
