@@ -526,12 +526,56 @@ class GenerateServices
         return implode(" ",array_splice($words,0,$word_limit));
     }
 
+    function fetchNewsByCategory($api, $keywords) {
+        $query = urlencode(implode(' OR ', $keywords));
+        $response = $api->get('/api/google-trends/generate-news?category=17&search=' . $query);
+        if (!empty($response['data'])) {
+            return $response;
+        }
+        return null;
+    }
+
     public function fetchArtikelByTrend()
     {
         $api = new Api();
         $aiApi = new AiApi();
-        // list berita
-        $responseNewsTrend = $api->get('/api/google-trends/generate-news?category=17');
+
+        $similarWordsMap = [
+            'bola' => ['sepak bola','football', 'soccer'],
+            'voli' => ['voli','volley', 'volleyball'],
+            'basket' => ['basket', 'baskteball'],
+            'badminton' => ['badminton', 'bulu tangkis'],
+            'silat' => ['silat', 'pencak silat'],
+            'taekwondo' => ['taekwondo', 'tekwondo'],
+            'karate' => ['karate'],
+        ];
+
+        // Cek satu per satu kategori, lanjut jika kosong
+        $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['bola']);
+
+        if (empty($responseNewsTrend)) {
+            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['voli']);
+        }
+
+        if (empty($responseNewsTrend)) {
+            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['basket']);
+        }
+
+        if (empty($responseNewsTrend)) {
+            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['badminton']);
+        }
+
+        if (empty($responseNewsTrend)) {
+            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['silat']);
+        }
+
+        if (empty($responseNewsTrend)) {
+            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['taekwondo']);
+        }
+
+        if (empty($responseNewsTrend)) {
+            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['karate']);
+        }
 
         $rawResponseTrend = $responseNewsTrend['data'];
         try {
@@ -578,7 +622,7 @@ class GenerateServices
                 $existingArtikel = Artikel::where('headlineUtamaArtikel', $jsonObjectArtikel['headlineUtamaArtikel'])->first();
                 if ($existingArtikel) {
                     \Log::info("Artikel dengan judul yang sama sudah ada: " . $jsonObjectArtikel['headlineUtamaArtikel']);
-                    return; // hentikan proses jika sudah ada
+                    return;
                 } else {
                     if($this->getCategory($title) != null){
                         
@@ -621,6 +665,7 @@ class GenerateServices
             \Log::error('Error fetchArtikelByTrend get News: ' . $e->getMessage());
             return response()->view('error.maintenance', [], 503);
         }
+
     }
 
     public function getCategory($judulArtikel){

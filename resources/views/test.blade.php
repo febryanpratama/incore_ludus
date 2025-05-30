@@ -110,12 +110,12 @@
                 </div>
             </div>  
             <div class="col-sm-8 col-md-8 p-0">
-                <div id="carouselExampleCaptions" class="carousel slide">
+                <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                     <div class="carousel-inner">
                         @if($footballTranding==null)
                         <div></div>
                         @else 
-                            <div class="carousel-item imgset">
+                            <div class="carousel-item imgset active">
                                 @if($footballTranding->type=='series')
                                 <a href="{{route('football.series', $footballTranding->slug)}}">
                                 @else
