@@ -551,30 +551,30 @@ class GenerateServices
         ];
 
         // Cek satu per satu kategori, lanjut jika kosong
-        $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['bola']);
+        $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['bola']);
 
         if (empty($responseNewsTrend)) {
-            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['voli']);
+            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['voli']);
         }
 
         if (empty($responseNewsTrend)) {
-            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['basket']);
+            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['basket']);
         }
 
         if (empty($responseNewsTrend)) {
-            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['badminton']);
+            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['badminton']);
         }
 
         if (empty($responseNewsTrend)) {
-            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['silat']);
+            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['silat']);
         }
 
         if (empty($responseNewsTrend)) {
-            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['taekwondo']);
+            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['taekwondo']);
         }
 
         if (empty($responseNewsTrend)) {
-            $responseNewsTrend = fetchNewsByCategory($api, $similarWordsMap['karate']);
+            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['karate']);
         }
 
         $rawResponseTrend = $responseNewsTrend['data'];
