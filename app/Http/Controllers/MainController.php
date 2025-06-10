@@ -27,6 +27,7 @@ class MainController extends Controller
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
             ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+            ->orderBy('artikels.created_at', 'desc')
             ->orderBy('engagings.count', 'desc')
             ->limit(5)
             ->select('artikels.*', 'categories.name as category_name') // Select category name as category_name
