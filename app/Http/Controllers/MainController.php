@@ -32,29 +32,39 @@ class MainController extends Controller
             ->limit(5)
             ->select('artikels.*', 'categories.name as category_name') // Select category name as category_name
             ->get();
-        $footballTranding = DB::table('artikels')
-            ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
-            ->join('categories', 'artikels.category_id', '=', 'categories.id')
-            ->where('artikels.created_at', '>=', Carbon::now()->subDays(7))
+        if(count($trendingPosts) <5){
+            $trendingPosts = DB::table('artikels')
+            ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
+            ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
             ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
-            ->whereRaw('LOWER(categories.name) = ?', ['football'])
-            ->select('artikels.*', 'categories.name as category_name')
-            ->orderBy('engagings.count', 'desc')
-            ->first();
-
+            ->orderBy('artikels.created_at', 'desc')
+            ->limit(5)
+            ->select('artikels.*', 'categories.name as category_name') // Select category name as category_name
+            ->get();
+        }
+        // $footballTranding = DB::table('artikels')
+        //     ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
+        //     ->join('categories', 'artikels.category_id', '=', 'categories.id')
+        //     ->where('artikels.created_at', '>=', Carbon::now()->subDays(7))
+        //     ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+        //     ->whereRaw('LOWER(categories.name) = ?', ['football'])
+        //     ->select('artikels.*', 'categories.name as category_name')
+        //     ->orderBy('engagings.count', 'desc')
+        //     ->first();
+        $footballTranding = [];
         if (!$footballTranding) {
-            $footballTranding = DB::table('artikels')
-                ->join('categories', 'artikels.category_id', '=', 'categories.id')
-                ->where('artikels.created_at', '>=', Carbon::now()->subDays(7))
-                ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
-                ->whereRaw('LOWER(categories.name) = ?', ['football'])
-                ->orderBy('artikels.id', 'desc')
-                ->select('artikels.*', 'categories.name as category_name')
-                ->first();
+            // $footballTranding = DB::table('artikels')
+            //     ->join('categories', 'artikels.category_id', '=', 'categories.id')
+            //     ->where('artikels.created_at', '>=', Carbon::now()->subDays(7))
+            //     ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+            //     ->whereRaw('LOWER(categories.name) = ?', ['football'])
+            //     ->orderBy('artikels.id', 'desc')
+            //     ->select('artikels.*', 'categories.name as category_name')
+            //     ->first();
 
-            if (!$footballTranding) {
-                $footballTranding = [];
-            }
+            // if (!$footballTranding) {
+            //     $footballTranding = [];
+            // }
             $footballs = DB::table('artikels')
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id')
@@ -66,11 +76,11 @@ class MainController extends Controller
             })
             ->select('artikels.*', 'categories.name as category_name')
             ->orderBy('engagings.count', 'desc')
-            ->skip(1)
-            ->take(2)
+            // ->skip(1)
+            ->take(3)
             ->get();
                 
-            if (count($footballs) == 0) {
+            if (count($footballs) <3) {
                 $footballs = DB::table('artikels')
                     ->join('categories', 'artikels.category_id', '=', 'categories.id')
                     ->where('artikels.created_at', '>=', Carbon::now()->subDays(30))
@@ -81,8 +91,8 @@ class MainController extends Controller
                     })
                     ->select('artikels.*', 'categories.name as category_name')
                     ->orderBy('artikels.id', 'desc')
-                    ->skip(1)
-                    ->take(2)
+                    // ->skip(1)
+                    ->take(3)
                     ->get();
         
                 if (count($footballs) == 0) {
@@ -103,10 +113,10 @@ class MainController extends Controller
             })
             ->select('artikels.*', 'categories.name as category_name')
             ->orderBy('engagings.count', 'desc')
-            ->take(2)
+            ->take(3)
             ->get();
                 
-            if (count($footballs) == 0) {
+            if (count($footballs) <3) {
                 $footballs = DB::table('artikels')
                     ->join('categories', 'artikels.category_id', '=', 'categories.id')
                     ->where('artikels.created_at', '>=', Carbon::now()->subDays(30))
@@ -116,7 +126,7 @@ class MainController extends Controller
                     })
                     ->select('artikels.*', 'categories.name as category_name')
                     ->orderBy('artikels.id', 'desc')
-                    ->take(2)
+                    ->take(3)
                     ->get();
         
                 if (count($footballs) == 0) {
