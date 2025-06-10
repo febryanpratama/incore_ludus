@@ -33,12 +33,12 @@
                         <p class="responsive-text">HOT ARTICLES</p>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                        <p class="fs-5 text-muted mt-3">EXPLORE NEWS ABOUT BADMINTON ON LUDUS. YOU'LL GET THE LATEST INFORMATION HERE.</p>
+                        <p class="fs-5 text-muted mt-3">EXPLORE NEWS ABOUT PENCAK SILAT ON LUDUS. YOU'LL GET THE LATEST INFORMATION HERE.</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
-                        <p class="responsive-text text-uppercase">About Silat News</p>
+                        <p class="responsive-text text-uppercase">About PENCAK SILAT News</p>
                     </div>
                 </div>
                 <div class="row">

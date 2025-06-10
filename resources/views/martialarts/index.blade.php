@@ -33,7 +33,7 @@
                         <p class="responsive-text">HOT ARTICLES</p>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
-                        <p class="fs-5 text-muted mt-3">EXPLORE NEWS ABOUT BADMINTON ON LUDUS. YOU'LL GET THE LATEST INFORMATION HERE.</p>
+                        <p class="fs-5 text-muted mt-3">EXPLORE NEWS ABOUT MARTIAL ARTS ON LUDUS. YOU'LL GET THE LATEST INFORMATION HERE.</p>
                     </div>
                 </div>
                 <div class="row">
