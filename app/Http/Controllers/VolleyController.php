@@ -153,7 +153,7 @@ class VolleyController extends Controller
         $article = Articles::where('slug', $id)->first();
 
         if(!$article) {
-            return redirect()->route('football.index');
+            return redirect()->route('volley.index');
         }
         $eng = Engaging::where('artikel_id', $article->id)->first();
         $user = auth()->user(); // Get the authenticated user
@@ -215,7 +215,7 @@ class VolleyController extends Controller
         $article = Articles::where('slug', $id)->first();
 
         if(!$article) {
-            return redirect()->route('football.index');
+            return redirect()->route('volley.index');
         }
         $eng = Engaging::where('artikel_id', $article->id)->first();
         $user = auth()->user(); // Get the authenticated user
