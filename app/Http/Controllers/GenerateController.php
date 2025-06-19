@@ -58,4 +58,22 @@ class GenerateController extends Controller
             \Log::info('No new topic not created.');
         }
     }
+
+    public function regenerateImagesDeepAi(){
+        $artikels = Artikel::whereNull('image1')
+            ->whereNull('image2')
+            ->whereNull('image3')
+            ->whereNull('image4')
+            ->take(2)
+            ->get();
+        // dd($artikels);
+        foreach ($artikels as $artikel) {
+            $resp = $this->generateServices->generateFromDeepAi($artikel->headlineUtamaArtikel, $artikel);
+            if($resp){
+                \Log::info('New topic created.');
+            }else{
+                \Log::info('No new topic not created.');
+            }
+        }
+    }
 }

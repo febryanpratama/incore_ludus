@@ -26,7 +26,7 @@ class MainController extends Controller
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
-            ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->orderBy('artikels.created_at', 'desc')
             ->orderBy('engagings.count', 'desc')
             ->limit(5)
@@ -36,7 +36,7 @@ class MainController extends Controller
             $trendingPosts = DB::table('artikels')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 7 days
-            ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->orderBy('artikels.created_at', 'desc')
             ->limit(5)
             ->select('artikels.*', 'categories.name as category_name') // Select category name as category_name
@@ -69,7 +69,7 @@ class MainController extends Controller
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id')
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30))
-            ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->where(function ($query) {
                 $query->where('categories.name', 'Football')
                     ->orWhere('categories.name', 'football');
@@ -84,7 +84,7 @@ class MainController extends Controller
                 $footballs = DB::table('artikels')
                     ->join('categories', 'artikels.category_id', '=', 'categories.id')
                     ->where('artikels.created_at', '>=', Carbon::now()->subDays(30))
-                    ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+                    ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                     ->where(function ($query) {
                         $query->where('categories.name', 'Football')
                             ->orWhere('categories.name', 'football');
@@ -106,7 +106,7 @@ class MainController extends Controller
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id')
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30))
-            ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->where(function ($query) {
                 $query->where('categories.name', 'Football')
                     ->orWhere('categories.name', 'football');
@@ -120,6 +120,7 @@ class MainController extends Controller
                 $footballs = DB::table('artikels')
                     ->join('categories', 'artikels.category_id', '=', 'categories.id')
                     ->where('artikels.created_at', '>=', Carbon::now()->subDays(30))
+                    ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                     ->where(function ($query) {
                         $query->where('categories.name', 'Football')
                             ->orWhere('categories.name', 'football');
@@ -139,7 +140,7 @@ class MainController extends Controller
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-            ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->where('categories.name', 'Badminton')
             ->orWhere('categories.name', 'badminton')
             ->select('artikels.*', 'categories.name as category_name')
@@ -150,7 +151,7 @@ class MainController extends Controller
             $badmintons = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-                ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+                ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                 ->where('categories.name', 'Badminton')
                 ->orWhere('categories.name', 'badminton')
                 ->select('artikels.*', 'categories.name as category_name')
@@ -167,7 +168,7 @@ class MainController extends Controller
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-            ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->where('categories.name', 'Basket')
             ->orWhere('categories.name', 'basket')
             ->select('artikels.*', 'categories.name as category_name')
@@ -178,7 +179,7 @@ class MainController extends Controller
             $baskets = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-                ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+                ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                 ->where('categories.name', 'Basket')
                 ->orWhere('categories.name', 'basket')
                 ->select('artikels.*', 'categories.name as category_name')
@@ -194,7 +195,7 @@ class MainController extends Controller
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-            ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->where('categories.name', 'Volley')
             ->orWhere('categories.name', 'volley')
             ->select('artikels.*', 'categories.name as category_name')
@@ -205,7 +206,7 @@ class MainController extends Controller
             $volleys = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-                ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+                ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                 ->where('categories.name', 'Volley')
                 ->orWhere('categories.name', 'volley')
                 ->select('artikels.*', 'categories.name as category_name')
@@ -221,7 +222,7 @@ class MainController extends Controller
             ->join('engagings', 'artikels.id', '=', 'engagings.artikel_id')
             ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
             ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-            ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+            ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
             ->where('name', 'martialarts')
             ->orWhere('name', 'martial arts')
             ->orWhere('name', 'Martial Arts')
@@ -242,7 +243,7 @@ class MainController extends Controller
             $martialarts = DB::table('artikels')
                 ->join('categories', 'artikels.category_id', '=', 'categories.id') // Join with categories table
                 ->where('artikels.created_at', '>=', Carbon::now()->subDays(30)) // Last 30 days
-                ->whereRaw("image1 IS NOT NULL AND TRIM(image1) != ''")
+                ->whereRaw("artikels.image1 IS NOT NULL AND TRIM(image1) != ''")
                 ->where('name', 'martialarts')
                 ->orWhere('name', 'martial arts')
                 ->orWhere('name', 'Martial Arts')

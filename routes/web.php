@@ -121,6 +121,7 @@ Route::prefix('generate')->group(function(){
     Route::get('/image', [GenerateController::class, 'generateRandomImage']);
     Route::get('/image-null', [GenerateController::class, 'generateImageId']);
     Route::get('/artikel/{cat_id}', [GenerateController::class, 'generateArtikelCat']);
+    Route::get('/imagedeepai', [GenerateController::class, 'regenerateImagesDeepAi']);
 });
 
 Route::get('/compress-images', [CompressImageController::class, 'compress']);

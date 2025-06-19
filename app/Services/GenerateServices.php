@@ -527,10 +527,12 @@ class GenerateServices
     }
 
     function fetchNewsByCategory($api, $keywords) {
-        $query = urlencode(implode(' OR ', $keywords));
-        $response = $api->get('/api/google-trends/generate-news?category=17&search=' . $query);
-        if (!empty($response['data'])) {
-            return $response;
+        // $query = urlencode(implode(' OR ', $keywords));
+        foreach ($keywords as $keyword) {
+            $response = $api->get('/api/google-trends/generate-news?category=17&search=' . $keyword);
+            if (!empty($response['data'])) {
+                return $response;
+            }
         }
         return null;
     }
@@ -551,32 +553,14 @@ class GenerateServices
         ];
 
         // Cek satu per satu kategori, lanjut jika kosong
-        $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['bola']);
-
-        if (empty($responseNewsTrend)) {
-            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['voli']);
+        $responseNewsTrend = null;
+        foreach (['bola', 'voli', 'basket', 'abdminton', 'silat', 'taekwondo', 'karate'] as $category) {
+            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap[$category]);
+            if (!empty($responseNewsTrend)) {
+                break; // Stop when the first non-empty response is found
+            }
         }
-
-        if (empty($responseNewsTrend)) {
-            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['basket']);
-        }
-
-        if (empty($responseNewsTrend)) {
-            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['badminton']);
-        }
-
-        if (empty($responseNewsTrend)) {
-            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['silat']);
-        }
-
-        if (empty($responseNewsTrend)) {
-            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['taekwondo']);
-        }
-
-        if (empty($responseNewsTrend)) {
-            $responseNewsTrend = $this->fetchNewsByCategory($api, $similarWordsMap['karate']);
-        }
-
+        
         $rawResponseTrend = $responseNewsTrend['data'];
         try {
             if (!$rawResponseTrend) {
@@ -617,6 +601,7 @@ class GenerateServices
                     return response()->view('error.maintenance', [], 503);
                 }
                 $jsonObjectArtikel = $this->extractJsonObject($rawResponseArtikel);
+                // dd($jsonObjectArtikel);
 
                 // Cek apakah sudah ada judul yang sama
                 $existingArtikel = Artikel::where('headlineUtamaArtikel', $jsonObjectArtikel['headlineUtamaArtikel'])->first();
@@ -649,7 +634,7 @@ class GenerateServices
                                 \Log::error('Failed to download or compress image. ');
                             }
                         }else{
-                            $this->generateImageByTrendingNews($artikel);
+                            $this->generateFromDeepAi($artikel->headlineUtamaArtikel, $artikel);
                         }
                     } else {
                         \Log::error('Failed to generate category. ');
@@ -877,6 +862,101 @@ class GenerateServices
             if ($success) {
                 break;
             }
+        }
+    }
+
+    public function generateFromDeepAi($kata_kunci, $data)
+    {
+
+        $prompt = "buatkan 4 gambar {$kata_kunci} dengan ukuran panjang gambar minimal 600 pixel dan lebar gambar minimal 900 pixel";
+        // dd($prompt);
+        $api = new AiApi();
+        $response = $api->newpost('generate/generate-images-deepai', $prompt);
+
+        // // // dd($prompt, $api, $response);
+
+        $success = false;
+        if (!is_array($response) || !isset($response['data']) || !is_array($response['data'])) {
+            Log::info('Response tidak valid atau tidak mengandung data array.', $response);
+            return;
+        }
+        $resp = $response['data'];
+
+        // $resp['share_url'] = 'https://images.deepai.org/art-image/6c666c6430d74f72b06611a53d1bbc79/buatkan-4-gambar-panduan-memilih-alat-olahraga-rumaha.jpg';
+        // dd($resp['share_url']);
+
+        if (empty($data["image1"])) {
+            $save = $this->saveImageNew($resp['share_url'], $data);
+            if ($save) {
+
+                $data->update(["image1" => $save]);
+                // dd($save, $data);
+                $success = true;
+            } else {
+                Log::warning("Gagal menyimpan gambar ke image: {$resp['share_url']}");
+            }
+        }
+
+        return $success;
+    }
+
+    private function saveImageNew($url, $data)
+    {
+        try {
+            // Ambil gambar dari URL
+            $imageContent = file_get_contents($url);
+            if ($imageContent === false) {
+                throw new \Exception("Gagal mengunduh gambar dari URL: $url");
+            }
+
+            // Ekstensi file asli
+            $originalExt = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+            if (!in_array(strtolower($originalExt), ['jpg', 'jpeg', 'png'])) {
+                $originalExt = 'jpg';
+            }
+
+            // Nama file sementara dan nama akhir
+            $uuid = \Illuminate\Support\Str::uuid();
+            $tempFilename = "temp_{$uuid}." . $originalExt;
+            $outputFilename = "image_{$uuid}.webp";
+
+            $tempPath = storage_path('app/' . $tempFilename);
+            $outputPath = public_path('images_download/' . $outputFilename);
+
+            // Simpan file sementara
+            file_put_contents($tempPath, $imageContent);
+
+            // Pastikan folder tujuan ada
+            if (!file_exists(public_path('images_download'))) {
+                mkdir(public_path('images_download'), 0755, true);
+            }
+
+            // Gunakan FFmpeg untuk konversi ke webp (quality 75)
+            $cmd = "ffmpeg -y -i " . escapeshellarg($tempPath) . " -q:v 75 " . escapeshellarg($outputPath) . " 2>&1";
+            exec($cmd, $output, $returnVar);
+
+            // Tambahkan log output FFmpeg
+            Log::debug("FFmpeg Output: " . implode("\n", $output));
+            Log::debug("FFmpeg Return Code: $returnVar");
+
+
+            // Hapus file sementara
+            unlink($tempPath);
+
+            if ($returnVar !== 0) {
+                throw new \Exception("FFmpeg gagal mengonversi gambar: " . implode("\n", $output));
+            }
+
+            // Return relative path
+
+            // dd("images_downloaded/{$outputFilename}");
+            return $outputFilename;
+
+        } catch (\Exception $e) {
+
+            dd($e);
+            Log::error("Error saving image with FFmpeg: " . $e->getMessage());
+            return null;
         }
     }
 }
