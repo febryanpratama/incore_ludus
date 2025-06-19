@@ -53,8 +53,10 @@ class GenerateController extends Controller
 
         $resp = $this->generateServices->fetchArtikelByTrend();
         if ($resp) {
+            var_dump("New topic created.");
             \Log::info('New topic created.');
         } else {
+            var_dump("No new topic not created.");
             \Log::info('No new topic not created.');
         }
     }
@@ -70,8 +72,10 @@ class GenerateController extends Controller
         foreach ($artikels as $artikel) {
             $resp = $this->generateServices->generateFromDeepAi($artikel->headlineUtamaArtikel, $artikel);
             if($resp){
+                var_dump("New topic created.");
                 \Log::info('New topic created.');
             }else{
+                var_dump("No new topic not created.");
                 \Log::info('No new topic not created.');
             }
         }
