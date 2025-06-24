@@ -11,7 +11,7 @@ class Api
 
     public function __construct()
     {
-        $this->url = 'https://crawling.indonesiacore.com';
+        $this->url = 'https://crawlingv2.indonesiacore.com';
     }
 
     public function get($endpoint)
