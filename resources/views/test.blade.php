@@ -2,24 +2,33 @@
 
 @section('meta')
     @php
-        $defaultKeywords = 'berita olahraga, update skor, hasil pertandingan, statistik olahraga, jadwal pertandingan, skor bola, jadwal liga, live score, NBA updates, transfer pemain, komunitas olahraga, forum olahraga, diskusi pertandingan, penggemar olahraga, live chat bola';
+        $meta = \App\Helpers\Format::getCachedMeta();
+        $lang = 'id'; // Set default language to 'id' for this example
 
-        $defauldDescription = 'Tentang berita terbaru, hasil pertandingan, statistik, dan informasi seputar olahraga favorit Anda dalam satu aplikasi! Ikuti perkembangan dunia olahraga, mulai dari sepak bola, basket, hingga olahraga ekstrem, bisa dilihat kapan saja dan di mana saja. Untuk Komunitas & Sosial : Bisa temukan teman, diskusikan pertandingan, dan bagikan pengalaman olahraga Anda. Dari penggemar hingga atlet, semua bisa terhubung di sini.Pelatihan & Kesehatan : akan tampil performa olahraga Anda dengan panduan latihan, program kebugaran, dan tips kesehatan dari para ahli. Mulai perjalanan olahraga Anda dengan rencana yang sesuai dengan kebutuhan Anda!';
+        // Default meta fallback
+        $defaultMeta = [
+            'title' => 'Ludic.id - Berita & Informasi Olahraga Terbaru | Skor, Jadwal, dan Statistik',
+            'description' => "Tentang berita terbaru, hasil pertandingan, statistik, dan informasi seputar olahraga favorit Anda dalam satu aplikasi! Ikuti perkembangan dunia olahraga, mulai dari sepak bola, basket, hingga olahraga ekstrem, bisa dilihat kapan saja dan di mana saja. Untuk Komunitas & Sosial : Bisa temukan teman, diskusikan pertandingan, dan bagikan pengalaman olahraga Anda. Dari penggemar hingga atlet, semua bisa terhubung di sini.Pelatihan & Kesehatan : akan tampil performa olahraga Anda dengan panduan latihan, program kebugaran, dan tips kesehatan dari para ahli. Mulai perjalanan olahraga Anda dengan rencana yang sesuai dengan kebutuhan Anda!",
+            'keywords' => 'berita olahraga, update skor, hasil pertandingan, statistik olahraga, jadwal pertandingan, skor bola, jadwal liga, live score, NBA updates, transfer pemain, komunitas olahraga, forum olahraga, diskusi pertandingan, penggemar olahraga, live chat bola',
+            'schema' => []
+        ];
 
-        $descriptionArtikel = trim($article->highlight1 ?? '');
+        // Jika struktur meta tidak sesuai, siapkan default structure agar tidak error di Blade
+        if (!isset($meta['meta'][$lang])) {
+            $meta['meta'][$lang] = [
+                'title' => $defaultMeta['title'],
+                'description' => $defaultMeta['description'],
+                'keywords' => $defaultMeta['keywords'],
+            ];
+        }
 
-        $description = strlen($descriptionArtikel ?? '') > 0
-            ? $descriptionArtikel
-            : $defauldDescription;
-
-        $headline = trim($article->headlineUtamaArtikel ?? '');
-
-        $keywords = strlen($headline) > 0
-            ? implode(', ', preg_split('/\s+/', $headline))
-            : $defaultKeywords;
+        if (!isset($meta['schema'][$lang])) {
+            $meta['schema'][$lang] = [];
+        }
     @endphp
-    <meta name="keywords" content="{{ $keywords }}">
-    <meta name="description" content="{{ $description }}">
+    <title>{{ $meta['meta'][$lang]['title'] }}</title>
+    <meta name="description" content="{{ $meta['meta'][$lang]['description'] }}">
+    <meta name="keywords" content="{{ $meta['meta'][$lang]['keywords'] }}">
 @endsection
 
 @section('content')
