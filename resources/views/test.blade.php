@@ -29,6 +29,16 @@
     <title>{{ $meta['meta'][$lang]['title'] }}</title>
     <meta name="description" content="{{ $meta['meta'][$lang]['description'] }}">
     <meta name="keywords" content="{{ $meta['meta'][$lang]['keywords'] }}">
+
+    @if (!empty($meta['schema'][$lang]))
+        @foreach ($meta['schema'][$lang] as $schemaItem)
+            @if (!empty($schemaItem['structured_data']))
+                <script type="application/ld+json">
+                    {!! $schemaItem['structured_data'] !!}
+                </script>
+            @endif
+        @endforeach
+    @endif
 @endsection
 
 @section('content')
