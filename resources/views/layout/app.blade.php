@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>Ludic.id - Berita & Informasi Olahraga Terbaru | Skor, Jadwal, dan Statistik</title>
+        {{-- <title>Ludic.id - Berita & Informasi Olahraga Terbaru | Skor, Jadwal, dan Statistik</title> --}}
         
         @yield('meta')
 
