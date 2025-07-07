@@ -7,7 +7,7 @@
         
         @yield('meta')
 
-        <meta name="author" content="Nama Anda atau Nama Website">
+        <meta name="author" content="ludic.id">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="robots" content="index, follow">
         <meta property="og:title" content="Berita & Informasi Olahraga Terbaru | Skor, Jadwal, dan Statistik">
