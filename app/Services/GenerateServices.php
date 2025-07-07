@@ -571,7 +571,7 @@ class GenerateServices
 
             $prompt = "";
             $title = "";
-            $image_url = $jsonObjectTrend['image_link'];
+            $image_url = "";
 
             $artikel = new Artikel();
             if(isset($jsonObjectTrend['seo'])){
@@ -622,18 +622,15 @@ class GenerateServices
                         $artikel->paragraf4 = $jsonObjectArtikel['paragraf4'];
                         $artikel->save();
                         
-                        if($this->checkImageDimensions($image_url) == true){
-                            // dd("true");
-
-                            $tes = $this->downloadAndCompressImage($image_url, $artikel);
-                            if ($tes) {
-                                $artikel->update([
-                                    'image1' => $tes
-                                ]);
+                        if(!empty($image_url) || $image_url != null){
+                            
+                            $img = $this->downloadAndPlaceImageOnCanvas($image_url, $artikel);
+                            if($img){
+                                $artikel->update(['image1' => $img]);
                             } else {
-                                \Log::error('Failed to download or compress image. ');
+                                $this->generateFromDeepAi($artikel->headlineUtamaArtikel, $artikel);
                             }
-                        }else{
+                        } else {
                             $this->generateFromDeepAi($artikel->headlineUtamaArtikel, $artikel);
                         }
                     } else {
@@ -958,5 +955,82 @@ class GenerateServices
             Log::error("Error saving image with FFmpeg: " . $e->getMessage());
             return null;
         }
+    }
+
+    function downloadAndPlaceImageOnCanvas($sourceImageUrl, $data)
+    {
+
+        // Ambil ekstensi dari URL
+        $extension = strtolower(pathinfo(parse_url($sourceImageUrl, PHP_URL_PATH), PATHINFO_EXTENSION));
+        // var_dump($sourceImageUrl);
+        // var_dump($extension);
+        if (!in_array($extension, ['jpg', 'jpeg', 'png'])) {
+            throw new \Exception("Unsupported image type: {$extension}");
+        }
+
+        // Buat nama file
+        $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
+        $timestamp = now()->format('YmdHis');
+        $random = Str::random(5);
+        $filenameBase = "{$baseName}-{$timestamp}-{$random}";
+        $outputFilename = "{$filenameBase}.jpg";
+        $outputPath = public_path("images_download/{$outputFilename}");
+
+        // Download gambar ke temp file
+        $tempPath = tempnam(sys_get_temp_dir(), 'img_');
+        file_put_contents($tempPath, file_get_contents($sourceImageUrl));
+
+        // Ambil dimensi dan tipe gambar
+        [$originalWidth, $originalHeight, $extension] = getimagesize($tempPath);
+        switch ($extension) {
+            case IMAGETYPE_JPEG:
+                $sourceImage = imagecreatefromjpeg($tempPath);
+                break;
+            case IMAGETYPE_PNG:
+                $sourceImage = imagecreatefrompng($tempPath);
+                break;
+            default:
+            unlink($tempPath);
+            throw new \Exception("Unsupported image type (only JPG or PNG allowed).");
+        }
+
+        // Buat canvas
+        $canvasWidth = 900;
+        $canvasHeight = 600;
+        $canvas = imagecreatetruecolor($canvasWidth, $canvasHeight);
+        $white = imagecolorallocate($canvas, 255, 255, 255);
+        imagefilledrectangle($canvas, 0, 0, $canvasWidth, $canvasHeight, $white);
+
+        // Hitung posisi tengah
+        $destX = ($canvasWidth - $originalWidth) / 2;
+        $destY = ($canvasHeight - $originalHeight) / 2;
+        imagecopy($canvas, $sourceImage, $destX, $destY, 0, 0, $originalWidth, $originalHeight);
+
+        // Simpan hasil ke JPEG
+        imagejpeg($canvas, $outputPath, 90);
+
+        // Bersihkan memori
+        imagedestroy($canvas);
+        imagedestroy($sourceImage);
+        unlink($tempPath);
+
+        // Cek ukuran file akhir
+        if (filesize($outputPath) > 300 * 1024) { // lebih dari 300KB
+            $compressedPath = public_path("images_download/{$filenameBase}-compressed.jpg");
+
+            // Jalankan ffmpeg untuk kompresi (ubah kualitas menjadi 75%)
+            // $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
+            // $ffmpegCmd = "{$ffmpegPath} -y -i " . escapeshellarg($outputPath) . " -qscale:v 5 " . escapeshellarg($compressedPath);
+            $ffmpegCmd = "ffmpeg -y -i " . escapeshellarg($outputPath) . " -qscale:v 5 " . escapeshellarg($compressedPath);
+            exec($ffmpegCmd);
+
+            // Hapus file asli jika kompresi sukses
+            if (file_exists($compressedPath)) {
+                unlink($outputPath);
+                rename($compressedPath, $outputPath);
+            }
+        }
+
+        return $outputFilename;
     }
 }
