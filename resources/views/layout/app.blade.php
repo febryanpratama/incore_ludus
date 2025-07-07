@@ -13,7 +13,7 @@
         <meta property="og:title" content="Berita & Informasi Olahraga Terbaru | Skor, Jadwal, dan Statistik">
         <meta property="og:description" content="Ikuti perkembangan dunia olahraga, dari sepak bola hingga olahraga ekstrem. Update skor, hasil pertandingan, dan statistik terkini dalam satu aplikasi!">
         <meta property="og:image" content="URL_GAMBAR_PREVIEW">
-        <meta property="og:url" content="URL_WEBSITE">
+        <meta property="og:url" content="ludic.id">
         <meta property="og:type" content="website">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="Berita & Informasi Olahraga Terbaru | Skor, Jadwal, dan Statistik">
