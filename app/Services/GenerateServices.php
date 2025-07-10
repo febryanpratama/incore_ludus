@@ -868,7 +868,7 @@ class GenerateServices
         $prompt = "buatkan 4 gambar {$kata_kunci} dengan ukuran panjang gambar minimal 600 pixel dan lebar gambar minimal 900 pixel";
         // dd($prompt);
         $api = new AiApi();
-        $response = $api->newpost('generate/generate-images-deepai', $prompt);
+        $response = $api->post('/api/generate/generate-images-deepai', $prompt);
 
         // // // dd($prompt, $api, $response);
 
@@ -913,9 +913,17 @@ class GenerateServices
             }
 
             // Nama file sementara dan nama akhir
-            $uuid = \Illuminate\Support\Str::uuid();
-            $tempFilename = "temp_{$uuid}." . $originalExt;
-            $outputFilename = "image_{$uuid}.webp";
+            // $uuid = \Illuminate\Support\Str::uuid();
+            // $tempFilename = "temp_{$uuid}." . $originalExt;
+            // $outputFilename = "image_{$uuid}.webp";
+
+            $baseName = Str::slug(Str::limit($data->headlineUtamaArtikel, 100, ''));
+            $timestamp = now()->format('YmdHis');
+            $random = Str::random(5);
+            $filenameBase = "{$baseName}-{$timestamp}-{$random}";
+
+            $tempFilename = "temp_{$filenameBase}." . $originalExt;
+            $outputFilename = "image_{$filenameBase}.jpg";
 
             $tempPath = storage_path('app/' . $tempFilename);
             $outputPath = public_path('images_download/' . $outputFilename);
@@ -929,6 +937,8 @@ class GenerateServices
             }
 
             // Gunakan FFmpeg untuk konversi ke webp (quality 75)
+            // $ffmpegPath = 'C:\\ffmpeg\\ffmpeg-2025-05-12-git-8ce32a7cbb-essentials_build\\bin\\ffmpeg.exe';
+            // $cmd = "{$ffmpegPath} -y -i " . escapeshellarg($tempPath) . " -q:v 75 " . escapeshellarg($outputPath) . " 2>&1";
             $cmd = "ffmpeg -y -i " . escapeshellarg($tempPath) . " -q:v 75 " . escapeshellarg($outputPath) . " 2>&1";
             exec($cmd, $output, $returnVar);
 
